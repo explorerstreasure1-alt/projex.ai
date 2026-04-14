@@ -1501,11 +1501,6 @@ body::before {
           </h3>
           
           <div class="form-group mb-md">
-            <label class="form-label">API Key (Groq)</label>
-            <input type="password" class="form-input" id="apiKeyInput" placeholder="gsk_...">
-          </div>
-          
-          <div class="form-group mb-md">
             <label class="form-label">Çıktı Formatı</label>
             <select class="form-select" id="outputFormat">
               <option value="project">📁 Proje Dokümanı</option>
@@ -1515,9 +1510,12 @@ body::before {
             </select>
           </div>
           
-          <button class="btn btn-secondary" style="width: 100%;" onclick="saveApiKey()">
-            💾 Ayarları Kaydet
-          </button>
+          <div style="padding: 12px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: var(--radius-md); font-size: 0.875rem; color: var(--accent-green);">
+            <span style="display: flex; align-items: center; gap: 8px;">
+              <span>🤖</span>
+              <span>AI hazır - Kaydet ve analiz et</span>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -1654,9 +1652,7 @@ function initData() {
     saveTasks();
   }
   
-  if (state.apiKey) {
-    document.getElementById('apiKeyInput').value = state.apiKey;
-  }
+  // API key otomatik olarak ayarlanır (kullanıcıya gösterilmez)
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -2069,11 +2065,6 @@ function analyzeTranscript() {
     return;
   }
   
-  if (!state.apiKey) {
-    toast('API key girin!', 'error');
-    return;
-  }
-  
   toast('🤖 AI analiz ediyor...', 'info');
   
   // Simulate AI response
@@ -2095,13 +2086,6 @@ function copyTranscript() {
   text.select();
   document.execCommand('copy');
   toast('📋 Kopyalandı!', 'success');
-}
-
-function saveApiKey() {
-  const key = document.getElementById('apiKeyInput').value.trim();
-  state.apiKey = key;
-  localStorage.setItem('groq_api_key', key);
-  toast('💾 API key kaydedildi', 'success');
 }
 
 // ═══════════════════════════════════════════════════════════════
