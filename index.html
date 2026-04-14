@@ -1388,6 +1388,24 @@ body::before {
         <span class="nav-icon">🎙️</span>
         <span>Ses AI</span>
       </nav>
+      
+      <nav class="nav-item" onclick="switchTab('meetings')">
+        <span class="nav-icon">🏢</span>
+        <span>Toplantılar</span>
+        <span class="pro-badge">YENİ</span>
+      </nav>
+      
+      <nav class="nav-item" onclick="switchTab('notes')">
+        <span class="nav-icon">📝</span>
+        <span>Notlar</span>
+        <span class="pro-badge">YENİ</span>
+      </nav>
+      
+      <nav class="nav-item" onclick="toggleChat()">
+        <span class="nav-icon">💬</span>
+        <span>Sohbet</span>
+        <span class="chat-indicator" id="chatIndicator"></span>
+      </nav>
     </div>
     
     <div class="sidebar-section">
@@ -1450,6 +1468,12 @@ body::before {
       </button>
       <button class="content-tab" onclick="switchTab('reports')">
         <span>📊 Reports</span>
+      </button>
+      <button class="content-tab" onclick="switchTab('meetings')">
+        <span>🏢 Meetings</span>
+      </button>
+      <button class="content-tab" onclick="switchTab('notes')">
+        <span>📝 Notes</span>
       </button>
       <button class="content-tab" onclick="switchTab('voice')">
         <span>🎙️ Voice AI</span>
@@ -1554,6 +1578,20 @@ body::before {
     <!-- REPORTS VIEW -->
     <div id="reportsView" class="view-section" style="display: none;">
       <!-- Reports rendered by JS -->
+    </div>
+
+    <!-- MEETINGS VIEW -->
+    <div id="meetingsView" class="view-section" style="display: none;">
+      <div id="meetingsList">
+        <!-- Meetings rendered by JS -->
+      </div>
+    </div>
+
+    <!-- NOTES VIEW -->
+    <div id="notesView" class="view-section" style="display: none;">
+      <div id="notesList">
+        <!-- Notes rendered by JS -->
+      </div>
     </div>
   </main>
 </div>
@@ -1884,6 +1922,8 @@ function switchTab(tab) {
   document.getElementById('filesView').style.display = tab === 'files' ? 'block' : 'none';
   document.getElementById('calendarView').style.display = tab === 'calendar' ? 'block' : 'none';
   document.getElementById('reportsView').style.display = tab === 'reports' ? 'block' : 'none';
+  document.getElementById('meetingsView').style.display = tab === 'meetings' ? 'block' : 'none';
+  document.getElementById('notesView').style.display = tab === 'notes' ? 'block' : 'none';
   
   // Render specific view
   if (tab === 'vault') renderCards();
@@ -1891,6 +1931,8 @@ function switchTab(tab) {
   if (tab === 'files') renderFiles();
   if (tab === 'calendar') renderCalendar();
   if (tab === 'reports') renderReports();
+  if (tab === 'meetings') renderMeetingsList();
+  if (tab === 'notes') renderNotesList();
   if (tab === 'tasks') renderTasks();
   if (tab === 'kanban') renderKanban();
   if (tab === 'voice') initWaveform();

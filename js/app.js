@@ -15,6 +15,10 @@ import { initFiles, renderFiles, openUploadModal, openNewFolderModal } from './f
 import { initCalendar, renderCalendar, openCreateEventModal } from './calendar.js';
 import { initReports, renderReports, generateOverviewReport } from './reports.js';
 import { initPlugin, stopPlugin, isPluginRunning, PLUGIN_REGISTRY } from './plugins-full.js';
+import { initChat, renderChatWidget, getOnlineUsers } from './chat.js';
+import { initMeetings, renderMeetingsList, joinMeetingRoom } from './meetings.js';
+import { initNotes, renderNotesList, openNoteEditor } from './notes.js';
+import { initEnhancedPomodoro, getPomodoroStats } from './enhanced-pomodoro.js';
 import { saveItems, saveTasks, exportAllData, importData, getGroqKey, saveGroqKey } from './storage.js';
 import { todayStr, escHtml } from './utils.js';
 import { toast, openModal, closeModal, switchMainTab, confirmAction, setView as setViewUI } from './ui.js';
@@ -37,6 +41,14 @@ function init() {
   initFiles();
   initCalendar();
   initReports();
+  
+  // Initialize Communication & Collaboration
+  initChat();
+  initMeetings();
+  initNotes();
+  
+  // Initialize Enhanced Productivity
+  initEnhancedPomodoro();
   
   // Initialize Enhanced Plugins
   initEnhancedPlugins();
@@ -106,6 +118,8 @@ function renderAll() {
   renderFiles();
   renderCalendar();
   renderReports();
+  renderMeetingsList();
+  renderNotesList();
   
   // Render active view
   if (state.currentMainTab === 'tasks') {
@@ -116,6 +130,10 @@ function renderAll() {
     initVoiceView();
   } else if (state.currentMainTab === 'projects') {
     renderProjectDetail();
+  } else if (state.currentMainTab === 'meetings') {
+    renderMeetingsList();
+  } else if (state.currentMainTab === 'notes') {
+    renderNotesList();
   }
 }
 
