@@ -10,6 +10,11 @@ import { renderKanban } from './kanban.js';
 import { initTeam, renderTeamSection, renderWorkspaceSwitcher, logActivity } from './team.js';
 import { initPluginSystem, renderPluginSection, showProUpgrade } from './plugins.js';
 import { initProTimeline, renderProTimeline } from './protimeline.js';
+import { initProjects, renderProjectsList, renderProjectDetail, renderSprints, openCreateProjectModal } from './projects.js';
+import { initFiles, renderFiles, openUploadModal, openNewFolderModal } from './files.js';
+import { initCalendar, renderCalendar, openCreateEventModal } from './calendar.js';
+import { initReports, renderReports, generateOverviewReport } from './reports.js';
+import { initPlugin, stopPlugin, isPluginRunning, PLUGIN_REGISTRY } from './plugins-full.js';
 import { saveItems, saveTasks, exportAllData, importData, getGroqKey, saveGroqKey } from './storage.js';
 import { todayStr, escHtml } from './utils.js';
 import { toast, openModal, closeModal, switchMainTab, confirmAction, setView as setViewUI } from './ui.js';
@@ -22,10 +27,19 @@ function init() {
   // Load state from storage
   initState();
   
-  // Initialize Pro features
+  // Initialize Core features
   initTeam();
   initPluginSystem();
   initProTimeline();
+  
+  // Initialize New Modules
+  initProjects();
+  initFiles();
+  initCalendar();
+  initReports();
+  
+  // Initialize Enhanced Plugins
+  initEnhancedPlugins();
   
   // Setup keyboard shortcuts
   setupKeyboardShortcuts();
@@ -37,8 +51,9 @@ function init() {
   renderAll();
   
   // Show welcome message
-  console.log('🚀 DevVault Pro initialized');
-  console.log('⭐ Pro Plan aktif - Ekip ve eklenti özellikleri hazır');
+  console.log('🚀 DevVault Pro v3.0 initialized');
+  console.log('⭐ Tüm modüller aktif: Projects, Files, Calendar, Reports');
+  console.log('🔌 Tam fonksiyonel eklentiler: Time Tracker, Focus Mode, Code Snippets, AI Assistant');
   
   // Check for first visit
   if (!state.items.length && !state.tasks.length) {
@@ -48,7 +63,25 @@ function init() {
   }
   
   // Log team activity
-  logActivity('DevVault Pro başlatıldı');
+  logActivity('DevVault Pro v3.0 başlatıldı');
+}
+
+// Initialize enhanced plugins with full functionality
+function initEnhancedPlugins() {
+  // Get enabled plugins from storage
+  const enabledPlugins = JSON.parse(localStorage.getItem('devvault_plugins_enabled') || '[]');
+  
+  enabledPlugins.forEach(({ id, config }) => {
+    if (PLUGIN_REGISTRY[id]) {
+      initPlugin(id, config);
+      console.log(`[Plugins] ${id} initialized`);
+    }
+  });
+  
+  // Always init code snippets (free feature)
+  if (!enabledPlugins.find(p => p.id === 'code-snippets')) {
+    initPlugin('code-snippets', { languages: ['javascript', 'python', 'css', 'sql', 'typescript'] });
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -68,6 +101,12 @@ function renderAll() {
   renderPluginSection();
   renderProTimeline();
   
+  // Render New Modules
+  renderProjectsList();
+  renderFiles();
+  renderCalendar();
+  renderReports();
+  
   // Render active view
   if (state.currentMainTab === 'tasks') {
     renderTasksView();
@@ -75,6 +114,8 @@ function renderAll() {
     renderKanban();
   } else if (state.currentMainTab === 'voice') {
     initVoiceView();
+  } else if (state.currentMainTab === 'projects') {
+    renderProjectDetail();
   }
 }
 

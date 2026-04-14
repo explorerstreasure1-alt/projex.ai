@@ -1433,11 +1433,23 @@ body::before {
       <button class="content-tab active" onclick="switchTab('vault')">
         <span>⚡ Vault</span>
       </button>
+      <button class="content-tab" onclick="switchTab('projects')">
+        <span>📁 Projects</span>
+      </button>
       <button class="content-tab" onclick="switchTab('tasks')">
         <span>📋 Tasks</span>
       </button>
       <button class="content-tab" onclick="switchTab('kanban')">
         <span>🗂️ Kanban</span>
+      </button>
+      <button class="content-tab" onclick="switchTab('files')">
+        <span>📂 Files</span>
+      </button>
+      <button class="content-tab" onclick="switchTab('calendar')">
+        <span>📅 Calendar</span>
+      </button>
+      <button class="content-tab" onclick="switchTab('reports')">
+        <span>📊 Reports</span>
       </button>
       <button class="content-tab" onclick="switchTab('voice')">
         <span>🎙️ Voice AI</span>
@@ -1518,6 +1530,30 @@ body::before {
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- PROJECTS VIEW -->
+    <div id="projectsView" class="view-section" style="display: none;">
+      <div id="projectsList" style="display: grid; grid-template-columns: 300px 1fr; gap: var(--space-xl); height: 100%;">
+        <!-- Projects list and detail rendered by JS -->
+      </div>
+    </div>
+
+    <!-- FILES VIEW -->
+    <div id="filesView" class="view-section" style="display: none;">
+      <div id="filesGrid" class="files-grid">
+        <!-- Files rendered by JS -->
+      </div>
+    </div>
+
+    <!-- CALENDAR VIEW -->
+    <div id="calendarView" class="view-section" style="display: none;">
+      <!-- Calendar rendered by JS -->
+    </div>
+
+    <!-- REPORTS VIEW -->
+    <div id="reportsView" class="view-section" style="display: none;">
+      <!-- Reports rendered by JS -->
     </div>
   </main>
 </div>
@@ -1844,9 +1880,17 @@ function switchTab(tab) {
   document.getElementById('tasksView').style.display = tab === 'tasks' ? 'block' : 'none';
   document.getElementById('kanbanView').style.display = tab === 'kanban' ? 'block' : 'none';
   document.getElementById('voiceView').style.display = tab === 'voice' ? 'block' : 'none';
+  document.getElementById('projectsView').style.display = tab === 'projects' ? 'block' : 'none';
+  document.getElementById('filesView').style.display = tab === 'files' ? 'block' : 'none';
+  document.getElementById('calendarView').style.display = tab === 'calendar' ? 'block' : 'none';
+  document.getElementById('reportsView').style.display = tab === 'reports' ? 'block' : 'none';
   
   // Render specific view
   if (tab === 'vault') renderCards();
+  if (tab === 'projects') renderProjectsList();
+  if (tab === 'files') renderFiles();
+  if (tab === 'calendar') renderCalendar();
+  if (tab === 'reports') renderReports();
   if (tab === 'tasks') renderTasks();
   if (tab === 'kanban') renderKanban();
   if (tab === 'voice') initWaveform();
