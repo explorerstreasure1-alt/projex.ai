@@ -1,0 +1,793 @@
+/* ═══════════════════════════════════════════════════════════════
+   Pro Plan Styles - 7-Day Timeline & Team Features
+═══════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════
+   Pro Badge & Plan Indicator
+═══════════════════════════════════════════════════════════════ */
+.pro-badge {
+  background: linear-gradient(135deg, var(--amber), #ff9040);
+  color: #000;
+  font-size: 0.6rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-left: 8px;
+}
+
+.plan-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin: 0 10px 10px;
+}
+
+.plan-icon {
+  font-size: 1.2rem;
+}
+
+.plan-info {
+  flex: 1;
+}
+
+.plan-name {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.plan-expiry {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.plan-upgrade-btn {
+  font-size: 0.65rem;
+  padding: 4px 8px;
+  background: var(--amber-dim);
+  color: var(--amber);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.plan-upgrade-btn:hover {
+  background: var(--amber);
+  color: #000;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   7-Day Timeline (Canva Style)
+═══════════════════════════════════════════════════════════════ */
+.timeline-container {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.timeline-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.timeline-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timeline-nav {
+  display: flex;
+  gap: 6px;
+}
+
+.timeline-nav-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-xs);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.timeline-nav-btn:hover {
+  background: var(--card-hover);
+  color: var(--text);
+  border-color: var(--border-light);
+}
+
+/* Timeline Grid */
+.timeline-grid {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr);
+  gap: 8px;
+}
+
+.timeline-time-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.time-slot-label {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.timeline-day {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.day-header {
+  text-align: center;
+  padding: 8px 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.day-header:hover {
+  background: var(--card-hover);
+  border-color: var(--border-light);
+}
+
+.day-header.today {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+}
+
+.day-header.selected {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.day-name {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.day-number {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.day-tasks-count {
+  font-size: 0.6rem;
+  margin-top: 2px;
+  opacity: 0.7;
+}
+
+/* Time Slots */
+.time-slot {
+  height: 48px;
+  background: var(--bg);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.time-slot:hover {
+  background: var(--card-hover);
+  border-color: var(--border-light);
+  border-style: solid;
+}
+
+.time-slot.has-task {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  border-style: solid;
+}
+
+.time-slot.has-task:hover {
+  background: var(--accent);
+}
+
+.time-slot-task {
+  font-size: 0.65rem;
+  padding: 4px 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--accent);
+}
+
+.time-slot.has-task:hover .time-slot-task {
+  color: #fff;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Team/Ekip Features
+═══════════════════════════════════════════════════════════════ */
+.team-section {
+  margin-top: 16px;
+}
+
+.team-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  margin-bottom: 8px;
+}
+
+.team-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.team-count {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  background: var(--border);
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+.team-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 10px;
+}
+
+.team-member {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.team-member:hover {
+  background: var(--card);
+}
+
+.member-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #b06aff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.member-avatar.online {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--green);
+}
+
+.member-avatar.away {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--amber);
+}
+
+.member-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.member-name {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.member-role {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.member-status {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.member-status.online {
+  background: var(--green);
+}
+
+.member-status.away {
+  background: var(--amber);
+}
+
+.member-status.offline {
+  background: var(--text-muted);
+}
+
+.add-member-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  margin: 8px 10px 0;
+  border: 1px dashed var(--border-light);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.add-member-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Plugin System Styles
+═══════════════════════════════════════════════════════════════ */
+.plugin-section {
+  margin-top: 16px;
+}
+
+.plugin-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  padding: 0 10px;
+}
+
+.plugin-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.plugin-card:hover {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.plugin-card.active {
+  border-color: var(--green);
+  background: var(--green-dim);
+}
+
+.plugin-icon {
+  font-size: 1.3rem;
+  margin-bottom: 6px;
+}
+
+.plugin-name {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.plugin-desc {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.plugin-toggle {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toggle-switch {
+  width: 36px;
+  height: 18px;
+  background: var(--border);
+  border-radius: 9px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.toggle-switch.active {
+  background: var(--green);
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s;
+}
+
+.toggle-switch.active::after {
+  transform: translateX(18px);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Workspace Switcher (for Teams)
+═══════════════════════════════════════════════════════════════ */
+.workspace-switcher {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  margin: 0 10px 10px;
+}
+
+.workspace-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.workspace-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--accent), #b06aff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  color: #fff;
+}
+
+.workspace-info {
+  flex: 1;
+}
+
+.workspace-name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.workspace-type {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+}
+
+.workspace-dropdown {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  transition: transform 0.2s;
+}
+
+.workspace-switcher.open .workspace-dropdown {
+  transform: rotate(180deg);
+}
+
+.workspace-list {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  display: none;
+}
+
+.workspace-switcher.open .workspace-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.workspace-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.workspace-item:hover {
+  background: var(--bg);
+}
+
+.workspace-item.active {
+  background: var(--accent-dim);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Activity Feed (Team Activity)
+═══════════════════════════════════════════════════════════════ */
+.activity-feed {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.activity-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #b06aff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-text {
+  font-size: 0.78rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.activity-text strong {
+  color: var(--accent);
+}
+
+.activity-time {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Quick Actions (Pro Features)
+═══════════════════════════════════════════════════════════════ */
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.quick-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.quick-action-btn:hover {
+  background: var(--card-hover);
+  border-color: var(--border-light);
+  color: var(--text);
+  transform: translateY(-2px);
+}
+
+.quick-action-icon {
+  font-size: 1.4rem;
+}
+
+.quick-action-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Collaborative Cursor (Live Indicator)
+═══════════════════════════════════════════════════════════════ */
+.live-cursor {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1000;
+  transition: all 0.1s ease-out;
+}
+
+.cursor-flag {
+  background: var(--accent);
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  white-space: nowrap;
+  margin-bottom: 4px;
+}
+
+.cursor-dot {
+  width: 4px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+}
+
+/* Presence Indicator */
+.presence-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--green-dim);
+  border: 1px solid rgba(16, 212, 138, 0.2);
+  border-radius: 20px;
+  font-size: 0.7rem;
+  color: var(--green);
+}
+
+.presence-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Pro Features Modal
+═══════════════════════════════════════════════════════════════ */
+.pro-features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.pro-feature-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.pro-feature-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.pro-feature-card.locked {
+  opacity: 0.6;
+  filter: grayscale(0.5);
+}
+
+.pro-feature-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.pro-feature-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.pro-feature-desc {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.pro-feature-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--amber-dim);
+  color: var(--amber);
+  border-radius: 20px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Responsive Pro Features
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .timeline-grid {
+    grid-template-columns: 40px repeat(7, 1fr);
+    gap: 4px;
+  }
+  
+  .time-slot,
+  .time-slot-label {
+    height: 40px;
+  }
+  
+  .plugin-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .pro-features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .quick-actions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .timeline-container {
+    overflow-x: auto;
+  }
+  
+  .timeline-grid {
+    min-width: 700px;
+  }
+  
+  .pro-features-grid {
+    grid-template-columns: 1fr;
+  }
+}

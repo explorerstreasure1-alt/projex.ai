@@ -1,0 +1,71 @@
+/* ═══════════════════════════════════════════════════════════════
+   CSS Variables - DevVault Pro Theme
+═══════════════════════════════════════════════════════════════ */
+:root {
+  /* Background Colors */
+  --bg: #07070f;
+  --surface: #0d0d1c;
+  --card: #111120;
+  --card-hover: #161628;
+  
+  /* Border Colors */
+  --border: #1c1c30;
+  --border-light: #262640;
+  
+  /* Accent Colors */
+  --accent: #7c6aff;
+  --accent-dim: rgba(124, 106, 255, 0.12);
+  --accent-glow: rgba(124, 106, 255, 0.35);
+  
+  /* Status Colors */
+  --amber: #f59e0b;
+  --amber-dim: rgba(245, 158, 11, 0.12);
+  --green: #10d48a;
+  --green-dim: rgba(16, 212, 138, 0.1);
+  --red: #ff4f6a;
+  --red-dim: rgba(255, 79, 106, 0.1);
+  --blue: #38bdf8;
+  --blue-dim: rgba(56, 189, 248, 0.1);
+  --orange: #fb923c;
+  --orange-dim: rgba(251, 146, 60, 0.1);
+  --purple: #c084fc;
+  --purple-dim: rgba(192, 132, 252, 0.1);
+  
+  /* Text Colors */
+  --text: #e4e4f0;
+  --text-muted: #5a5a78;
+  --text-dim: #8888a8;
+  
+  /* Mic/Voice Colors */
+  --mic-red: #ff3b5c;
+  --mic-red-dim: rgba(255, 59, 92, 0.15);
+  --mic-red-glow: rgba(255, 59, 92, 0.4);
+  
+  /* Shadows & Effects */
+  --shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
+  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 4px 20px var(--accent-glow);
+  --shadow-green: 0 4px 20px rgba(16, 212, 138, 0.3);
+  
+  /* Border Radius */
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-sm: 8px;
+  --radius-xs: 6px;
+  --radius-xl: 20px;
+  
+  /* Typography */
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  /* Layout */
+  --sidebar-width: 260px;
+  --header-height: 60px;
+  --max-content-width: 1400px;
+  
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.2s ease;
+  --transition-slow: 0.3s ease;
+}

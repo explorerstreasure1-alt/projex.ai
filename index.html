@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="DevVault Pro - Geliştirici Bilgi ve Görev Merkezi">
+<meta name="theme-color" content="#7c6aff">
+<title>DevVault Pro — Geliştirici Bilgi & Görev Merkezi</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Syntax Highlighting -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+<!-- Modular CSS -->
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/views.css">
+<link rel="stylesheet" href="css/proplan.css">
+<link rel="stylesheet" href="css/responsive.css">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+<div class="app-shell" id="app">
+
+<!-- HEADER -->
+<header>
+  <a class="logo" href="#" onclick="location.reload(); return false;">
+    <div class="logo-icon">⚡</div>
+    <span class="logo-text">DevVault</span>
+    <span class="logo-badge">PRO</span>
+  </a>
+  <div class="search-bar">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Ara... (Ctrl+K)" autocomplete="off">
+  </div>
+  <div class="header-actions">
+    <button class="btn-icon" title="İçe Aktar (JSON)" onclick="openImportModal()">📥</button>
+    <button class="btn-icon" title="Dışa Aktar" onclick="exportData()">📤</button>
+    <button class="btn btn-mic" onclick="switchMainTab('voice')">🎙️ Ses AI</button>
+    <button class="btn btn-green" onclick="openAddTaskModal()">＋ Görev</button>
+    <button class="btn btn-primary" onclick="openAddModal()">＋ Kayıt</button>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-label">Bilgi Kasası</div>
+    <div class="nav-item active" data-filter="all" onclick="setFilter('all');switchMainTab('vault')">
+      <span class="nav-icon">◉</span> Tümü<span class="badge" id="badge-all">0</span>
+    </div>
+    <div class="nav-item" data-filter="project" onclick="setFilter('project');switchMainTab('vault')">
+      <span class="nav-icon">📁</span> Projeler<span class="badge" id="badge-project">0</span>
+    </div>
+    <div class="nav-item" data-filter="instruction" onclick="setFilter('instruction');switchMainTab('vault')">
+      <span class="nav-icon">🤖</span> AI Talimatları<span class="badge" id="badge-instruction">0</span>
+    </div>
+    <div class="nav-item" data-filter="code" onclick="setFilter('code');switchMainTab('vault')">
+      <span class="nav-icon">💻</span> Kod Parçacıkları<span class="badge" id="badge-code">0</span>
+    </div>
+  </div>
+  
+  <hr class="sidebar-divider">
+  
+  <div class="sidebar-section">
+    <div class="sidebar-label">Görev Merkezi</div>
+    <div class="nav-item" onclick="switchMainTab('tasks')">
+      <span class="nav-icon">📋</span> Görev Listesi<span class="badge" id="badge-tasks">0</span>
+    </div>
+    <div class="nav-item" onclick="switchMainTab('kanban')">
+      <span class="nav-icon">🗂️</span> Kanban Board<span class="badge" id="badge-kanban-progress">0</span>
+    </div>
+  </div>
+  
+  <hr class="sidebar-divider">
+  
+  <div class="sidebar-section">
+    <div class="sidebar-label">🎙️ Ses Asistanı</div>
+    <div class="nav-item nav-mic" onclick="switchMainTab('voice');setVoiceMode('new')">
+      <span class="nav-icon">🆕</span> Yeni Proje
+    </div>
+    <div class="nav-item nav-mic" onclick="switchMainTab('voice');setVoiceMode('update')">
+      <span class="nav-icon">🔄</span> Mevcut Güncelle
+    </div>
+  </div>
+  
+  <hr class="sidebar-divider">
+  
+  <div class="sidebar-section">
+    <div class="sidebar-label">Hızlı Filtre</div>
+    <div class="nav-item" data-filter="favorites" onclick="setFilter('favorites');switchMainTab('vault')">
+      <span class="nav-icon">⭐</span> Favoriler<span class="badge" id="badge-favorites">0</span>
+    </div>
+    <div class="nav-item" data-filter="recent" onclick="setFilter('recent');switchMainTab('vault')">
+      <span class="nav-icon">🕐</span> Son 7 Gün<span class="badge" id="badge-recent">0</span>
+    </div>
+    <div class="nav-item" onclick="showUrgentTasks()">
+      <span class="nav-icon">🔥</span> Acil Görevler<span class="badge" id="badge-urgent">0</span>
+    </div>
+  </div>
+  
+  <hr class="sidebar-divider">
+  
+  <div class="sidebar-progress">
+    <div class="progress-label">
+      <span>Bugünkü İlerleme</span>
+      <span id="progressPct">0%</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+    </div>
+  </div>
+  
+  <hr class="sidebar-divider">
+  
+  <div class="sidebar-section">
+    <div class="sidebar-label">Etiketler</div>
+    <div style="max-height:130px;overflow-y:auto">
+      <div class="tags-list" id="sidebarTags"></div>
+    </div>
+  </div>
+  
+  <hr class="sidebar-divider">
+  
+  <!-- WORKSPACE SWITCHER (Pro) -->
+  <div id="workspaceSwitcher"></div>
+  
+  <hr class="sidebar-divider">
+  
+  <!-- 7-DAY TIMELINE (Pro) -->
+  <div class="sidebar-section" style="padding: 0 10px 10px;">
+    <div class="sidebar-label" style="display: flex; justify-content: space-between; align-items: center;">
+      <span>📅 7 Günlük Plan</span>
+      <span class="pro-badge">PRO</span>
+    </div>
+    <div id="proTimeline" style="margin-top: 8px;">
+      <div style="background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; text-align: center; color: var(--text-muted); font-size: 0.75rem;">
+        Pro Plan ile haftalık görünümü açın
+      </div>
+    </div>
+  </div>
+  
+  <hr class="sidebar-divider">
+  
+  <!-- TEAM SECTION (Pro) -->
+  <div id="teamSection"></div>
+  
+  <hr class="sidebar-divider">
+  
+  <!-- PLUGINS SECTION (Pro) -->
+  <div id="pluginSection"></div>
+  
+  <hr class="sidebar-divider">
+  
+  <!-- PRO PLAN INDICATOR -->
+  <div class="plan-indicator" id="planIndicator">
+    <span class="plan-icon">⚡</span>
+    <div class="plan-info">
+      <div class="plan-name">Ücretsiz Plan</div>
+      <div class="plan-expiry">Sınırlı özellikler</div>
+    </div>
+    <button class="plan-upgrade-btn" onclick="showProUpgrade()">Yükselt</button>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main" id="main">
+  <!-- Main Tabs -->
+  <div class="main-tabs">
+    <button class="main-tab active" id="vaultTab" onclick="switchMainTab('vault')">⚡ Bilgi Kasası</button>
+    <button class="main-tab" id="tasksTab" onclick="switchMainTab('tasks')">📋 Görevler</button>
+    <button class="main-tab" id="kanbanTab" onclick="switchMainTab('kanban')">🗂️ Kanban</button>
+    <button class="main-tab" id="voiceTab" onclick="switchMainTab('voice')">🎙️ Ses AI</button>
+  </div>
+
+  <!-- VAULT VIEW -->
+  <div id="vaultView">
+    <div class="stats-bar" style="margin-bottom:16px">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--accent-dim)">📁</div>
+        <div>
+          <div class="stat-number" id="stat-projects" style="color:var(--accent)">0</div>
+          <div class="stat-label">Proje</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--green-dim)">🤖</div>
+        <div>
+          <div class="stat-number" id="stat-instructions" style="color:var(--green)">0</div>
+          <div class="stat-label">AI Talimatı</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--amber-dim)">💻</div>
+        <div>
+          <div class="stat-number" id="stat-codes" style="color:var(--amber)">0</div>
+          <div class="stat-label">Kod Parçacığı</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--red-dim)">📋</div>
+        <div>
+          <div class="stat-number" id="stat-copies" style="color:var(--red)">0</div>
+          <div class="stat-label">Kopyalama</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--green-dim)">✅</div>
+        <div>
+          <div class="stat-number" id="stat-done" style="color:var(--green)">0</div>
+          <div class="stat-label">Tamamlanan</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="toolbar">
+      <div class="toolbar-title" id="sectionTitle">Tüm Kayıtlar</div>
+      <span class="result-info" id="resultInfo" style="display:none"></span>
+      <select class="sort-select" id="sortSelect" onchange="renderCards()">
+        <option value="newest">En Yeni</option>
+        <option value="oldest">En Eski</option>
+        <option value="name">İsme Göre</option>
+        <option value="usage">Çok Kullanılan</option>
+      </select>
+      <div class="view-toggle">
+        <button class="view-btn active" id="gridViewBtn" onclick="setView('grid')">⊞</button>
+        <button class="view-btn" id="listViewBtn" onclick="setView('list')">☰</button>
+      </div>
+    </div>
+    
+    <div class="cards-grid" id="cardsGrid"></div>
+  </div>
+
+  <!-- TASKS VIEW -->
+  <div id="tasksView">
+    <div class="tasks-layout">
+      <div>
+        <div class="day-selector" id="daySelector"></div>
+        <div style="margin-top:14px" id="taskColumnsWrap"></div>
+      </div>
+      <div class="right-panel">
+        <div class="panel-card">
+          <div class="panel-card-title">📊 Bugünkü Özet</div>
+          <div class="big-progress">
+            <div class="big-progress-circle">
+              <svg viewBox="0 0 80 80">
+                <circle class="track" cx="40" cy="40" r="34"/>
+                <circle class="fill" id="progressCircle" cx="40" cy="40" r="34" 
+                        stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+              </svg>
+              <div class="big-progress-pct" id="bigProgressPct">0%</div>
+            </div>
+            <div class="big-progress-label" id="bigProgressLabel">0 / 0 görev</div>
+          </div>
+          <div class="today-stats">
+            <div class="today-stat">
+              <div class="today-stat-num" id="todayTotal" style="color:var(--text)">0</div>
+              <div class="today-stat-label">Toplam</div>
+            </div>
+            <div class="today-stat">
+              <div class="today-stat-num" id="todayDone" style="color:var(--green)">0</div>
+              <div class="today-stat-label">Tamamlandı</div>
+            </div>
+            <div class="today-stat">
+              <div class="today-stat-num" id="todayInProgress" style="color:var(--blue)">0</div>
+              <div class="today-stat-label">Devam Eden</div>
+            </div>
+            <div class="today-stat">
+              <div class="today-stat-num" id="todayUrgent" style="color:var(--red)">0</div>
+              <div class="today-stat-label">Acil</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="panel-card">
+          <div class="panel-card-title">🔜 Yaklaşan Görevler</div>
+          <div id="upcomingTasks"></div>
+        </div>
+        
+        <div class="panel-card">
+          <div class="panel-card-title">⚡ Hızlı Ekle</div>
+          <input type="text" class="form-input" id="quickTaskInput" 
+                 placeholder="Hızlı görev ekle..." style="margin-bottom:8px">
+          <div style="display:flex;gap:6px">
+            <select class="form-select" id="quickPriority" style="flex:1;font-size:0.75rem;padding:6px 8px">
+              <option value="none">— Öncelik —</option>
+              <option value="critical">🔴 Kritik</option>
+              <option value="high">🟠 Yüksek</option>
+              <option value="medium">🟡 Orta</option>
+              <option value="low">🟢 Düşük</option>
+            </select>
+            <button class="btn btn-green" style="padding:6px 10px;font-size:0.78rem" onclick="quickAddTask()">Ekle</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KANBAN VIEW -->
+  <div id="kanbanView">
+    <div class="toolbar" style="margin-bottom:4px">
+      <div class="toolbar-title">🗂️ Kanban Board</div>
+      <button class="btn btn-green" onclick="openAddTaskModal()">＋ Yeni Görev</button>
+    </div>
+    <div class="kanban-board" id="kanbanBoard"></div>
+  </div>
+
+  <!-- VOICE AI VIEW -->
+  <div id="voiceView">
+    <!-- Top Bar -->
+    <div class="voice-topbar">
+      <div class="voice-topbar-title">🎙️ Ses Asistanı</div>
+      <div class="groq-key-pill">
+        <div class="key-status-dot idle" id="keyStatusDot"></div>
+        <input type="password" id="groqKeyInput" placeholder="Groq API Key: gsk_...">
+        <button class="btn btn-amber" style="padding:5px 12px;font-size:0.72rem" onclick="saveGroqKey()">Kaydet</button>
+      </div>
+    </div>
+
+    <!-- Mode + Target -->
+    <div class="voice-config-row">
+      <div class="voice-mode-card active-new" id="modeNewCard" onclick="setVoiceMode('new')">
+        <div class="voice-mode-icon">🆕</div>
+        <div>
+          <div class="voice-mode-label">Yeni Proje</div>
+          <div class="voice-mode-sub">Konuşarak sıfırdan proje dokümanı oluştur</div>
+        </div>
+      </div>
+      <div class="voice-mode-card" id="modeUpdateCard" onclick="setVoiceMode('update')">
+        <div class="voice-mode-icon">🔄</div>
+        <div>
+          <div class="voice-mode-label">Mevcut Güncelle</div>
+          <div class="voice-mode-sub">Mevcut kaydı sesle genişlet veya düzenle</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Target Selector -->
+    <div class="voice-target-card" id="voiceTargetCard">
+      <div class="voice-target-label">📌 Güncellenecek Kayıt</div>
+      <select class="voice-target-select" id="voiceTargetSelect">
+        <option value="">— Kayıt seçin —</option>
+      </select>
+      <div class="update-info-pill">
+        💡 Mevcut içerik korunur — yeni bilgiler üstüne eklenir.
+      </div>
+    </div>
+
+    <!-- Recording Studio -->
+    <div class="recording-studio">
+      <div class="studio-header">
+        <span style="font-size:1rem">🎛️</span>
+        <div class="studio-header-title">Kayıt Stüdyosu</div>
+        <div id="recDurationBadge" style="font-size:0.68rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace">max 30dk</div>
+      </div>
+      <div class="studio-body">
+        <div class="waveform-wrap">
+          <canvas id="waveformCanvas"></canvas>
+          <div class="waveform-idle-text" id="waveformIdleText">🎙 Kayda başla — ses dalgaları burada görünür</div>
+        </div>
+
+        <div class="mic-btn-zone">
+          <div class="mic-outer" id="micOuter">
+            <div class="mic-ring mic-ring-1"></div>
+            <div class="mic-ring mic-ring-2"></div>
+            <div class="mic-ring mic-ring-3"></div>
+            <div class="mic-btn" id="micBtn" onclick="toggleRecording()">🎙️</div>
+          </div>
+          <div class="mic-timer" id="micTimer">00:00</div>
+          <div class="mic-status">
+            <div class="status-dot" id="statusDot"></div>
+            <span id="statusText">Başlatmak için tıkla</span>
+          </div>
+        </div>
+
+        <div class="mic-controls" id="micControls" style="display:none">
+          <button class="btn btn-ghost" onclick="cancelRecording()">✕ İptal</button>
+          <button class="btn btn-amber" onclick="pauseResume()" id="pauseBtn">⏸ Duraklat</button>
+          <button class="btn btn-primary" onclick="finishRecording()">✅ Bitir & Transkript Al</button>
+        </div>
+
+        <div class="whisper-status" id="whisperStatus">
+          <div class="whisper-label">
+            <span id="whisperIcon">🎧</span>
+            <span id="whisperText">Groq Whisper ses dosyasını işliyor...</span>
+          </div>
+          <div class="whisper-progress-track">
+            <div class="whisper-progress-fill" id="whisperFill" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transcript Section -->
+    <div class="transcript-section">
+      <div class="section-header">
+        <span style="font-size:1rem">📝</span>
+        <div class="section-header-title">Transkript</div>
+        <span class="transcript-meta" id="transcriptWordCount">0 kelime</span>
+        <button class="btn btn-ghost transcript-edit-btn" id="transcriptEditBtn" onclick="toggleTranscriptEdit()">✏️ Düzenle</button>
+        <button class="btn btn-ghost" style="padding:4px 10px;font-size:0.72rem" onclick="clearTranscript()">Temizle</button>
+      </div>
+      <div class="transcript-body">
+        <div class="transcript-area" id="transcriptArea">
+          <span class="transcript-placeholder">Kayıt başlattığında canlı transkript burada görünür. Kayıt bitince Groq Whisper ile doğruluğu artırılır.</span>
+        </div>
+        <textarea class="transcript-textarea" id="transcriptTextarea" 
+                  placeholder="Transkripti buraya yapıştır ya da düzenle..." style="display:none"></textarea>
+        <div class="transcript-footer">
+          <span class="transcript-meta" id="transcriptCharCount">0 karakter</span>
+          <button class="btn btn-ghost" style="padding:4px 10px;font-size:0.72rem" onclick="pasteAndSetTranscript()">📋 Panodan Yapıştır</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Panel -->
+    <div class="ai-panel">
+      <div class="ai-panel-header">
+        <span style="font-size:1.1rem">🤖</span>
+        <div class="ai-panel-title">Groq AI Analizi</div>
+        <div class="ai-model-chip">llama-3.3-70b-versatile</div>
+        <button class="btn btn-primary" onclick="runGroqAnalysis()" id="analyzeBtn" style="padding:7px 16px">⚡ Analiz Et</button>
+      </div>
+      <div class="ai-panel-body">
+        <div style="font-size:0.7rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px">📤 Çıktı Formatı</div>
+        <div class="output-type-grid">
+          <button class="output-type-btn selected" id="otype-project" onclick="setOutputType('project')">
+            <span class="output-type-icon">📁</span>Proje Dokümanı
+          </button>
+          <button class="output-type-btn" id="otype-instruction" onclick="setOutputType('instruction')">
+            <span class="output-type-icon">🤖</span>AI Talimatı
+          </button>
+          <button class="output-type-btn" id="otype-tasks" onclick="setOutputType('tasks')">
+            <span class="output-type-icon">📋</span>Görev Listesi
+          </button>
+          <button class="output-type-btn" id="otype-report" onclick="setOutputType('report')">
+            <span class="output-type-icon">📊</span>Durum Raporu
+          </button>
+        </div>
+
+        <div class="ai-result-wrap">
+          <div class="ai-result-area" id="aiResultArea">
+            <div class="ai-placeholder">
+              🎙️ Ses kaydı yap veya transkript gir, ardından <strong>Analiz Et</strong>'e tıkla.<br>
+              <span style="font-size:0.75rem;opacity:0.7;margin-top:6px;display:block">
+                Groq AI konuşmandan proje dokümanı, görev listesi veya rapor çıkaracak.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-stats-row" id="aiStatsRow" style="display:none">
+          <span class="ai-chip">⏱ <span id="aiTime">—</span>s</span>
+          <span class="ai-chip">🔤 <span id="aiTokens">—</span> token</span>
+          <span class="ai-chip">📏 <span id="aiWords">—</span> kelime</span>
+          <span class="ai-chip">🤖 llama-3.3-70b</span>
+        </div>
+
+        <div class="save-section" id="saveSection">
+          <div class="save-section-title">✅ Analiz hazır! Kayıtlara ekle veya düzenle</div>
+          <input type="text" class="form-input" id="saveResultTitle" placeholder="Başlık gir..." style="font-size:0.83rem">
+          <div class="save-actions">
+            <button class="btn btn-green" onclick="saveAiResultToVault()">💾 Vault'a Kaydet</button>
+            <button class="btn btn-ghost" onclick="copyAiResult()">📋 Kopyala</button>
+            <button class="btn btn-amber" onclick="generateTasksFromResult()">📋 Görevlere Dönüştür</button>
+            <button class="btn btn-ghost" onclick="editAiResultInline()">✏️ Düzenle</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Voice History -->
+    <div class="voice-history">
+      <div class="section-header" style="padding:14px 16px">
+        <span style="font-size:1rem">📚</span>
+        <div class="section-header-title" style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem">Ses Geçmişi</div>
+        <span style="font-size:0.7rem;color:var(--text-muted)" id="vhCount">0 kayıt</span>
+        <button class="btn btn-ghost" style="padding:4px 10px;font-size:0.72rem" onclick="clearVoiceHistory()">Temizle</button>
+      </div>
+      <div class="voice-history-list" id="voiceHistoryList">
+        <div style="padding:20px;text-align:center;font-size:0.78rem;color:var(--text-muted)">Henüz ses kaydı yok</div>
+      </div>
+    </div>
+  </div>
+</main>
+</div>
+
+<!-- VAULT MODAL -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Yeni Kayıt Ekle</div>
+      <button class="modal-close" onclick="closeModal('addModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">TÜR</label>
+        <div class="type-tabs">
+          <button class="type-tab active-project" id="tab-project" onclick="selectType('project')">📁 Proje</button>
+          <button class="type-tab" id="tab-instruction" onclick="selectType('instruction')">🤖 AI Talimatı</button>
+          <button class="type-tab" id="tab-code" onclick="selectType('code')">💻 Kod</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">BAŞLIK *</label>
+        <input type="text" class="form-input" id="itemTitle" placeholder="Başlık...">
+      </div>
+      <div class="form-group" id="langGroup" style="display:none">
+        <label class="form-label">DİL</label>
+        <div class="lang-grid" id="langGrid">
+          <button class="lang-btn" onclick="selectLang('JavaScript')">JavaScript</button>
+          <button class="lang-btn" onclick="selectLang('TypeScript')">TypeScript</button>
+          <button class="lang-btn" onclick="selectLang('Python')">Python</button>
+          <button class="lang-btn" onclick="selectLang('HTML')">HTML</button>
+          <button class="lang-btn" onclick="selectLang('CSS')">CSS</button>
+          <button class="lang-btn" onclick="selectLang('React')">React</button>
+          <button class="lang-btn" onclick="selectLang('SQL')">SQL</button>
+        </div>
+        <input type="text" class="form-input" id="customLang" placeholder="Özel dil..." style="margin-top:7px">
+      </div>
+      <div class="form-group">
+        <label class="form-label" id="contentLabel">İÇERİK *</label>
+        <textarea class="form-textarea code-textarea" id="itemContent" placeholder="İçerik..."></textarea>
+        <div class="char-counter" id="charCounter">0 karakter</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">ETİKETLER</label>
+        <div class="tags-input-wrap" onclick="document.getElementById('tagInput').focus()">
+          <div id="tagsList"></div>
+          <input type="text" class="tag-input-field" id="tagInput" placeholder="Etiket ekle...">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('addModal')">İptal</button>
+      <button class="btn btn-primary" onclick="saveItem()">💾 Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- TASK MODAL -->
+<div class="modal-overlay" id="taskModal">
+  <div class="modal" style="max-width:640px">
+    <div class="modal-header">
+      <div class="modal-title" id="taskModalTitle">Yeni Görev Ekle</div>
+      <button class="modal-close" onclick="closeModal('taskModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">BAŞLIK *</label>
+        <input type="text" class="form-input" id="taskTitle" placeholder="Görev başlığı...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">AÇIKLAMA</label>
+        <textarea class="form-textarea" id="taskDesc" placeholder="Detaylar..." style="min-height:80px"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">ÖNCELİK</label>
+          <div class="priority-selector" id="prioritySelector">
+            <button class="priority-opt" data-p="critical" onclick="selectPriority('critical')">
+              <span class="priority-emoji">🔴</span><span>Kritik</span>
+            </button>
+            <button class="priority-opt" data-p="high" onclick="selectPriority('high')">
+              <span class="priority-emoji">🟠</span><span>Yüksek</span>
+            </button>
+            <button class="priority-opt selected-medium" data-p="medium" onclick="selectPriority('medium')">
+              <span class="priority-emoji">🟡</span><span>Orta</span>
+            </button>
+            <button class="priority-opt" data-p="low" onclick="selectPriority('low')">
+              <span class="priority-emoji">🟢</span><span>Düşük</span>
+            </button>
+            <button class="priority-opt" data-p="none" onclick="selectPriority('none')">
+              <span class="priority-emoji">⚪</span><span>Yok</span>
+            </button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">DURUM</label>
+          <div class="status-selector" id="statusSelector">
+            <button class="status-opt selected-todo" data-s="todo" onclick="selectStatus('todo')">📌 Bekliyor</button>
+            <button class="status-opt" data-s="inprogress" onclick="selectStatus('inprogress')">⚡ Devam</button>
+            <button class="status-opt" data-s="review" onclick="selectStatus('review')">👀 İnceleme</button>
+            <button class="status-opt" data-s="done" onclick="selectStatus('done')">✅ Tamam</button>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">TARİH</label>
+          <input type="date" class="form-input" id="taskDate">
+        </div>
+        <div class="form-group">
+          <label class="form-label">SAAT</label>
+          <input type="time" class="form-input" id="taskTime">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">BAĞLI PROJE</label>
+          <select class="form-select" id="taskProject"><option value="">— Proje seç —</option></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">TAHMİNİ SÜRE</label>
+          <input type="text" class="form-input" id="taskEstimate" placeholder="2 saat, 30dk...">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">ALT GÖREVLER</label>
+        <div id="subtaskList" style="display:flex;flex-direction:column;gap:6px;margin-bottom:7px"></div>
+        <div style="display:flex;gap:7px">
+          <input type="text" class="form-input" id="subtaskInput" placeholder="Alt görev ekle..." style="flex:1">
+          <button class="btn btn-ghost" onclick="addSubtask()" style="padding:8px 12px;font-size:0.78rem">＋</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">ETİKETLER</label>
+        <div class="tags-input-wrap" onclick="document.getElementById('taskTagInput').focus()">
+          <div id="taskTagsList"></div>
+          <input type="text" class="tag-input-field" id="taskTagInput" placeholder="Etiket...">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('taskModal')">İptal</button>
+      <button class="btn btn-primary" onclick="saveTask()">💾 Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODALS -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal" style="max-width:740px">
+    <div class="modal-header">
+      <div id="detailTypeIcon" style="font-size:18px"></div>
+      <div class="modal-title" id="detailTitle"></div>
+      <button class="modal-close" onclick="closeModal('detailModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-stats" id="detailStats"></div>
+      <div id="detailContentWrap"></div>
+      <div id="detailTagsWrap" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" id="detailCopyBtn" onclick="copyDetailContent()">📋 Kopyala</button>
+      <button class="btn btn-ghost" onclick="editFromDetail()">✏️ Düzenle</button>
+      <button class="btn btn-danger" onclick="deleteFromDetail()">🗑️ Sil</button>
+      <button class="btn btn-primary" onclick="closeModal('detailModal')">Kapat</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="taskDetailModal">
+  <div class="modal" style="max-width:580px">
+    <div class="modal-header">
+      <div class="modal-title" id="taskDetailTitle"></div>
+      <button class="modal-close" onclick="closeModal('taskDetailModal')">✕</button>
+    </div>
+    <div class="modal-body" id="taskDetailBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="editTaskFromDetail()">✏️ Düzenle</button>
+      <button class="btn btn-danger" onclick="deleteTaskFromDetail()">🗑️ Sil</button>
+      <button class="btn btn-primary" onclick="closeModal('taskDetailModal')">Kapat</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay confirm-modal" id="confirmModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Silmeyi Onayla</div>
+      <button class="modal-close" onclick="closeModal('confirmModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="confirm-text">Bu kaydı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('confirmModal')">İptal</button>
+      <button class="btn btn-danger" id="confirmDeleteBtn">🗑️ Evet, Sil</button>
+    </div>
+  </div>
+</div>
+
+<!-- IMPORT MODAL -->
+<div class="modal-overlay" id="importModal">
+  <div class="modal" style="max-width:460px">
+    <div class="modal-header">
+      <div class="modal-title">📥 Veri İçe Aktar</div>
+      <button class="modal-close" onclick="closeModal('importModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="file-drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+        <div style="font-size:30px;margin-bottom:10px">📂</div>
+        <div style="font-weight:600;color:var(--text-dim);margin-bottom:5px">JSON dosyası seç veya sürükle</div>
+        <div>DevVault yedek dosyasını yükle</div>
+        <input type="file" id="fileInput" accept=".json" style="display:none" onchange="handleFileImport(event)">
+      </div>
+      <p style="font-size:0.76rem;color:var(--text-muted);text-align:center;margin-top:8px">Mevcut veriler birleştirilerek aktarılır.</p>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- MODULAR JAVASCRIPT -->
+<script type="module" src="js/app.js"></script>
+
+</body>
+</html>
