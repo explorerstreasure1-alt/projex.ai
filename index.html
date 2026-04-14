@@ -485,6 +485,17 @@ body::before {
   gap: var(--space-xl);
 }
 
+.main-content > .view-section {
+  flex: 1;
+  min-height: 0;
+  display: none;
+}
+
+.main-content > .view-section[style*="block"] {
+  display: flex !important;
+  flex-direction: column;
+}
+
 /* Tabs */
 .content-tabs {
   display: flex;
@@ -1481,7 +1492,7 @@ body::before {
     </div>
 
     <!-- VAULT VIEW -->
-    <div id="vaultView" class="view-section">
+    <div id="vaultView" class="view-section" style="display: block;">
       <div class="cards-grid" id="cardsGrid">
         <!-- Cards will be rendered here -->
       </div>

@@ -723,6 +723,12 @@ function saveMeetings() {
   });
 }
 
+// Global Window Export for index.html inline scripts
+window.renderMeetingsList = renderMeetingsList;
+window.joinMeetingRoom = joinMeetingRoom;
+window.deleteMeetingRoom = deleteMeetingRoom;
+window.leaveMeetingRoom = leaveMeetingRoom;
+
 // Export
 export function getActiveMeeting() {
   return meetingsState.activeRoom;

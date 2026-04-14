@@ -709,6 +709,28 @@ function saveChat() {
   });
 }
 
+// Global Window Export for index.html inline scripts
+window.toggleChat = () => {
+  chatState.isOpen = !chatState.isOpen;
+  renderChatWidget();
+};
+window.setActiveConversation = setActiveConversation;
+window.sendTextMessage = sendTextMessage;
+window.startVoiceRecording = startVoiceRecording;
+window.stopVoiceRecording = stopVoiceRecording;
+window.openFilePicker = openFilePicker;
+window.openImagePicker = openImagePicker;
+window.startVoiceCall = startVoiceCall;
+window.startVideoCall = startVideoCall;
+window.startScreenShare = startScreenShare;
+window.searchConversations = (query) => {
+  const items = document.querySelectorAll('.conversation-item');
+  items.forEach(item => {
+    const name = item.querySelector('.conv-name')?.textContent?.toLowerCase() || '';
+    item.style.display = name.includes(query.toLowerCase()) ? 'flex' : 'none';
+  });
+};
+
 // Export
 export function getChatState() {
   return { ...chatState };

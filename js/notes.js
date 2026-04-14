@@ -530,6 +530,20 @@ function saveNotes() {
   });
 }
 
+// Global Window Export for index.html inline scripts
+window.renderNotesList = renderNotesList;
+window.openNoteEditor = openNoteEditor;
+window.deleteNote = deleteNote;
+window.duplicateNote = duplicateNote;
+window.openFolder = (folderId) => {
+  notesState.currentFolder = folderId;
+  renderNotesList();
+};
+window.searchNotes = (query) => {
+  notesState.searchQuery = query.toLowerCase();
+  renderNotesList();
+};
+
 // Export
 export function getAllNotes() {
   return [...notesState.notes];

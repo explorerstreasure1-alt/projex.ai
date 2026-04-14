@@ -565,6 +565,7 @@ export function openNewFolderModal() {
 // Global Functions
 // ═══════════════════════════════════════════════════════════════
 
+window.renderFiles = renderFiles;
 window.openUploadModal = openUploadModal;
 window.openNewFolderModal = openNewFolderModal;
 window.openFolder = (folderId) => {

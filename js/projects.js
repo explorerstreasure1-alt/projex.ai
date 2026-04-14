@@ -761,6 +761,10 @@ function saveSprints() {
   setStorage('devvault_sprints', projectsState.sprints);
 }
 
+// Window exports for index.html
+window.renderProjectsList = renderProjectsList;
+window.renderProjectDetail = renderProjectDetail;
+
 // Exports
 export function getCurrentProject() {
   return projectsState.currentProject;

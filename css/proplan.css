@@ -3,6 +3,53 @@
 ═══════════════════════════════════════════════════════════════ */
 
 /* ═══════════════════════════════════════════════════════════════
+   VIEW SECTIONS BASE STYLES - Fix visibility issues
+═══════════════════════════════════════════════════════════════ */
+.view-section {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  overflow-y: auto;
+}
+
+#projectsView, #filesView, #calendarView, #reportsView,
+#meetingsView, #notesView {
+  padding: var(--space-lg);
+}
+
+#meetingsList, #notesList {
+  width: 100%;
+  height: 100%;
+}
+
+/* Projects View */
+#projectsList {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: var(--space-xl);
+  height: 100%;
+  min-height: 500px;
+}
+
+/* Files View */
+#filesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-md);
+  width: 100%;
+}
+
+/* Calendar View */
+#calendarView {
+  min-height: 600px;
+}
+
+/* Reports View */
+#reportsView {
+  min-height: 500px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
    Pro Badge & Plan Indicator
 ═══════════════════════════════════════════════════════════════ */
 .pro-badge {

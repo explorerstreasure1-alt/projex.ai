@@ -606,6 +606,7 @@ function getCategoryLabel(type) {
 // Global Functions
 // ═══════════════════════════════════════════════════════════════
 
+window.renderReports = renderReports;
 window.switchReport = (type) => {
   reportsState.currentReport = type;
   

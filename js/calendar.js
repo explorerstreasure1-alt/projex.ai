@@ -616,6 +616,7 @@ window.navigateCalendar = (delta) => {
   }
 };
 
+window.renderCalendar = renderCalendar;
 window.goToToday = goToToday;
 window.setCalendarView = setViewMode;
 window.openCreateEventModal = openCreateEventModal;
