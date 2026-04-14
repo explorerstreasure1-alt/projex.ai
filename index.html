@@ -1492,7 +1492,7 @@ body::before {
     </div>
 
     <!-- VAULT VIEW -->
-    <div id="vaultView" class="view-section" style="display: block;">
+    <div id="vaultView" class="view-section" style="display: flex;">
       <div class="cards-grid" id="cardsGrid">
         <!-- Cards will be rendered here -->
       </div>
@@ -1944,19 +1944,22 @@ function switchTab(tab) {
   document.getElementById('meetingsView').style.display = tab === 'meetings' ? 'flex' : 'none';
   document.getElementById('notesView').style.display = tab === 'notes' ? 'flex' : 'none';
   
+  // Force layout recalculation
+  document.body.offsetHeight;
+  
   // Render specific view using window global functions
   setTimeout(() => {
-    if (tab === 'vault' && window.renderCards) renderCards();
+    if (tab === 'vault') { renderCards && renderCards(); }
     if (tab === 'projects' && window.renderProjectsList) window.renderProjectsList();
     if (tab === 'files' && window.renderFiles) window.renderFiles();
     if (tab === 'calendar' && window.renderCalendar) window.renderCalendar();
     if (tab === 'reports' && window.renderReports) window.renderReports();
     if (tab === 'meetings' && window.renderMeetingsList) window.renderMeetingsList();
     if (tab === 'notes' && window.renderNotesList) window.renderNotesList();
-    if (tab === 'tasks' && window.renderTasks) renderTasks();
-    if (tab === 'kanban' && window.renderKanban) renderKanban();
-    if (tab === 'voice' && window.initWaveform) initWaveform();
-  }, 10);
+    if (tab === 'tasks') { renderTasks && renderTasks(); }
+    if (tab === 'kanban') { renderKanban && renderKanban(); }
+    if (tab === 'voice') { initWaveform && initWaveform(); }
+  }, 50);
 }
 
 function setFilter(filter) {
@@ -2337,6 +2340,9 @@ initWaveform();
 console.log('🚀 DevVault Pro Premium initialized');
 console.log('💎 $10,000 product aesthetic loaded');
 </script>
+
+<!-- Load App Modules -->
+<script type="module" src="js/app.js"></script>
 
 </body>
 </html>
