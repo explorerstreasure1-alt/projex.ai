@@ -1925,28 +1925,30 @@ function switchTab(tab) {
   event?.target?.classList.add('active');
   
   // Show/hide views
-  document.getElementById('vaultView').style.display = tab === 'vault' ? 'block' : 'none';
-  document.getElementById('tasksView').style.display = tab === 'tasks' ? 'block' : 'none';
-  document.getElementById('kanbanView').style.display = tab === 'kanban' ? 'block' : 'none';
-  document.getElementById('voiceView').style.display = tab === 'voice' ? 'block' : 'none';
-  document.getElementById('projectsView').style.display = tab === 'projects' ? 'block' : 'none';
-  document.getElementById('filesView').style.display = tab === 'files' ? 'block' : 'none';
-  document.getElementById('calendarView').style.display = tab === 'calendar' ? 'block' : 'none';
-  document.getElementById('reportsView').style.display = tab === 'reports' ? 'block' : 'none';
-  document.getElementById('meetingsView').style.display = tab === 'meetings' ? 'block' : 'none';
-  document.getElementById('notesView').style.display = tab === 'notes' ? 'block' : 'none';
+  document.getElementById('vaultView').style.display = tab === 'vault' ? 'flex' : 'none';
+  document.getElementById('tasksView').style.display = tab === 'tasks' ? 'flex' : 'none';
+  document.getElementById('kanbanView').style.display = tab === 'kanban' ? 'flex' : 'none';
+  document.getElementById('voiceView').style.display = tab === 'voice' ? 'flex' : 'none';
+  document.getElementById('projectsView').style.display = tab === 'projects' ? 'flex' : 'none';
+  document.getElementById('filesView').style.display = tab === 'files' ? 'flex' : 'none';
+  document.getElementById('calendarView').style.display = tab === 'calendar' ? 'flex' : 'none';
+  document.getElementById('reportsView').style.display = tab === 'reports' ? 'flex' : 'none';
+  document.getElementById('meetingsView').style.display = tab === 'meetings' ? 'flex' : 'none';
+  document.getElementById('notesView').style.display = tab === 'notes' ? 'flex' : 'none';
   
-  // Render specific view
-  if (tab === 'vault') renderCards();
-  if (tab === 'projects') renderProjectsList();
-  if (tab === 'files') renderFiles();
-  if (tab === 'calendar') renderCalendar();
-  if (tab === 'reports') renderReports();
-  if (tab === 'meetings') renderMeetingsList();
-  if (tab === 'notes') renderNotesList();
-  if (tab === 'tasks') renderTasks();
-  if (tab === 'kanban') renderKanban();
-  if (tab === 'voice') initWaveform();
+  // Render specific view using window global functions
+  setTimeout(() => {
+    if (tab === 'vault' && window.renderCards) renderCards();
+    if (tab === 'projects' && window.renderProjectsList) window.renderProjectsList();
+    if (tab === 'files' && window.renderFiles) window.renderFiles();
+    if (tab === 'calendar' && window.renderCalendar) window.renderCalendar();
+    if (tab === 'reports' && window.renderReports) window.renderReports();
+    if (tab === 'meetings' && window.renderMeetingsList) window.renderMeetingsList();
+    if (tab === 'notes' && window.renderNotesList) window.renderNotesList();
+    if (tab === 'tasks' && window.renderTasks) renderTasks();
+    if (tab === 'kanban' && window.renderKanban) renderKanban();
+    if (tab === 'voice' && window.initWaveform) initWaveform();
+  }, 10);
 }
 
 function setFilter(filter) {

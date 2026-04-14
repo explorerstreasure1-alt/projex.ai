@@ -49,6 +49,21 @@
   min-height: 500px;
 }
 
+/* Flex display for visible views */
+.view-section[style*="flex"] {
+  display: flex !important;
+  flex-direction: column;
+  height: 100%;
+  min-height: 500px;
+}
+
+#meetingsList,
+#notesList,
+#projectsList {
+  flex: 1;
+  min-height: 400px;
+}
+
 /* ═══════════════════════════════════════════════════════════════
    Pro Badge & Plan Indicator
 ═══════════════════════════════════════════════════════════════ */
