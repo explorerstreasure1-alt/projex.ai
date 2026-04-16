@@ -1,32 +1,25 @@
 {
   "name": "devvault-pro",
-  "version": "2.0.0",
-  "description": "Geliştirici Bilgi ve Görev Merkezi - Voice AI destekli proje yönetimi",
-  "main": "index.html",
+  "version": "1.0.0",
+  "description": "AI-powered project & task hub with voice recognition, chat, and collaboration features",
   "scripts": {
-    "start": "npx serve .",
-    "build": "echo 'Static site - no build needed'",
-    "preview": "npx serve ."
+    "dev": "serve -s . -l 3000",
+    "build": "echo 'No build step needed for static HTML'",
+    "start": "serve -s . -l 3000"
   },
   "keywords": [
-    "developer-tools",
-    "project-management",
-    "voice-ai",
-    "groq",
     "productivity",
-    "task-management"
+    "ai",
+    "voice-recognition",
+    "chat",
+    "collaboration"
   ],
   "author": "DevVault Team",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yourusername/devvault-pro.git"
-  },
-  "bugs": {
-    "url": "https://github.com/yourusername/devvault-pro/issues"
-  },
-  "homepage": "https://devvault-pro.vercel.app",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
+  },
+  "devDependencies": {
+    "serve": "^14.2.1"
   }
 }
