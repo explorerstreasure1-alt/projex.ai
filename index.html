@@ -9100,7 +9100,7 @@ v1.0.0 - İlk sürüm
           code: initCodePanel,
           chat: initChat,
           chatAi: initChatAiView,
-          meeting: initMeetingView,
+          meeting: initMeeting,
           voice: initVoiceView
         };
         if (tabInitMap[tab]) tabInitMap[tab]();
@@ -17803,7 +17803,7 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
     // ══════════════════════════════════════════════════════════════
     async function fetchApiKeysFromBackend() {
       try {
-        const response = await fetch('/api/keys');
+        const response = await fetch('http://localhost:3001/api/keys');
         const data = await response.json();
 
         if (data.groqApiKey) localStorage.setItem('devvault_groq_api_key', data.groqApiKey);
