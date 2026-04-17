@@ -4587,385 +4587,88 @@ v1.0.0 - İlk sürüm
       overflow: hidden;
     }
 
-    /* Project-based Animation */
-    .project-animation {
+    /* Neural Network / Constellation Animation */
+    .neural-canvas {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
-      overflow: hidden;
-    }
-
-    .project-card {
-      position: absolute;
-      background: rgba(124, 106, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(124, 106, 255, 0.2);
-      border-radius: 12px;
-      padding: 16px;
-      animation: floatCard 20s ease-in-out infinite;
-    }
-
-    .project-card-1 {
-      width: 280px;
-      height: 160px;
-      top: 10%;
-      left: 5%;
-      animation-delay: 0s;
-    }
-
-    .project-card-2 {
-      width: 240px;
-      height: 140px;
-      top: 60%;
-      right: 8%;
-      animation-delay: 5s;
-      background: rgba(0, 212, 255, 0.1);
-      border-color: rgba(0, 212, 255, 0.2);
-    }
-
-    .project-card-3 {
-      width: 200px;
-      height: 120px;
-      bottom: 15%;
-      left: 15%;
-      animation-delay: 10s;
-      background: rgba(255, 107, 157, 0.1);
-      border-color: rgba(255, 107, 157, 0.2);
-    }
-
-    .task-item {
-      position: absolute;
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.2);
-      border-radius: 8px;
-      padding: 12px 16px;
-      animation: floatTask 15s ease-in-out infinite;
-    }
-
-    .task-item-1 {
-      top: 25%;
-      right: 10%;
-      animation-delay: 2s;
-    }
-
-    .task-item-2 {
-      top: 45%;
-      left: 25%;
-      animation-delay: 7s;
-      background: rgba(251, 146, 60, 0.1);
-      border-color: rgba(251, 146, 60, 0.2);
-    }
-
-    .task-item-3 {
-      bottom: 30%;
-      right: 20%;
-      animation-delay: 12s;
-      background: rgba(139, 92, 246, 0.1);
-      border-color: rgba(139, 92, 246, 0.2);
-    }
-
-    .kanban-column {
-      position: absolute;
-      background: rgba(59, 130, 246, 0.08);
-      border: 1px solid rgba(59, 130, 246, 0.15);
-      border-radius: 8px;
-      animation: floatColumn 25s ease-in-out infinite;
-    }
-
-    .kanban-column-1 {
-      width: 120px;
-      height: 200px;
-      top: 15%;
-      right: 20%;
-      animation-delay: 3s;
-    }
-
-    .kanban-column-2 {
-      width: 100px;
-      height: 180px;
-      bottom: 20%;
-      left: 8%;
-      animation-delay: 8s;
-      background: rgba(236, 72, 153, 0.08);
-      border-color: rgba(236, 72, 153, 0.15);
-    }
-
-    @keyframes floatCard {
-
-      0%,
-      100% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0.4;
-      }
-
-      25% {
-        transform: translateY(-20px) rotate(1deg);
-        opacity: 0.6;
-      }
-
-      50% {
-        transform: translateY(-10px) rotate(-1deg);
-        opacity: 0.5;
-      }
-
-      75% {
-        transform: translateY(-30px) rotate(0.5deg);
-        opacity: 0.7;
-      }
-    }
-
-    @keyframes floatTask {
-
-      0%,
-      100% {
-        transform: translateX(0) translateY(0);
-        opacity: 0.3;
-      }
-
-      33% {
-        transform: translateX(15px) translateY(-15px);
-        opacity: 0.5;
-      }
-
-      66% {
-        transform: translateX(-10px) translateY(10px);
-        opacity: 0.4;
-      }
-    }
-
-    @keyframes floatColumn {
-
-      0%,
-      100% {
-        transform: translateY(0) scale(1);
-        opacity: 0.35;
-      }
-
-      50% {
-        transform: translateY(-25px) scale(1.05);
-        opacity: 0.55;
-      }
-    }
-
-    /* Neurological Connections */
-    .neural-network {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
     }
 
     .neuron {
       position: absolute;
-      width: 6px;
-      height: 6px;
+      width: 3px;
+      height: 3px;
       background: rgba(124, 106, 255, 0.6);
       border-radius: 50%;
-      animation: pulse 3s ease-in-out infinite;
+      box-shadow: 0 0 8px rgba(124, 106, 255, 0.4);
+      animation: neuronFloat 30s ease-in-out infinite;
     }
 
-    .connection {
+    .neuron.active {
+      animation: neuronPulse 3s ease-in-out infinite;
+    }
+
+    .neuron-connection {
       position: absolute;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(124, 106, 255, 0.3), transparent);
+      background: linear-gradient(90deg, transparent, rgba(124, 106, 255, 0.2), transparent);
       transform-origin: left center;
-      animation: connect 4s ease-in-out infinite;
+      pointer-events: none;
     }
 
-    @keyframes pulse {
+    .neuron-connection.active {
+      background: linear-gradient(90deg, transparent, rgba(124, 106, 255, 0.5), transparent);
+      animation: connectionPulse 4s ease-in-out infinite;
+    }
+
+    @keyframes neuronFloat {
 
       0%,
       100% {
-        transform: scale(1);
-        opacity: 0.6;
-        box-shadow: 0 0 10px rgba(124, 106, 255, 0.3);
-      }
-
-      50% {
-        transform: scale(1.5);
-        opacity: 1;
-        box-shadow: 0 0 20px rgba(124, 106, 255, 0.6);
-      }
-    }
-
-    @keyframes connect {
-
-      0%,
-      100% {
-        opacity: 0.1;
-        width: 0;
-      }
-
-      50% {
-        opacity: 0.4;
-        width: 100%;
-      }
-    }
-
-    /* Project-related animations */
-    .floating-icon {
-      position: absolute;
-      font-size: 24px;
-      opacity: 0.3;
-      animation: floatIcon 10s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    .task-card {
-      position: absolute;
-      width: 60px;
-      height: 40px;
-      background: rgba(124, 106, 255, 0.1);
-      border: 1px solid rgba(124, 106, 255, 0.2);
-      border-radius: 8px;
-      animation: floatCard 12s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    .chat-bubble {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      background: rgba(0, 212, 255, 0.15);
-      border-radius: 15px 15px 15px 0;
-      animation: floatBubble 8s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    .timer-ring {
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      border: 2px solid rgba(255, 107, 157, 0.2);
-      border-radius: 50%;
-      animation: rotateTimer 20s linear infinite;
-      pointer-events: none;
-    }
-
-    .user-avatar {
-      position: absolute;
-      width: 35px;
-      height: 35px;
-      background: rgba(124, 106, 255, 0.2);
-      border-radius: 50%;
-      animation: floatUser 9s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    .ai-sparkle {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #7c6aff;
-      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-      animation: sparkle 2s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    @keyframes floatIcon {
-
-      0%,
-      100% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0.3;
+        transform: translate(0, 0);
       }
 
       25% {
-        transform: translateY(-20px) rotate(5deg);
-        opacity: 0.5;
+        transform: translate(30px, -20px);
       }
 
       50% {
-        transform: translateY(10px) rotate(-5deg);
-        opacity: 0.2;
+        transform: translate(-20px, 15px);
       }
 
       75% {
-        transform: translateY(-15px) rotate(3deg);
+        transform: translate(15px, -10px);
+      }
+    }
+
+    @keyframes neuronPulse {
+
+      0%,
+      100% {
         opacity: 0.4;
+        transform: scale(1);
+        box-shadow: 0 0 8px rgba(124, 106, 255, 0.4);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.5);
+        box-shadow: 0 0 20px rgba(124, 106, 255, 0.8), 0 0 30px rgba(124, 106, 255, 0.4);
       }
     }
 
-    @keyframes floatCard {
+    @keyframes connectionPulse {
 
       0%,
       100% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0.15;
-      }
-
-      33% {
-        transform: translateY(-30px) rotate(3deg);
-        opacity: 0.25;
-      }
-
-      66% {
-        transform: translateY(20px) rotate(-3deg);
-        opacity: 0.1;
-      }
-    }
-
-    @keyframes floatBubble {
-
-      0%,
-      100% {
-        transform: translateY(0) scale(1);
         opacity: 0.2;
       }
 
       50% {
-        transform: translateY(-25px) scale(1.1);
-        opacity: 0.35;
-      }
-    }
-
-    @keyframes rotateTimer {
-      0% {
-        transform: rotate(0deg);
-        opacity: 0.2;
-      }
-
-      50% {
-        opacity: 0.3;
-      }
-
-      100% {
-        transform: rotate(360deg);
-        opacity: 0.2;
-      }
-    }
-
-    @keyframes floatUser {
-
-      0%,
-      100% {
-        transform: translateY(0);
-        opacity: 0.25;
-      }
-
-      50% {
-        transform: translateY(-18px);
-        opacity: 0.4;
-      }
-    }
-
-    @keyframes sparkle {
-
-      0%,
-      100% {
-        transform: scale(0) rotate(0deg);
-        opacity: 0;
-      }
-
-      50% {
-        transform: scale(1) rotate(180deg);
-        opacity: 0.8;
+        opacity: 0.6;
       }
     }
 
@@ -8001,36 +7704,8 @@ v1.0.0 - İlk sürüm
   <!-- AUTH MODAL -->
   <div id="authModal">
     <div class="auth-bg">
-      <!-- Project-based Animation -->
-      <div class="project-animation">
-        <div class="project-card project-card-1">
-          <div style="font-size: 12px; color: rgba(124, 106, 255, 0.8); font-weight: 600;">Project Alpha</div>
-          <div style="font-size: 10px; color: rgba(255, 255, 255, 0.5); margin-top: 4px;">3 tasks remaining</div>
-        </div>
-        <div class="project-card project-card-2">
-          <div style="font-size: 12px; color: rgba(0, 212, 255, 0.8); font-weight: 600;">Project Beta</div>
-          <div style="font-size: 10px; color: rgba(255, 255, 255, 0.5); margin-top: 4px;">5 tasks remaining</div>
-        </div>
-        <div class="project-card project-card-3">
-          <div style="font-size: 12px; color: rgba(255, 107, 157, 0.8); font-weight: 600;">Project Gamma</div>
-          <div style="font-size: 10px; color: rgba(255, 255, 255, 0.5); margin-top: 4px;">2 tasks remaining</div>
-        </div>
-        <div class="task-item task-item-1">
-          <div style="font-size: 10px; color: rgba(16, 185, 129, 0.8);">✓ Review code</div>
-        </div>
-        <div class="task-item task-item-2">
-          <div style="font-size: 10px; color: rgba(251, 146, 60, 0.8);">○ Fix bug</div>
-        </div>
-        <div class="task-item task-item-3">
-          <div style="font-size: 10px; color: rgba(139, 92, 246, 0.8);">○ Deploy</div>
-        </div>
-        <div class="kanban-column kanban-column-1">
-          <div style="font-size: 10px; color: rgba(59, 130, 246, 0.8); text-align: center; margin-top: 8px;">To Do</div>
-        </div>
-        <div class="kanban-column kanban-column-2">
-          <div style="font-size: 10px; color: rgba(236, 72, 153, 0.8); text-align: center; margin-top: 8px;">Done</div>
-        </div>
-      </div>
+      <!-- Neural Network / Constellation Animation -->
+      <canvas class="neural-canvas" id="neuralCanvas"></canvas>
 
       <div class="hero-section">
         <div class="hero-logo">
@@ -8151,16 +7826,8 @@ v1.0.0 - İlk sürüm
         style="position: absolute; top: 16px; right: 16px; z-index: 10002;">✕</button>
 
       <div class="auth-bg">
-        <!-- Project-based Animation -->
-        <div class="project-animation">
-          <div class="project-card project-card-1">
-            <div style="font-size: 12px; color: rgba(124, 106, 255, 0.8); font-weight: 600;">Project Alpha</div>
-            <div style="font-size: 10px; color: rgba(255, 255, 255, 0.5); margin-top: 4px;">3 tasks remaining</div>
-          </div>
-          <div class="task-item task-item-1">
-            <div style="font-size: 10px; color: rgba(16, 185, 129, 0.8);">✓ Review code</div>
-          </div>
-        </div>
+        <!-- Neural Network / Constellation Animation -->
+        <canvas class="neural-canvas" id="neuralCanvasReset"></canvas>
       </div>
 
       <div class="auth-card">
@@ -11331,6 +10998,7 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
     function openPasswordResetModal() {
       closeModal('authModal');
       openModal('passwordResetModal');
+      initNeuralAnimation('neuralCanvasReset');
     }
 
     async function handlePasswordReset() {
@@ -15176,130 +14844,120 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
         modal.classList.add('open');
         document.getElementById('authError').style.display = 'none';
         document.getElementById('authSuccess').style.display = 'none';
-        generateNeuralNetwork();
+        initNeuralAnimation('neuralCanvas');
       } catch (e) {
         console.error('Error opening auth modal:', e);
       }
     }
 
-    function generateNeuralNetwork() {
-      try {
-        const neuralNetwork = document.getElementById('neuralNetwork');
-        if (!neuralNetwork) return;
+    function initNeuralAnimation(canvasId) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
 
-        neuralNetwork.innerHTML = '';
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let animationId;
 
-        const neuronCount = 30;
-        const neurons = [];
+      function resizeCanvas() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
 
-        // Generate neurons
-        for (let i = 0; i < neuronCount; i++) {
-          const neuron = document.createElement('div');
-          neuron.className = 'neuron';
-          neuron.style.left = Math.random() * 100 + '%';
-          neuron.style.top = Math.random() * 100 + '%';
-          neuron.style.animationDelay = Math.random() * 3 + 's';
-          neuralNetwork.appendChild(neuron);
-          neurons.push({
-            element: neuron,
-            x: parseFloat(neuron.style.left),
-            y: parseFloat(neuron.style.top)
-          });
+      function createParticle() {
+        return {
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3,
+          radius: Math.random() * 2 + 1,
+          pulsePhase: Math.random() * Math.PI * 2,
+          pulseSpeed: Math.random() * 0.02 + 0.01
+        };
+      }
+
+      function initParticles() {
+        particles = [];
+        const particleCount = 50;
+        for (let i = 0; i < particleCount; i++) {
+          particles.push(createParticle());
         }
+      }
 
-        // Generate connections between nearby neurons
-        for (let i = 0; i < neurons.length; i++) {
-          for (let j = i + 1; j < neurons.length; j++) {
-            const dx = neurons[i].x - neurons[j].x;
-            const dy = neurons[i].y - neurons[j].y;
+      function updateParticles() {
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.pulsePhase += p.pulseSpeed;
+
+          if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+          if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+        });
+      }
+
+      function drawConnections() {
+        const maxDistance = 150;
+
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < 30) {
-              const connection = document.createElement('div');
-              connection.className = 'connection';
-              connection.style.left = neurons[i].x + '%';
-              connection.style.top = neurons[i].y + '%';
-              connection.style.width = distance + '%';
-              connection.style.transform = `rotate(${Math.atan2(dy, dx) * 180 / Math.PI}deg)`;
-              connection.style.animationDelay = Math.random() * 4 + 's';
-              neuralNetwork.appendChild(connection);
+            if (distance < maxDistance) {
+              const opacity = (1 - distance / maxDistance) * 0.3;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = `rgba(124, 106, 255, ${opacity})`;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
             }
           }
         }
-
-        // Generate project-related elements
-        generateProjectElements(neuralNetwork);
-      } catch (e) {
-        console.error('Error generating neural network:', e);
       }
-    }
 
-    function generateProjectElements(container) {
-      try {
-        // Task cards
-        for (let i = 0; i < 5; i++) {
-          const card = document.createElement('div');
-          card.className = 'task-card';
-          card.style.left = Math.random() * 80 + 10 + '%';
-          card.style.top = Math.random() * 80 + 10 + '%';
-          card.style.animationDelay = Math.random() * 12 + 's';
-          container.appendChild(card);
-        }
+      function drawParticles() {
+        particles.forEach(p => {
+          const pulse = Math.sin(p.pulsePhase) * 0.5 + 0.5;
+          const radius = p.radius * (1 + pulse * 0.3);
+          const opacity = 0.4 + pulse * 0.4;
 
-        // Chat bubbles
-        for (let i = 0; i < 4; i++) {
-          const bubble = document.createElement('div');
-          bubble.className = 'chat-bubble';
-          bubble.style.left = Math.random() * 85 + 5 + '%';
-          bubble.style.top = Math.random() * 85 + 5 + '%';
-          bubble.style.animationDelay = Math.random() * 8 + 's';
-          container.appendChild(bubble);
-        }
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(124, 106, 255, ${opacity})`;
+          ctx.fill();
 
-        // Timer rings
-        for (let i = 0; i < 3; i++) {
-          const timer = document.createElement('div');
-          timer.className = 'timer-ring';
-          timer.style.left = Math.random() * 85 + 5 + '%';
-          timer.style.top = Math.random() * 85 + 5 + '%';
-          timer.style.animationDelay = Math.random() * 20 + 's';
-          container.appendChild(timer);
-        }
-
-        // User avatars
-        for (let i = 0; i < 4; i++) {
-          const avatar = document.createElement('div');
-          avatar.className = 'user-avatar';
-          avatar.style.left = Math.random() * 85 + 5 + '%';
-          avatar.style.top = Math.random() * 85 + 5 + '%';
-          avatar.style.animationDelay = Math.random() * 9 + 's';
-          container.appendChild(avatar);
-        }
-
-        // AI sparkles
-        for (let i = 0; i < 8; i++) {
-          const sparkle = document.createElement('div');
-          sparkle.className = 'ai-sparkle';
-          sparkle.style.left = Math.random() * 90 + 5 + '%';
-          sparkle.style.top = Math.random() * 90 + 5 + '%';
-          sparkle.style.animationDelay = Math.random() * 2 + 's';
-          container.appendChild(sparkle);
-        }
-
-        // Floating icons (emoji-based)
-        const icons = ['📋', '💬', '🎙️', '🍅', '🤖', '⚡', '🎯', '📊'];
-        for (let i = 0; i < 6; i++) {
-          const icon = document.createElement('div');
-          icon.className = 'floating-icon';
-          icon.textContent = icons[Math.floor(Math.random() * icons.length)];
-          icon.style.left = Math.random() * 85 + 5 + '%';
-          icon.style.top = Math.random() * 85 + 5 + '%';
-          icon.style.animationDelay = Math.random() * 10 + 's';
-          container.appendChild(icon);
-        }
-      } catch (e) {
-        console.error('Error generating project elements:', e);
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = 'rgba(124, 106, 255, 0.5)';
+        });
+        ctx.shadowBlur = 0;
       }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        updateParticles();
+        drawConnections();
+        drawParticles();
+        animationId = requestAnimationFrame(animate);
+      }
+
+      function start() {
+        resizeCanvas();
+        initParticles();
+        animate();
+      }
+
+      function stop() {
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+        }
+      }
+
+      start();
+
+      window.addEventListener('resize', resizeCanvas);
+
+      return { stop };
     }
 
     // ══════════════════════════════════════════════════════════════
