@@ -7,9 +7,17 @@
     {
       "src": "index.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "public/webrtc.js",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
+    {
+      "src": "/webrtc.js",
+      "dest": "/public/webrtc.js"
+    },
     {
       "src": "/(.*)",
       "dest": "/index.html"
