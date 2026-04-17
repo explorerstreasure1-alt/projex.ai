@@ -6,6 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -17,6 +18,18 @@ const io = new Server(server, {
 
 // Store rooms and participants
 const rooms = new Map();
+
+// API Keys endpoint - returns keys from Vercel environment variables
+app.get('/api/keys', (req, res) => {
+  res.json({
+    groqApiKey: process.env.GROQ_API_KEY || '',
+    geminiApiKey: process.env.GEMINI_API_KEY || '',
+    mistralApiKey: process.env.MISTRAL_API_KEY || '',
+    sabmanovaId: process.env.SABMANOVA_ID || '',
+    hfToken: process.env.HF_TOKEN || '',
+    cloudflareApiKey: process.env.CLOUDFLARE_API_KEY || ''
+  });
+});
 
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);

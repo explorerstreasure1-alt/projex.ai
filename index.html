@@ -17799,6 +17799,27 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
     }
 
     // ══════════════════════════════════════════════════════════════
+    // API KEYS FROM VERCEL
+    // ══════════════════════════════════════════════════════════════
+    async function fetchApiKeysFromBackend() {
+      try {
+        const response = await fetch('/api/keys');
+        const data = await response.json();
+
+        if (data.groqApiKey) localStorage.setItem('devvault_groq_api_key', data.groqApiKey);
+        if (data.geminiApiKey) localStorage.setItem('devvault_gemini_api_key', data.geminiApiKey);
+        if (data.mistralApiKey) localStorage.setItem('devvault_mistral_api_key', data.mistralApiKey);
+        if (data.sabmanovaId) localStorage.setItem('devvault_sabmanova_id', data.sabmanovaId);
+        if (data.hfToken) localStorage.setItem('devvault_hf_token', data.hfToken);
+        if (data.cloudflareApiKey) localStorage.setItem('devvault_cloudflare_api_key', data.cloudflareApiKey);
+
+        console.log('[INFO] API keys fetched from backend');
+      } catch (e) {
+        console.error('[ERROR] Failed to fetch API keys from backend:', e);
+      }
+    }
+
+    // ══════════════════════════════════════════════════════════════
     // INIT
     // ══════════════════════════════════════════════════════════════
     document.addEventListener('DOMContentLoaded', () => {
@@ -17806,6 +17827,9 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
       initKeyboardShortcuts();
       initLanguage();
       updateTranslations();
+
+      // Fetch API keys from Vercel environment variables
+      fetchApiKeysFromBackend();
 
       // Check auth state on page load
       checkAuthState();
