@@ -17803,7 +17803,10 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
     // ══════════════════════════════════════════════════════════════
     async function fetchApiKeysFromBackend() {
       try {
-        const response = await fetch('http://localhost:3001/api/keys');
+        // Try Vercel API first, then fallback to localhost
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const baseUrl = isLocalhost ? 'http://localhost:3001' : '';
+        const response = await fetch(`${baseUrl}/api/keys`);
         const data = await response.json();
 
         if (data.groqApiKey) localStorage.setItem('devvault_groq_api_key', data.groqApiKey);
