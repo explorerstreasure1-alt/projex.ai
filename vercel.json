@@ -9,15 +9,11 @@
       "use": "@vercel/static"
     },
     {
-      "src": "public/webrtc.js",
+      "src": "webrtc.js",
       "use": "@vercel/static"
     }
   ],
   "routes": [
-    {
-      "src": "/webrtc.js",
-      "dest": "/public/webrtc.js"
-    },
     {
       "src": "/(.*)",
       "dest": "/index.html"

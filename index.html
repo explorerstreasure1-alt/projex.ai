@@ -6158,7 +6158,7 @@ v1.0.0 - İlk sürüm
     }
   </style>
   <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
-  <script src="public/webrtc.js"></script>
+  <script src="webrtc.js"></script>
 </head>
 
 <body>
@@ -8795,8 +8795,10 @@ v1.0.0 - İlk sürüm
       try {
         const t2 = tasks.filter(t => t.date === todayStr()), d = t2.filter(t => t.status === 'done' || t.completed).length;
         const pct = t2.length ? Math.round(d / t2.length * 100) : 0;
-        document.getElementById('progressPct').textContent = pct + '%';
-        document.getElementById('progressFill').style.width = pct + '%';
+        const progressPct = document.getElementById('progressPct');
+        if (progressPct) progressPct.textContent = pct + '%';
+        const progressFill = document.getElementById('progressFill');
+        if (progressFill) progressFill.style.width = pct + '%';
       } catch (e) {
         console.error('Error updating sidebar progress:', e);
       }
@@ -8805,15 +8807,24 @@ v1.0.0 - İlk sürüm
     function updateBadges() {
       try {
         const now = Date.now(), week = 7 * 24 * 60 * 60 * 1000;
-        document.getElementById('badge-all').textContent = items.length;
-        document.getElementById('badge-project').textContent = items.filter(i => i.type === 'project').length;
-        document.getElementById('badge-instruction').textContent = items.filter(i => i.type === 'instruction').length;
-        document.getElementById('badge-code').textContent = items.filter(i => i.type === 'code').length;
-        document.getElementById('badge-favorites').textContent = items.filter(i => i.favorite).length;
-        document.getElementById('badge-recent').textContent = items.filter(i => (now - i.createdAt) < week).length;
-        document.getElementById('badge-tasks').textContent = tasks.filter(t => t.status !== 'done' && !t.completed).length;
-        document.getElementById('badge-kanban-progress').textContent = tasks.filter(t => t.status === 'inprogress').length;
-        document.getElementById('badge-urgent').textContent = tasks.filter(t => ['critical', 'high'].includes(t.priority) && t.status !== 'done' && !t.completed).length;
+        const badgeAll = document.getElementById('badge-all');
+        if (badgeAll) badgeAll.textContent = items.length;
+        const badgeProject = document.getElementById('badge-project');
+        if (badgeProject) badgeProject.textContent = items.filter(i => i.type === 'project').length;
+        const badgeInstruction = document.getElementById('badge-instruction');
+        if (badgeInstruction) badgeInstruction.textContent = items.filter(i => i.type === 'instruction').length;
+        const badgeCode = document.getElementById('badge-code');
+        if (badgeCode) badgeCode.textContent = items.filter(i => i.type === 'code').length;
+        const badgeFavorites = document.getElementById('badge-favorites');
+        if (badgeFavorites) badgeFavorites.textContent = items.filter(i => i.favorite).length;
+        const badgeRecent = document.getElementById('badge-recent');
+        if (badgeRecent) badgeRecent.textContent = items.filter(i => (now - i.createdAt) < week).length;
+        const badgeTasks = document.getElementById('badge-tasks');
+        if (badgeTasks) badgeTasks.textContent = tasks.filter(t => t.status !== 'done' && !t.completed).length;
+        const badgeKanbanProgress = document.getElementById('badge-kanban-progress');
+        if (badgeKanbanProgress) badgeKanbanProgress.textContent = tasks.filter(t => t.status === 'inprogress').length;
+        const badgeUrgent = document.getElementById('badge-urgent');
+        if (badgeUrgent) badgeUrgent.textContent = tasks.filter(t => ['critical', 'high'].includes(t.priority) && t.status !== 'done' && !t.completed).length;
       } catch (e) {
         console.error('Error updating badges:', e);
       }
@@ -8821,11 +8832,16 @@ v1.0.0 - İlk sürüm
 
     function updateStats() {
       try {
-        document.getElementById('stat-projects').textContent = items.filter(i => i.type === 'project').length;
-        document.getElementById('stat-instructions').textContent = items.filter(i => i.type === 'instruction').length;
-        document.getElementById('stat-codes').textContent = items.filter(i => i.type === 'code').length;
-        document.getElementById('stat-copies').textContent = totalCopies;
-        document.getElementById('stat-done').textContent = tasks.filter(t => t.status === 'done' || t.completed).length;
+        const statProjects = document.getElementById('stat-projects');
+        if (statProjects) statProjects.textContent = items.filter(i => i.type === 'project').length;
+        const statInstructions = document.getElementById('stat-instructions');
+        if (statInstructions) statInstructions.textContent = items.filter(i => i.type === 'instruction').length;
+        const statCodes = document.getElementById('stat-codes');
+        if (statCodes) statCodes.textContent = items.filter(i => i.type === 'code').length;
+        const statCopies = document.getElementById('stat-copies');
+        if (statCopies) statCopies.textContent = totalCopies;
+        const statDone = document.getElementById('stat-done');
+        if (statDone) statDone.textContent = tasks.filter(t => t.status === 'done' || t.completed).length;
       } catch (e) {
         console.error('Error updating stats:', e);
       }
@@ -8854,7 +8870,8 @@ v1.0.0 - İlk sürüm
     // ══════════════════════════════════════════════════════════════
     function getFilteredItems() {
       try {
-        const q = document.getElementById('searchInput').value.trim().toLowerCase();
+        const searchInput = document.getElementById('searchInput');
+        const q = searchInput ? searchInput.value.trim().toLowerCase() : '';
         const now = Date.now(), week = 7 * 24 * 60 * 60 * 1000;
         let f = [...items];
         if (activeFilter === 'favorites') f = f.filter(i => i.favorite);
@@ -8862,7 +8879,8 @@ v1.0.0 - İlk sürüm
         else if (activeFilter !== 'all') f = f.filter(i => i.type === activeFilter);
         if (activeTagFilter) f = f.filter(i => (i.tags || []).includes(activeTagFilter));
         if (q) f = f.filter(i => i.title.toLowerCase().includes(q) || i.content.toLowerCase().includes(q) || (i.tags || []).some(t => t.toLowerCase().includes(q)));
-        const sort = document.getElementById('sortSelect').value;
+        const sortSelect = document.getElementById('sortSelect');
+        const sort = sortSelect ? sortSelect.value : 'newest';
         if (sort === 'newest') f.sort((a, b) => b.createdAt - a.createdAt);
         else if (sort === 'oldest') f.sort((a, b) => a.createdAt - b.createdAt);
         else if (sort === 'name') f.sort((a, b) => a.title.localeCompare(b.title, 'tr'));
@@ -8877,6 +8895,7 @@ v1.0.0 - İlk sürüm
     function updateResultInfo(filteredLength, query) {
       try {
         const ri = document.getElementById('resultInfo');
+        if (!ri) return;
         if (query || activeTagFilter) {
           ri.style.display = '';
           ri.textContent = `${filteredLength} sonuç`;
@@ -8886,6 +8905,86 @@ v1.0.0 - İlk sürüm
       } catch (e) {
         console.error('Error updating result info:', e);
       }
+    }
+
+    function renderCards() {
+      try {
+        const searchInput = document.getElementById('searchInput');
+        const q = searchInput ? searchInput.value.trim().toLowerCase() : '';
+        const filtered = getFilteredItems();
+        const grid = document.getElementById('cardsGrid');
+        if (!grid) return;
+        const ri = document.getElementById('resultInfo');
+        if (ri) {
+          if (q || activeTagFilter) {
+            ri.style.display = '';
+            ri.textContent = `${filtered.length} sonuç`;
+          } else {
+            ri.style.display = 'none';
+          }
+        }
+        grid.className = 'cards-grid' + (currentView === 'list' ? ' list-view' : '');
+        if (!filtered.length) {
+          grid.innerHTML = `<div class="empty-state"><div class="empty-icon">${q ? '🔍' : '📭'}</div><div class="empty-title">${q ? 'Sonuç bulunamadı' : 'Henüz kayıt yok'}</div><div class="empty-sub">${q ? `"${escapeHtml(q)}" için sonuç yok.` : 'Yeni kayıt ekle.'}</div></div>`;
+          return;
+        }
+        grid.innerHTML = filtered.map(item => renderCard(item, q)).join('');
+      } catch (e) {
+        console.error('Error rendering cards:', e);
+      }
+    }
+
+    function renderCard(item, q = '') {
+      try {
+        const te = item.type === 'project' ? '📁' : item.type === 'instruction' ? '🤖' : '💻';
+        const date = formatDate(item.updatedAt || item.createdAt);
+        const preview = q ? highlightText(escapeHtml(item.content.slice(0, 200)), q) : escapeHtml(item.content.slice(0, 200));
+        const isCode = item.type === 'code';
+        let taskBar = '';
+        if (item.type === 'project') {
+          const pt = tasks.filter(t => t.projectId === item.id);
+          if (pt.length) {
+            const done = pt.filter(t => t.status === 'done' || t.completed).length;
+            const pct = Math.round(done / pt.length * 100);
+            taskBar = `<div class="card-task-bar"><div class="card-task-bar-inner"><div class="card-task-bar-fill" style="width:${pct}%"></div></div><span class="card-task-bar-text">${done}/${pt.length} görev</span></div>`;
+          }
+        }
+        const tags = (item.tags || []).slice(0, 3).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
+        const langBadge = isCode && item.language ? `<span class="tag" style="background:var(--amber-dim);color:var(--amber)">${escapeHtml(item.language)}</span>` : '';
+        const aiBadge = item.aiGenerated ? `<span class="ai-badge">🎙️ AI</span>` : '';
+        return `<div class="card type-${item.type} ${item.favorite ? 'favorited' : ''}" onclick="openDetail('${item.id}')">
+    <div class="card-header">
+      <div class="card-type-badge">${te}</div>
+      <div class="card-title-wrap">
+        <div class="card-title" title="${escapeHtml(item.title)}">${q ? highlightText(escapeHtml(item.title), q) : escapeHtml(item.title)}</div>
+        <div class="card-meta">${date}${item.language ? ' · ' + escapeHtml(item.language) : ''}</div>
+      </div>
+      <div class="card-actions" onclick="event.stopPropagation()">
+        <button class="card-action-btn ${item.favorite ? 'fav-active' : ''}" onclick="toggleFavorite('${item.id}')" title="Favori">⭐</button>
+        <button class="card-action-btn" onclick="copyItem('${item.id}',this)" title="Kopyala">📋</button>
+        ${item.type === 'project' ? `<button class="card-action-btn" onclick="openAddTaskForProject('${item.id}');event.stopPropagation()" title="Görev Ekle" style="color:var(--green)">＋</button>` : ''}
+        <button class="card-action-btn" onclick="editItem('${item.id}');event.stopPropagation()" title="Düzenle">✏️</button>
+        <button class="card-action-btn" onclick="confirmDelete('${item.id}');event.stopPropagation()" title="Sil" style="color:var(--red)">🗑️</button>
+      </div>
+    </div>
+    ${taskBar}
+    <div class="card-preview ${isCode ? 'code-preview' : ''}">${preview}${item.content.length > 200 ? '…' : ''}</div>
+    <div class="card-footer">${langBadge}${tags}${aiBadge}${item.usageCount ? `<span class="usage-counter">📋 ${item.usageCount}</span>` : ''}</div>
+  </div>`;
+      } catch (e) {
+        console.error('Error rendering card:', e);
+        return '';
+      }
+    }
+
+    function highlightText(text, q) {
+      if (!q) return text;
+      const regex = new RegExp(`(${escapeRegExp(q)})`, 'gi');
+      return text.replace(regex, '<mark>$1</mark>');
+    }
+
+    function escapeRegExp(string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
 
     function renderEmptyState(query, grid) {
