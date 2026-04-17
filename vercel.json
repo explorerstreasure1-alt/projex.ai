@@ -1,5 +1,8 @@
 {
   "version": 2,
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "framework": null,
   "builds": [
     {
       "src": "index.html",
