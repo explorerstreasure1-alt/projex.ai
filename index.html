@@ -15368,9 +15368,16 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
           return;
         }
 
-        // Save to localStorage
+        // Save with timestamp to localStorage
         const meetingNotesKey = getUserKey(`devvault_meeting_notes_${currentMeetingRoom?.id || 'default'}`);
-        localStorage.setItem(meetingNotesKey, notes);
+        const timestamp = new Date().toISOString();
+        const noteData = {
+          content: notes,
+          timestamp: timestamp,
+          roomName: currentMeetingRoom?.name || 'Toplantı',
+          roomId: currentMeetingRoom?.id || 'default'
+        };
+        localStorage.setItem(meetingNotesKey, JSON.stringify(noteData));
         toast('Toplantı notları kaydedildi 💾', 'success');
       } catch (e) {
         console.error('Error saving meeting notes:', e);
