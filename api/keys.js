@@ -1,4 +1,9 @@
 export default function handler(req, res) {
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   res.json({
     groqApiKey: process.env.GROQ_API_KEY || '',
     geminiApiKey: process.env.GEMINI_API_KEY || '',

@@ -8873,7 +8873,7 @@ v1.0.0 - İlk sürüm
     let sabmanovaId = localStorage.getItem(getUserKey('devvault_sabmanova_id')) || '';
     let mistralApiKey = localStorage.getItem(getUserKey('devvault_mistral_key')) || '';
     let hfToken = localStorage.getItem(getUserKey('devvault_hf_token')) || '';
-    let cloudflareToken = localStorage.getItem(getUserKey('devvault_cloudflare_token')) || '';
+    let cloudflareToken = localStorage.getItem(getUserKey('devvault_cloudflare_key')) || '';
     let currentAiResult = '';
     let transcriptEditMode = false;
     const MAX_REC_SECS = 5 * 60 * 60;
@@ -17809,12 +17809,12 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
         const response = await fetch(`${baseUrl}/api/keys`);
         const data = await response.json();
 
-        if (data.groqApiKey) localStorage.setItem('devvault_groq_api_key', data.groqApiKey);
-        if (data.geminiApiKey) localStorage.setItem('devvault_gemini_api_key', data.geminiApiKey);
-        if (data.mistralApiKey) localStorage.setItem('devvault_mistral_api_key', data.mistralApiKey);
-        if (data.sabmanovaId) localStorage.setItem('devvault_sabmanova_id', data.sabmanovaId);
-        if (data.hfToken) localStorage.setItem('devvault_hf_token', data.hfToken);
-        if (data.cloudflareApiKey) localStorage.setItem('devvault_cloudflare_api_key', data.cloudflareApiKey);
+        if (data.groqApiKey) localStorage.setItem(getUserKey('devvault_groq_key'), data.groqApiKey);
+        if (data.geminiApiKey) localStorage.setItem(getUserKey('devvault_gemini_key'), data.geminiApiKey);
+        if (data.mistralApiKey) localStorage.setItem(getUserKey('devvault_mistral_key'), data.mistralApiKey);
+        if (data.sabmanovaId) localStorage.setItem(getUserKey('devvault_sabmanova_id'), data.sabmanovaId);
+        if (data.hfToken) localStorage.setItem(getUserKey('devvault_hf_token'), data.hfToken);
+        if (data.cloudflareApiKey) localStorage.setItem(getUserKey('devvault_cloudflare_key'), data.cloudflareApiKey);
 
         console.log('[INFO] API keys fetched from backend');
       } catch (e) {
