@@ -7548,6 +7548,8 @@ v1.0.0 - İlk sürüm
                       style="width:50px;height:50px;border-radius:50%;background:rgba(0,212,255,0.2);border:2px solid rgba(0,212,255,0.4);color:#fff;font-size:1.2rem;cursor:pointer;transition:all 0.3s">📷</button>
                     <button id="toggleScreenShareBtn" onclick="toggleScreenShare()" class="btn-icon"
                       style="width:50px;height:50px;border-radius:50%;background:rgba(16,185,129,0.2);border:2px solid rgba(16,185,129,0.4);color:#fff;font-size:1.2rem;cursor:pointer;transition:all 0.3s">🖥️</button>
+                    <button onclick="captureMeetingScreenshot()" class="btn-icon"
+                      style="width:50px;height:50px;border-radius:50%;background:rgba(139,92,246,0.2);border:2px solid rgba(139,92,246,0.4);color:#fff;font-size:1.2rem;cursor:pointer;transition:all 0.3s">📸</button>
                     <button onclick="leaveMeetingRoom()" class="btn-icon"
                       style="width:50px;height:50px;border-radius:50%;background:rgba(239,68,68,0.2);border:2px solid rgba(239,68,68,0.4);color:#fff;font-size:1.2rem;cursor:pointer;transition:all 0.3s">📞</button>
                   </div>
@@ -10937,7 +10939,48 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
       }
     }
 
-    function handleLogin() {
+    async function hashPassword(password) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(password + 'projex_salt_2024');
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      return hashHex;
+    }
+
+    async function verifyPassword(password, hashedPassword) {
+      const inputHash = await hashPassword(password);
+      return inputHash === hashedPassword;
+    }
+
+    let loginAttempts = new Map();
+    const MAX_LOGIN_ATTEMPTS = 5;
+    const LOCKOUT_DURATION = 15 * 60 * 1000; // 15 minutes
+
+    function checkRateLimit(email) {
+      const attempts = loginAttempts.get(email) || { count: 0, lastAttempt: 0 };
+      const now = Date.now();
+
+      if (attempts.count >= MAX_LOGIN_ATTEMPTS && (now - attempts.lastAttempt) < LOCKOUT_DURATION) {
+        const remainingTime = Math.ceil((LOCKOUT_DURATION - (now - attempts.lastAttempt)) / 60000);
+        return { allowed: false, remainingTime };
+      }
+
+      if ((now - attempts.lastAttempt) > LOCKOUT_DURATION) {
+        attempts.count = 0;
+      }
+
+      return { allowed: true };
+    }
+
+    function recordLoginAttempt(email) {
+      const attempts = loginAttempts.get(email) || { count: 0, lastAttempt: 0 };
+      attempts.count++;
+      attempts.lastAttempt = Date.now();
+      loginAttempts.set(email, attempts);
+    }
+
+    async function handleLogin() {
       try {
         const email = document.getElementById('authEmail').value.trim();
         const password = document.getElementById('authPassword').value;
@@ -10950,6 +10993,13 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
           return;
         }
 
+        const rateLimitCheck = checkRateLimit(email);
+        if (!rateLimitCheck.allowed) {
+          errorEl.textContent = `Çok fazla başarısız deneme. ${rateLimitCheck.remainingTime} dakika bekleyin.`;
+          errorEl.style.display = 'block';
+          return;
+        }
+
         const emailValidation = validateEmail(email);
         if (!emailValidation.valid) {
           errorEl.textContent = emailValidation.error;
@@ -10957,12 +11007,23 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
           return;
         }
 
-        const user = users.find(u => u.email === emailValidation.sanitized && u.password === password);
+        const user = users.find(u => u.email === emailValidation.sanitized);
         if (!user) {
+          recordLoginAttempt(email);
           errorEl.textContent = 'Geçersiz e-posta veya şifre';
           errorEl.style.display = 'block';
           return;
         }
+
+        const isPasswordValid = await verifyPassword(password, user.password);
+        if (!isPasswordValid) {
+          recordLoginAttempt(email);
+          errorEl.textContent = 'Geçersiz e-posta veya şifre';
+          errorEl.style.display = 'block';
+          return;
+        }
+
+        loginAttempts.delete(email);
 
         // Update user session info
         user.lastLogin = Date.now();
@@ -14478,7 +14539,7 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
       strengthText.textContent = `${strengthPrefix} ${feedback}`;
     }
 
-    function handleRegister() {
+    async function handleRegister() {
       try {
         const fullName = document.getElementById('authFullName').value.trim();
         const email = document.getElementById('authRegEmail').value.trim();
@@ -14518,11 +14579,13 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
           return;
         }
 
+        const hashedPassword = await hashPassword(password);
+
         const newUser = {
           id: genId(),
           name: fullName,
           email: email,
-          password: password,
+          password: hashedPassword,
           createdAt: Date.now(),
           plan: 'free',
           trialStart: Date.now(),
@@ -15464,6 +15527,97 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
       btn.style.borderColor = meetingCameraEnabled ? 'rgba(0,212,255,0.4)' : 'rgba(239,68,68,0.4)';
 
       toast(meetingCameraEnabled ? 'Kamera açıldı' : 'Kamera kapatıldı', 'info');
+    }
+
+    async function toggleScreenShare() {
+      const btn = document.getElementById('toggleScreenShareBtn');
+
+      if (webRTCMeeting) {
+        const screenStream = await webRTCMeeting.startScreenShare();
+        if (screenStream) {
+          btn.style.background = 'rgba(16,185,129,0.4)';
+          btn.style.borderColor = 'rgba(16,185,129,0.6)';
+          toast('Ekran paylaşımı başlatıldı', 'success');
+        } else {
+          btn.style.background = 'rgba(16,185,129,0.2)';
+          btn.style.borderColor = 'rgba(16,185,129,0.4)';
+          toast('Ekran paylaşımı durduruldu', 'info');
+        }
+      }
+    }
+
+    async function captureMeetingScreenshot() {
+      try {
+        const videoGrid = document.getElementById('videoGrid');
+        if (!videoGrid) {
+          toast('Video grid bulunamadı', 'error');
+          return;
+        }
+
+        // Use html2canvas if available, otherwise use basic canvas approach
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const videos = videoGrid.querySelectorAll('video');
+
+        if (videos.length === 0) {
+          toast('Yakalanacak video yok', 'error');
+          return;
+        }
+
+        canvas.width = 1920;
+        canvas.height = 1080;
+        ctx.fillStyle = '#0a0e1a';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        let x = 0;
+        let y = 0;
+        const cols = Math.ceil(Math.sqrt(videos.length));
+        const videoWidth = canvas.width / cols;
+        const videoHeight = canvas.height / Math.ceil(videos.length / cols);
+
+        for (let i = 0; i < videos.length; i++) {
+          const video = videos[i];
+          if (video.readyState >= 2) {
+            ctx.drawImage(video, x, y, videoWidth, videoHeight);
+            x += videoWidth;
+            if (x >= canvas.width) {
+              x = 0;
+              y += videoHeight;
+            }
+          }
+        }
+
+        // Add timestamp and room info
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.fillRect(0, canvas.height - 60, canvas.width, 60);
+        ctx.fillStyle = '#fff';
+        ctx.font = '20px Arial';
+        ctx.fillText(`Toplantı: ${currentMeetingRoom?.name || 'Bilinmeyen'}`, 20, canvas.height - 35);
+        ctx.font = '16px Arial';
+        ctx.fillText(new Date().toLocaleString('tr-TR'), 20, canvas.height - 15);
+
+        // Download screenshot
+        const link = document.createElement('a');
+        link.download = `meeting-screenshot-${Date.now()}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+
+        toast('Ekran görüntüsü kaydedildi 📸', 'success');
+
+        // Save to meeting history
+        const screenshotsKey = getUserKey(`devvault_meeting_screenshots_${currentMeetingRoom?.id || 'default'}`);
+        const screenshots = JSON.parse(safeGetItem(screenshotsKey, '[]'));
+        screenshots.push({
+          id: genId(),
+          timestamp: Date.now(),
+          roomName: currentMeetingRoom?.name || 'Toplantı',
+          roomId: currentMeetingRoom?.id || 'default'
+        });
+        safeSetItem(screenshotsKey, JSON.stringify(screenshots));
+      } catch (e) {
+        console.error('Error capturing screenshot:', e);
+        toast('Ekran görüntüsü alınamadı', 'error');
+      }
     }
 
     async function toggleScreenShare() {
