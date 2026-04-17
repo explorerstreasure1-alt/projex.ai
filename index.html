@@ -4583,98 +4583,12 @@ v1.0.0 - İlk sürüm
       position: relative;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #0a0e1a 0%, #1a0a2e 25%, #0a0e1a 50%, #1a1a2e 75%, #0a0e1a 100%);
-      background-size: 400% 400%;
-      overflow: visible;
-      animation: colorShift 8s ease infinite, pulseBackground 4s ease-in-out infinite alternate;
+      background: linear-gradient(135deg, #0a0e1a 0%, #1a0a2e 50%, #0a0e1a 100%);
+      overflow: hidden;
     }
 
-    .bg-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.6;
-      animation: fastPulse 3s ease-in-out infinite;
-    }
-
-    .bg-orb-1 {
-      width: 350px;
-      height: 350px;
-      background: radial-gradient(circle, #7c6aff 0%, #4a3db8 100%);
-      top: -80px;
-      left: -80px;
-      animation-delay: 0s;
-    }
-
-    .bg-orb-2 {
-      width: 280px;
-      height: 280px;
-      background: radial-gradient(circle, #00d4ff 0%, #0088cc 100%);
-      bottom: -40px;
-      right: -40px;
-      animation-delay: 1s;
-    }
-
-    .bg-orb-3 {
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, #ff6b9d 0%, #cc3366 100%);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      animation-delay: 2s;
-    }
-
-    @keyframes colorShift {
-      0% {
-        background-position: 0% 50%;
-      }
-
-      50% {
-        background-position: 100% 50%;
-      }
-
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-
-    @keyframes pulseBackground {
-      0% {
-        filter: brightness(1);
-      }
-
-      100% {
-        filter: brightness(1.3);
-      }
-    }
-
-    @keyframes fastPulse {
-
-      0%,
-      100% {
-        transform: translate(0, 0) scale(1);
-        opacity: 0.4;
-      }
-
-      25% {
-        transform: translate(20px, -20px) scale(1.15);
-        opacity: 0.7;
-      }
-
-      50% {
-        transform: translate(-10px, 10px) scale(0.9);
-        opacity: 0.5;
-      }
-
-      75% {
-        transform: translate(10px, 20px) scale(1.1);
-        opacity: 0.6;
-      }
-    }
-
-    /* Neon Circuit Board Lines */
-    .circuit-lines {
+    /* Project-based Animation */
+    .project-animation {
       position: absolute;
       top: 0;
       left: 0;
@@ -4684,119 +4598,155 @@ v1.0.0 - İlk sürüm
       overflow: hidden;
     }
 
-    .circuit-line {
+    .project-card {
       position: absolute;
-      background: linear-gradient(90deg, transparent, #7c6aff, #00d4ff, #ff6b9d, transparent);
-      height: 2px;
-      opacity: 0.6;
-      animation: circuitFlow 4s linear infinite;
-      box-shadow: 0 0 10px #7c6aff, 0 0 20px #00d4ff, 0 0 30px #ff6b9d;
+      background: rgba(124, 106, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(124, 106, 255, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      animation: floatCard 20s ease-in-out infinite;
     }
 
-    .circuit-line-1 {
-      width: 30%;
-      top: 20%;
-      left: -30%;
+    .project-card-1 {
+      width: 280px;
+      height: 160px;
+      top: 10%;
+      left: 5%;
       animation-delay: 0s;
     }
 
-    .circuit-line-2 {
-      width: 25%;
-      top: 40%;
-      right: -25%;
-      animation-delay: 1s;
-      animation-direction: reverse;
+    .project-card-2 {
+      width: 240px;
+      height: 140px;
+      top: 60%;
+      right: 8%;
+      animation-delay: 5s;
+      background: rgba(0, 212, 255, 0.1);
+      border-color: rgba(0, 212, 255, 0.2);
     }
 
-    .circuit-line-3 {
-      width: 35%;
-      top: 60%;
-      left: -35%;
+    .project-card-3 {
+      width: 200px;
+      height: 120px;
+      bottom: 15%;
+      left: 15%;
+      animation-delay: 10s;
+      background: rgba(255, 107, 157, 0.1);
+      border-color: rgba(255, 107, 157, 0.2);
+    }
+
+    .task-item {
+      position: absolute;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 8px;
+      padding: 12px 16px;
+      animation: floatTask 15s ease-in-out infinite;
+    }
+
+    .task-item-1 {
+      top: 25%;
+      right: 10%;
       animation-delay: 2s;
     }
 
-    .circuit-line-4 {
-      width: 20%;
-      top: 80%;
-      right: -20%;
+    .task-item-2 {
+      top: 45%;
+      left: 25%;
+      animation-delay: 7s;
+      background: rgba(251, 146, 60, 0.1);
+      border-color: rgba(251, 146, 60, 0.2);
+    }
+
+    .task-item-3 {
+      bottom: 30%;
+      right: 20%;
+      animation-delay: 12s;
+      background: rgba(139, 92, 246, 0.1);
+      border-color: rgba(139, 92, 246, 0.2);
+    }
+
+    .kanban-column {
+      position: absolute;
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.15);
+      border-radius: 8px;
+      animation: floatColumn 25s ease-in-out infinite;
+    }
+
+    .kanban-column-1 {
+      width: 120px;
+      height: 200px;
+      top: 15%;
+      right: 20%;
       animation-delay: 3s;
-      animation-direction: reverse;
     }
 
-    .circuit-line-5 {
-      width: 40%;
-      top: 30%;
-      left: -40%;
-      animation-delay: 1.5s;
+    .kanban-column-2 {
+      width: 100px;
+      height: 180px;
+      bottom: 20%;
+      left: 8%;
+      animation-delay: 8s;
+      background: rgba(236, 72, 153, 0.08);
+      border-color: rgba(236, 72, 153, 0.15);
     }
 
-    @keyframes circuitFlow {
-      0% {
-        transform: translateX(0);
-        opacity: 0;
-      }
-
-      10% {
-        opacity: 0.8;
-      }
-
-      90% {
-        opacity: 0.8;
-      }
-
-      100% {
-        transform: translateX(calc(100vw + 100%));
-        opacity: 0;
-      }
-    }
-
-    /* Neon Grid Pattern */
-    .neon-grid {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image:
-        linear-gradient(rgba(124, 106, 255, 0.1) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(124, 106, 255, 0.1) 1px, transparent 1px);
-      background-size: 50px 50px;
-      animation: gridMove 20s linear infinite;
-      pointer-events: none;
-    }
-
-    @keyframes gridMove {
-      0% {
-        transform: translate(0, 0);
-      }
-
-      100% {
-        transform: translate(50px, 50px);
-      }
-    }
-
-    /* Glowing Dots */
-    .glow-dot {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: #7c6aff;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #7c6aff, 0 0 20px #7c6aff, 0 0 30px #7c6aff;
-      animation: dotGlow 2s ease-in-out infinite;
-    }
-
-    @keyframes dotGlow {
+    @keyframes floatCard {
 
       0%,
       100% {
-        opacity: 0.3;
-        transform: scale(1);
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.4;
+      }
+
+      25% {
+        transform: translateY(-20px) rotate(1deg);
+        opacity: 0.6;
       }
 
       50% {
-        opacity: 1;
-        transform: scale(1.5);
+        transform: translateY(-10px) rotate(-1deg);
+        opacity: 0.5;
+      }
+
+      75% {
+        transform: translateY(-30px) rotate(0.5deg);
+        opacity: 0.7;
+      }
+    }
+
+    @keyframes floatTask {
+
+      0%,
+      100% {
+        transform: translateX(0) translateY(0);
+        opacity: 0.3;
+      }
+
+      33% {
+        transform: translateX(15px) translateY(-15px);
+        opacity: 0.5;
+      }
+
+      66% {
+        transform: translateX(-10px) translateY(10px);
+        opacity: 0.4;
+      }
+    }
+
+    @keyframes floatColumn {
+
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+        opacity: 0.35;
+      }
+
+      50% {
+        transform: translateY(-25px) scale(1.05);
+        opacity: 0.55;
       }
     }
 
@@ -8051,35 +8001,35 @@ v1.0.0 - İlk sürüm
   <!-- AUTH MODAL -->
   <div id="authModal">
     <div class="auth-bg">
-      <div class="bg-orb bg-orb-1"></div>
-      <div class="bg-orb bg-orb-2"></div>
-      <div class="bg-orb bg-orb-3"></div>
-
-      <!-- Neon Grid Pattern -->
-      <div class="neon-grid"></div>
-
-      <!-- Neon Circuit Board Lines -->
-      <div class="circuit-lines">
-        <div class="circuit-line circuit-line-1"></div>
-        <div class="circuit-line circuit-line-2"></div>
-        <div class="circuit-line circuit-line-3"></div>
-        <div class="circuit-line circuit-line-4"></div>
-        <div class="circuit-line circuit-line-5"></div>
-      </div>
-
-      <!-- Glowing Dots -->
-      <div class="glow-dot" style="top: 15%; left: 20%; animation-delay: 0s;"></div>
-      <div class="glow-dot" style="top: 25%; right: 25%; animation-delay: 0.5s;"></div>
-      <div class="glow-dot" style="top: 45%; left: 15%; animation-delay: 1s;"></div>
-      <div class="glow-dot" style="top: 65%; right: 20%; animation-delay: 1.5s;"></div>
-      <div class="glow-dot" style="top: 85%; left: 30%; animation-delay: 2s;"></div>
-      <div class="glow-dot" style="top: 35%; right: 35%; animation-delay: 0.3s;"></div>
-      <div class="glow-dot" style="top: 55%; left: 40%; animation-delay: 0.8s;"></div>
-      <div class="glow-dot" style="top: 75%; right: 30%; animation-delay: 1.2s;"></div>
-
-      <!-- Neural Network Background -->
-      <div class="neural-network" id="neuralNetwork">
-        <!-- Neurons and connections will be generated by JavaScript -->
+      <!-- Project-based Animation -->
+      <div class="project-animation">
+        <div class="project-card project-card-1">
+          <div style="font-size: 12px; color: rgba(124, 106, 255, 0.8); font-weight: 600;">Project Alpha</div>
+          <div style="font-size: 10px; color: rgba(255, 255, 255, 0.5); margin-top: 4px;">3 tasks remaining</div>
+        </div>
+        <div class="project-card project-card-2">
+          <div style="font-size: 12px; color: rgba(0, 212, 255, 0.8); font-weight: 600;">Project Beta</div>
+          <div style="font-size: 10px; color: rgba(255, 255, 255, 0.5); margin-top: 4px;">5 tasks remaining</div>
+        </div>
+        <div class="project-card project-card-3">
+          <div style="font-size: 12px; color: rgba(255, 107, 157, 0.8); font-weight: 600;">Project Gamma</div>
+          <div style="font-size: 10px; color: rgba(255, 255, 255, 0.5); margin-top: 4px;">2 tasks remaining</div>
+        </div>
+        <div class="task-item task-item-1">
+          <div style="font-size: 10px; color: rgba(16, 185, 129, 0.8);">✓ Review code</div>
+        </div>
+        <div class="task-item task-item-2">
+          <div style="font-size: 10px; color: rgba(251, 146, 60, 0.8);">○ Fix bug</div>
+        </div>
+        <div class="task-item task-item-3">
+          <div style="font-size: 10px; color: rgba(139, 92, 246, 0.8);">○ Deploy</div>
+        </div>
+        <div class="kanban-column kanban-column-1">
+          <div style="font-size: 10px; color: rgba(59, 130, 246, 0.8); text-align: center; margin-top: 8px;">To Do</div>
+        </div>
+        <div class="kanban-column kanban-column-2">
+          <div style="font-size: 10px; color: rgba(236, 72, 153, 0.8); text-align: center; margin-top: 8px;">Done</div>
+        </div>
       </div>
 
       <div class="hero-section">
@@ -8201,14 +8151,15 @@ v1.0.0 - İlk sürüm
         style="position: absolute; top: 16px; right: 16px; z-index: 10002;">✕</button>
 
       <div class="auth-bg">
-        <div class="bg-orb bg-orb-1"></div>
-        <div class="bg-orb bg-orb-2"></div>
-        <div class="bg-orb bg-orb-3"></div>
-        <div class="neon-grid"></div>
-        <div class="circuit-lines">
-          <div class="circuit-line circuit-line-1"></div>
-          <div class="circuit-line circuit-line-2"></div>
-          <div class="circuit-line circuit-line-3"></div>
+        <!-- Project-based Animation -->
+        <div class="project-animation">
+          <div class="project-card project-card-1">
+            <div style="font-size: 12px; color: rgba(124, 106, 255, 0.8); font-weight: 600;">Project Alpha</div>
+            <div style="font-size: 10px; color: rgba(255, 255, 255, 0.5); margin-top: 4px;">3 tasks remaining</div>
+          </div>
+          <div class="task-item task-item-1">
+            <div style="font-size: 10px; color: rgba(16, 185, 129, 0.8);">✓ Review code</div>
+          </div>
         </div>
       </div>
 
