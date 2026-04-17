@@ -24,26 +24,26 @@ io.on('connection', (socket) => {
   // Join a meeting room
   socket.on('join-room', (roomId, userId, userName) => {
     socket.join(roomId);
-    
+
     if (!rooms.has(roomId)) {
       rooms.set(roomId, new Map());
     }
-    
+
     const room = rooms.get(roomId);
     room.set(socket.id, { userId, userName });
-    
+
     // Notify others in the room
     socket.to(roomId).emit('user-connected', { socketId: socket.id, userId, userName });
-    
+
     // Send existing participants to the new user
     const participants = Array.from(room.entries()).map(([id, data]) => ({
       socketId: id,
       userId: data.userId,
       userName: data.userName
     }));
-    
+
     socket.emit('all-users', participants.filter(p => p.socketId !== socket.id));
-    
+
     console.log(`User ${userName} joined room ${roomId}`);
   });
 
@@ -65,6 +65,11 @@ io.on('connection', (socket) => {
     socket.to(roomId).emit('meeting-chat', message);
   });
 
+  // Chat AI messages (user-to-user)
+  socket.on('chat-ai-message', (data) => {
+    io.emit('chat-ai-message', data);
+  });
+
   // Screen sharing
   socket.on('start-screen-share', (roomId) => {
     socket.to(roomId).emit('user-started-sharing', socket.id);
@@ -82,7 +87,7 @@ io.on('connection', (socket) => {
   // Handle disconnect
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
-    
+
     // Remove from all rooms
     rooms.forEach((participants, roomId) => {
       if (participants.has(socket.id)) {
@@ -94,16 +99,16 @@ io.on('connection', (socket) => {
 
 function handleLeaveRoom(socket, roomId) {
   socket.leave(roomId);
-  
+
   const room = rooms.get(roomId);
   if (room) {
     const userData = room.get(socket.id);
     room.delete(socket.id);
-    
+
     if (userData) {
       socket.to(roomId).emit('user-disconnected', socket.id);
     }
-    
+
     // Clean up empty rooms
     if (room.size === 0) {
       rooms.delete(roomId);
