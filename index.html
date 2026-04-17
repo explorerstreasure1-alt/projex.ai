@@ -4672,6 +4672,142 @@ v1.0.0 - İlk sürüm
       }
     }
 
+    /* Data Flow Effect */
+    .data-flow-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .data-stream {
+      position: absolute;
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(180deg, transparent, rgba(124, 106, 255, 0.15), transparent);
+      opacity: 0;
+      animation: dataFlow 15s linear infinite;
+    }
+
+    .data-stream::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 30%;
+      background: linear-gradient(180deg, rgba(124, 106, 255, 0.3), transparent);
+      filter: blur(2px);
+    }
+
+    @keyframes dataFlow {
+      0% {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.3;
+      }
+
+      90% {
+        opacity: 0.3;
+      }
+
+      100% {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+    }
+
+    /* Infrared Light Clouds */
+    .light-cloud-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .light-cloud {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(124, 106, 255, 0.08) 0%, transparent 70%);
+      filter: blur(40px);
+      animation: cloudDrift 40s ease-in-out infinite;
+    }
+
+    .light-cloud-1 {
+      width: 400px;
+      height: 300px;
+      top: 20%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .light-cloud-2 {
+      width: 350px;
+      height: 250px;
+      top: 60%;
+      right: 15%;
+      animation-delay: -15s;
+    }
+
+    .light-cloud-3 {
+      width: 300px;
+      height: 200px;
+      top: 40%;
+      left: 50%;
+      animation-delay: -25s;
+    }
+
+    .light-cloud-4 {
+      width: 250px;
+      height: 180px;
+      top: 10%;
+      right: 30%;
+      animation-delay: -10s;
+    }
+
+    .light-cloud-5 {
+      width: 320px;
+      height: 220px;
+      top: 70%;
+      left: 25%;
+      animation-delay: -30s;
+    }
+
+    @keyframes cloudDrift {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.6;
+      }
+
+      25% {
+        transform: translate(30px, -20px) scale(1.1);
+        opacity: 0.8;
+      }
+
+      50% {
+        transform: translate(-20px, 15px) scale(0.9);
+        opacity: 0.5;
+      }
+
+      75% {
+        transform: translate(15px, 10px) scale(1.05);
+        opacity: 0.7;
+      }
+    }
+
     .hero-section {
       position: absolute;
       left: 0;
@@ -7707,6 +7843,18 @@ v1.0.0 - İlk sürüm
       <!-- Neural Network / Constellation Animation -->
       <canvas class="neural-canvas" id="neuralCanvas"></canvas>
 
+      <!-- Data Flow Effect -->
+      <div class="data-flow-container" id="dataFlowContainer"></div>
+
+      <!-- Infrared Light Clouds -->
+      <div class="light-cloud-container">
+        <div class="light-cloud light-cloud-1"></div>
+        <div class="light-cloud light-cloud-2"></div>
+        <div class="light-cloud light-cloud-3"></div>
+        <div class="light-cloud light-cloud-4"></div>
+        <div class="light-cloud light-cloud-5"></div>
+      </div>
+
       <div class="hero-section">
         <div class="hero-logo">
           <div class="hero-logo-icon"></div>
@@ -7828,6 +7976,18 @@ v1.0.0 - İlk sürüm
       <div class="auth-bg">
         <!-- Neural Network / Constellation Animation -->
         <canvas class="neural-canvas" id="neuralCanvasReset"></canvas>
+
+        <!-- Data Flow Effect -->
+        <div class="data-flow-container" id="dataFlowContainerReset"></div>
+
+        <!-- Infrared Light Clouds -->
+        <div class="light-cloud-container">
+          <div class="light-cloud light-cloud-1"></div>
+          <div class="light-cloud light-cloud-2"></div>
+          <div class="light-cloud light-cloud-3"></div>
+          <div class="light-cloud light-cloud-4"></div>
+          <div class="light-cloud light-cloud-5"></div>
+        </div>
       </div>
 
       <div class="auth-card">
@@ -10999,6 +11159,7 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
       closeModal('authModal');
       openModal('passwordResetModal');
       initNeuralAnimation('neuralCanvasReset');
+      initDataFlow('dataFlowContainerReset');
     }
 
     async function handlePasswordReset() {
@@ -14845,6 +15006,7 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
         document.getElementById('authError').style.display = 'none';
         document.getElementById('authSuccess').style.display = 'none';
         initNeuralAnimation('neuralCanvas');
+        initDataFlow('dataFlowContainer');
       } catch (e) {
         console.error('Error opening auth modal:', e);
       }
@@ -14958,6 +15120,38 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
       window.addEventListener('resize', resizeCanvas);
 
       return { stop };
+    }
+
+    function initDataFlow(containerId) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      container.innerHTML = '';
+
+      const streamCount = 15;
+      const characters = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+      for (let i = 0; i < streamCount; i++) {
+        const stream = document.createElement('div');
+        stream.className = 'data-stream';
+
+        const leftPos = (i / streamCount) * 100 + (Math.random() - 0.5) * 5;
+        stream.style.left = leftPos + '%';
+
+        const duration = 10 + Math.random() * 10;
+        stream.style.animationDuration = duration + 's';
+
+        const delay = Math.random() * 15;
+        stream.style.animationDelay = delay + 's';
+
+        const blurAmount = 1 + Math.random() * 3;
+        stream.style.filter = `blur(${blurAmount}px)`;
+
+        const opacity = 0.1 + Math.random() * 0.2;
+        stream.style.opacity = opacity;
+
+        container.appendChild(stream);
+      }
     }
 
     // ══════════════════════════════════════════════════════════════
