@@ -11334,44 +11334,40 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
           return;
         }
 
-        const user = users.find(u => u.email === emailValidation.sanitized);
-        if (!user) {
-          recordLoginAttempt(email);
-          errorEl.textContent = 'Geçersiz e-posta veya şifre';
-          errorEl.style.display = 'block';
-          return;
-        }
+        // Call backend API
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const baseUrl = isLocalhost ? 'http://localhost:3001' : '';
 
-        const isPasswordValid = await verifyPassword(password, user.password);
-        if (!isPasswordValid) {
+        const response = await fetch(`${baseUrl}/api/auth/login`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: emailValidation.sanitized, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
           recordLoginAttempt(email);
-          errorEl.textContent = 'Geçersiz e-posta veya şifre';
+          errorEl.textContent = data.error || 'Giriş başarısız';
           errorEl.style.display = 'block';
           return;
         }
 
         loginAttempts.delete(email);
 
-        // Update user session info
-        user.lastLogin = Date.now();
-        user.isOnline = true;
-        user.sessionId = genId();
+        // Store token and user data
+        localStorage.setItem('devvault_token', data.token);
+        localStorage.setItem('devvault_user', JSON.stringify(data.user));
 
-        // Update user in users array
-        const userIndex = users.findIndex(u => u.id === user.id);
-        if (userIndex !== -1) {
-          users[userIndex] = user;
-          safeSetItem('devvault_users', JSON.stringify(users));
-        }
-
-        currentUser = user;
-        safeSetItem('devvault_user', JSON.stringify(user));
+        currentUser = data.user;
         successEl.textContent = 'Giriş başarılı!';
         successEl.style.display = 'block';
 
         setTimeout(() => {
           closeModal('authModal');
-          toast(`Hoş geldin, ${user.name}! 👋`, 'success');
+          toast(`Hoş geldin, ${data.user.fullName}! 👋`, 'success');
           updateAuthUI();
           checkAuthState();
         }, 1000);
@@ -11386,7 +11382,7 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
       openModal('passwordResetModal');
     }
 
-    function handlePasswordReset() {
+    async function handlePasswordReset() {
       try {
         const email = document.getElementById('resetEmail').value.trim();
         const errorEl = document.getElementById('resetError');
@@ -11407,34 +11403,28 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
           return;
         }
 
-        // Check if email exists in users
-        const user = users.find(u => u.email === email);
-        if (!user) {
-          errorEl.textContent = 'Bu e-posta kayıtlı değil';
+        // Call backend API
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const baseUrl = isLocalhost ? 'http://localhost:3001' : '';
+
+        const response = await fetch(`${baseUrl}/api/auth/forgot-password`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: emailValidation.sanitized })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          errorEl.textContent = data.error || 'Şifre sıfırlama hatası';
           errorEl.style.display = 'block';
           successEl.style.display = 'none';
           return;
         }
 
-        // Simulate sending email (in production, this would call a backend API)
-        // For now, we'll create a reset token and store it
-        const resetToken = genId();
-        const resetData = {
-          email: email,
-          token: resetToken,
-          createdAt: Date.now(),
-          expiresAt: Date.now() + (60 * 60 * 1000) // 1 hour
-        };
-
-        // Store reset token (in production, this would be in a database)
-        const resetTokens = JSON.parse(safeGetItem('devvault_reset_tokens', '[]'));
-        resetTokens.push(resetData);
-        safeSetItem('devvault_reset_tokens', JSON.stringify(resetTokens));
-
-        // Simulate email sending
-        console.log(`Password reset link sent to ${email}: ${window.location.origin}?reset=${resetToken}`);
-
-        successEl.textContent = `Şifre yenileme linki ${email} adresine gönderildi!`;
+        successEl.textContent = data.message;
         successEl.style.display = 'block';
         errorEl.style.display = 'none';
 
@@ -14900,37 +14890,37 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
           return;
         }
 
-        if (users.find(u => u.email === email)) {
-          errorEl.textContent = 'Bu e-posta zaten kayıtlı';
+        // Call backend API
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const baseUrl = isLocalhost ? 'http://localhost:3001' : '';
+
+        const response = await fetch(`${baseUrl}/api/auth/register`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ fullName, email: emailValidation.sanitized, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          errorEl.textContent = data.error || 'Kayıt başarısız';
           errorEl.style.display = 'block';
           return;
         }
 
-        const hashedPassword = await hashPassword(password);
+        // Store token and user data
+        localStorage.setItem('devvault_token', data.token);
+        localStorage.setItem('devvault_user', JSON.stringify(data.user));
 
-        const newUser = {
-          id: genId(),
-          name: fullName,
-          email: email,
-          password: hashedPassword,
-          createdAt: Date.now(),
-          plan: 'free',
-          trialStart: Date.now(),
-          trialEnd: Date.now() + (15 * 24 * 60 * 60 * 1000), // 15 days
-          isPro: false
-        };
-
-        users.push(newUser);
-        safeSetItem('devvault_users', JSON.stringify(users));
-
-        currentUser = newUser;
-        safeSetItem('devvault_user', JSON.stringify(newUser));
-        successEl.textContent = 'Kayıt başarılı!';
+        currentUser = data.user;
+        successEl.textContent = data.message;
         successEl.style.display = 'block';
 
         setTimeout(() => {
           closeModal('authModal');
-          toast(`Hoş geldin, ${newUser.name}! 👋`, 'success');
+          toast(`Hoş geldin, ${data.user.fullName}! 👋`, 'success');
           updateAuthUI();
           checkAuthState();
         }, 1000);

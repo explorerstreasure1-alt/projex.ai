@@ -49,11 +49,20 @@ vercel
 
 ## Environment Variables
 
-If you want to set a default Groq API key for your deployed app:
+### Required for Authentication
 
-1. Go to your Vercel project settings
-2. Navigate to "Environment Variables"
-3. Add: `GROQ_API_KEY` with your key value
+Add these environment variables in your Vercel project settings:
+
+- `JWT_SECRET` - Secret key for JWT token generation (use a strong random string)
+- `RESEND_API_KEY` - Resend API key for email sending
+- `RESEND_FROM_EMAIL` - Sender email address for Resend (e.g., noreply@yourdomain.com)
+
+### Required for AI Features
+
+- `GROQ_API_KEY` - Groq API key for AI chat and voice transcription
+- `MISTRAL_API_KEY` - Mistral AI API key
+- `HF_TOKEN` - Hugging Face token
+- `CLOUDFLARE_API_KEY` - Cloudflare API key
 
 ## Local Development
 
@@ -62,12 +71,28 @@ Install dependencies:
 npm install
 ```
 
-Run local server:
+Run local server (frontend):
 ```bash
 npm run dev
 ```
 
+Run backend server (for authentication and real-time features):
+```bash
+npm run server
+```
+
 Open [http://localhost:3000](http://localhost:3000)
+
+For local development with authentication, create a `.env` file in the project root:
+```
+JWT_SECRET=your_jwt_secret_here
+RESEND_API_KEY=your_resend_api_key
+RESEND_FROM_EMAIL=noreply@yourdomain.com
+GROQ_API_KEY=your_groq_api_key
+MISTRAL_API_KEY=your_mistral_api_key
+HF_TOKEN=your_huggingface_token
+CLOUDFLARE_API_KEY=your_cloudflare_api_key
+```
 
 ## Architecture Notes
 
