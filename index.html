@@ -4824,6 +4824,118 @@ v1.0.0 - İlk sürüm
       }
     }
 
+    /* Slow-Flowing Data Mist */
+    .data-mist-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .mist-patch {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.12;
+      animation: mistFlow 60s ease-in-out infinite, mistMorph 40s ease-in-out infinite;
+    }
+
+    .mist-patch-1 {
+      width: 500px;
+      height: 400px;
+      background: radial-gradient(ellipse at center, rgba(124, 106, 255, 0.8) 0%, rgba(124, 106, 255, 0.3) 50%, transparent 70%);
+      bottom: -20%;
+      right: -10%;
+      animation-delay: 0s, 0s;
+      animation-duration: 70s, 50s;
+    }
+
+    .mist-patch-2 {
+      width: 450px;
+      height: 350px;
+      background: radial-gradient(ellipse at center, rgba(0, 212, 255, 0.7) 0%, rgba(0, 212, 255, 0.25) 50%, transparent 70%);
+      bottom: -15%;
+      right: 5%;
+      animation-delay: -20s, -15s;
+      animation-duration: 65s, 45s;
+    }
+
+    .mist-patch-3 {
+      width: 400px;
+      height: 300px;
+      background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.6) 0%, rgba(139, 92, 246, 0.2) 50%, transparent 70%);
+      bottom: -10%;
+      right: 20%;
+      animation-delay: -35s, -25s;
+      animation-duration: 75s, 55s;
+    }
+
+    .mist-patch-4 {
+      width: 380px;
+      height: 280px;
+      background: radial-gradient(ellipse at center, rgba(124, 106, 255, 0.5) 0%, rgba(0, 212, 255, 0.3) 50%, transparent 70%);
+      bottom: -25%;
+      right: -5%;
+      animation-delay: -50s, -35s;
+      animation-duration: 80s, 60s;
+    }
+
+    .mist-patch-5 {
+      width: 420px;
+      height: 320px;
+      background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.6) 0%, rgba(168, 85, 247, 0.2) 50%, transparent 70%);
+      bottom: -18%;
+      right: 15%;
+      animation-delay: -65s, -45s;
+      animation-duration: 68s, 48s;
+    }
+
+    @keyframes mistFlow {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      25% {
+        transform: translate(-30%, -20%) scale(1.1);
+      }
+
+      50% {
+        transform: translate(-50%, -40%) scale(1.05);
+      }
+
+      75% {
+        transform: translate(-35%, -60%) scale(1.15);
+      }
+
+      100% {
+        transform: translate(-20%, -80%) scale(1);
+      }
+    }
+
+    @keyframes mistMorph {
+
+      0%,
+      100% {
+        border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+      }
+
+      25% {
+        border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+      }
+
+      50% {
+        border-radius: 45% 55% 40% 60% / 60% 40% 55% 45%;
+      }
+
+      75% {
+        border-radius: 55% 45% 60% 40% / 40% 60% 45% 55%;
+      }
+    }
+
     /* AI Network Visualization */
     .ai-network-canvas {
       position: absolute;
@@ -5436,6 +5548,8 @@ v1.0.0 - İlk sürüm
 
     .auth-card {
       background: rgba(13, 13, 28, 0.9);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(28, 28, 48, 0.6);
       border-radius: 24px;
       width: 100%;
@@ -8308,6 +8422,15 @@ v1.0.0 - İlk sürüm
   <!-- AUTH MODAL -->
   <div id="authModal">
     <div class="auth-bg">
+      <!-- Slow-Flowing Data Mist -->
+      <div class="data-mist-container">
+        <div class="mist-patch mist-patch-1"></div>
+        <div class="mist-patch mist-patch-2"></div>
+        <div class="mist-patch mist-patch-3"></div>
+        <div class="mist-patch mist-patch-4"></div>
+        <div class="mist-patch mist-patch-5"></div>
+      </div>
+
       <!-- AI Network Visualization -->
       <canvas class="ai-network-canvas" id="aiNetworkCanvas"></canvas>
 
