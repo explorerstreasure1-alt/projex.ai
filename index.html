@@ -5509,11 +5509,13 @@ v1.0.0 - İlk sürüm
       font-size: 1.1rem;
       flex-shrink: 0;
       transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 15px rgba(123, 97, 255, 0.3);
     }
 
     .hero-feature:hover .hero-feature-icon {
       transform: scale(1.1) rotate(5deg);
       background: rgba(124, 106, 255, 0.25);
+      box-shadow: 0 0 20px rgba(123, 97, 255, 0.5);
     }
 
     .hero-stats {
@@ -5539,11 +5541,12 @@ v1.0.0 - İlk sürüm
       backdrop-filter: blur(40px);
       -webkit-backdrop-filter: blur(40px);
       border: 1px solid rgba(28, 28, 48, 0.6);
+      border-left: 1px solid rgba(123, 97, 255, 0.3);
       border-radius: 24px;
       width: 100%;
       max-width: 600px;
       overflow: visible;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(124, 106, 255, 0.15);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(124, 106, 255, 0.15), -5px 0 20px rgba(123, 97, 255, 0.15);
       position: absolute;
       z-index: 10;
       right: 10%;
@@ -5773,6 +5776,30 @@ v1.0.0 - İlk sürüm
       transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
+    }
+
+    .btn-submit::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease;
+    }
+
+    .btn-submit:hover::after {
+      width: 300px;
+      height: 300px;
+    }
+
+    .btn-submit:active::after {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, transparent 70%);
     }
 
     .btn-submit:hover:not(:disabled) {
