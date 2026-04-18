@@ -4583,8 +4583,24 @@ v1.0.0 - İlk sürüm
       position: relative;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #0a0e1a 0%, #1a0a2e 50%, #0a0e1a 100%);
+      background: linear-gradient(135deg, #1a1a3e 0%, #2d1f4e 25%, #1e3a5f 50%, #2d1f4e 75%, #1a1a3e 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
       overflow: hidden;
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
     }
 
     /* Neural Network / Constellation Animation */
@@ -4969,19 +4985,20 @@ v1.0.0 - İlk sürüm
     }
 
     .auth-card {
-      background: #0d0d1c;
-      border: 1px solid #1c1c30;
-      border-radius: 20px;
+      background: rgba(13, 13, 28, 0.9);
+      border: 1px solid rgba(28, 28, 48, 0.6);
+      border-radius: 24px;
       width: 100%;
-      max-width: 420px;
+      max-width: 500px;
       overflow: visible;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(124, 106, 255, 0.15);
       position: relative;
       z-index: 10;
-      margin-left: 55%;
-      margin-top: 10%;
+      margin-left: 52%;
+      margin-top: 8%;
       display: flex;
       flex-direction: column;
+      backdrop-filter: blur(20px);
     }
 
     .auth-header {
