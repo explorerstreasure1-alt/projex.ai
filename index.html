@@ -7067,9 +7067,8 @@ v1.0.0 - Initial release
         </div>
       </div>
       <div class="header-actions" style="display:flex;gap:8px;align-items:center">
-        <button class="btn-icon" id="authBtn" title="Login / Register" onclick="openAuthModal()"
-          aria-label="Login or register"
-          style="padding:8px 12px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--text);font-size:0.85rem;cursor:pointer;transition:all 0.2s">Login</button>
+        <button class="btn-icon" id="authBtn" title="Login / Register" aria-label="Login or register"
+          style="padding:8px 12px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--text);font-size:0.85rem;cursor:pointer;transition:all 0.2s;display:none">Login</button>
         <button class="btn-icon" id="logoutBtn" data-i18n="logout" data-i18n-title="logout" title="Logout"
           onclick="logout()" aria-label="Logout"
           style="padding:8px 12px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--text);font-size:0.85rem;cursor:pointer;transition:all 0.2s;display:none">Logout</button>
@@ -11863,12 +11862,17 @@ Write in a professional, objective, date-stamped report format.`,
 
     function switchAuthTab(tab) {
       try {
+        // AUTH DISABLED - Elements are commented out
+        console.warn('Auth tabs are disabled');
+        return;
+        /*
         document.getElementById('authLoginTab').classList.toggle('active', tab === 'login');
         document.getElementById('authRegisterTab').classList.toggle('active', tab === 'register');
         document.getElementById('authLoginSection').style.display = tab === 'login' ? 'block' : 'none';
         document.getElementById('authRegisterSection').style.display = tab === 'register' ? 'block' : 'none';
         document.getElementById('authError').style.display = 'none';
         document.getElementById('authSuccess').style.display = 'none';
+        */
       } catch (e) {
         console.error('Error switching auth tab:', e);
       }
@@ -11964,6 +11968,10 @@ Write in a professional, objective, date-stamped report format.`,
 
     async function handleLogin() {
       try {
+        // AUTH DISABLED - Elements are commented out
+        console.warn('Handle login is disabled');
+        return;
+        /*
         const email = document.getElementById('authEmail').value.trim();
         const password = document.getElementById('authPassword').value;
         const errorEl = document.getElementById('authError');
@@ -11974,64 +11982,10 @@ Write in a professional, objective, date-stamped report format.`,
           errorEl.style.display = 'block';
           return;
         }
+        */
 
-        const isBackendHealthy = await checkBackendHealth();
-        if (!isBackendHealthy) {
-          errorEl.textContent = 'Backend service is unavailable. Please try again later.';
-          errorEl.style.display = 'block';
-          return;
-        }
-
-        const rateLimitCheck = checkRateLimit(email);
-        if (!rateLimitCheck.allowed) {
-          errorEl.textContent = `Too many failed attempts. Please wait ${rateLimitCheck.remainingTime} minutes.`;
-          errorEl.style.display = 'block';
-          return;
-        }
-
-        const emailValidation = validateEmail(email);
-        if (!emailValidation.valid) {
-          errorEl.textContent = emailValidation.error;
-          errorEl.style.display = 'block';
-          return;
-        }
-
-        // Call backend API
-        const baseUrl = API_BASE_URL;
-
-        const response = await fetch(`${baseUrl}/api/auth/login`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ email: emailValidation.sanitized, password })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          recordLoginAttempt(email);
-          errorEl.textContent = data.error || 'Login failed';
-          errorEl.style.display = 'block';
-          return;
-        }
-
-        loginAttempts.delete(email);
-
-        // Store token and user data
-        localStorage.setItem('devvault_token', data.token);
-        localStorage.setItem('devvault_user', JSON.stringify(data.user));
-
-        currentUser = data.user;
-        successEl.textContent = 'Login successful!';
-        successEl.style.display = 'block';
-
-        setTimeout(() => {
-          closeModal('authModal');
-          toast(`Welcome, ${data.user.fullName}! 👋`, 'success');
-          updateAuthUI();
-          checkAuthState();
-        }, 1000);
+        // AUTH DISABLED - Function disabled
+        return;
       } catch (e) {
         console.error('Error handling login:', e);
 
@@ -12053,7 +12007,7 @@ Write in a professional, objective, date-stamped report format.`,
     }
 
     function openPasswordResetModal() {
-      closeModal('authModal');
+      // AUTH DISABLED - closeModal('authModal') removed
       openModal('passwordResetModal');
       initNeuralAnimation('neuralCanvasReset');
       initDataFlow('dataFlowContainerReset');
@@ -15548,6 +15502,10 @@ Write in a professional, objective, date-stamped report format.`,
 
     async function handleRegister() {
       try {
+        // AUTH DISABLED - Elements are commented out
+        console.warn('Handle register is disabled');
+        return;
+        /*
         const fullName = document.getElementById('authFullName').value.trim();
         const email = document.getElementById('authRegEmail').value.trim();
         const password = document.getElementById('authRegPassword').value;
@@ -15559,68 +15517,10 @@ Write in a professional, objective, date-stamped report format.`,
           errorEl.style.display = 'block';
           return;
         }
+        */
 
-        const isBackendHealthy = await checkBackendHealth();
-        if (!isBackendHealthy) {
-          errorEl.textContent = 'Backend service is unavailable. Please try again later.';
-          errorEl.style.display = 'block';
-          return;
-        }
-
-        const nameValidation = validateString(fullName, MAX_TITLE_LENGTH);
-        if (!nameValidation.valid) {
-          errorEl.textContent = nameValidation.error;
-          errorEl.style.display = 'block';
-          return;
-        }
-
-        const emailValidation = validateEmail(email);
-        if (!emailValidation.valid) {
-          errorEl.textContent = emailValidation.error;
-          errorEl.style.display = 'block';
-          return;
-        }
-
-        const passwordValidation = validatePasswordComplexity(password);
-        if (!passwordValidation.valid) {
-          errorEl.textContent = passwordValidation.errors.join(', ');
-          errorEl.style.display = 'block';
-          return;
-        }
-
-        // Call backend API
-        const baseUrl = API_BASE_URL;
-
-        const response = await fetch(`${baseUrl}/api/auth/register`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ fullName, email: emailValidation.sanitized, password })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          errorEl.textContent = data.error || 'Registration failed';
-          errorEl.style.display = 'block';
-          return;
-        }
-
-        // Store token and user data
-        localStorage.setItem('devvault_token', data.token);
-        localStorage.setItem('devvault_user', JSON.stringify(data.user));
-
-        currentUser = data.user;
-        successEl.textContent = data.message;
-        successEl.style.display = 'block';
-
-        setTimeout(() => {
-          closeModal('authModal');
-          toast(`Welcome, ${data.user.fullName}! 👋`, 'success');
-          updateAuthUI();
-          checkAuthState();
-        }, 1000);
+        // AUTH DISABLED - Function disabled
+        return;
       } catch (e) {
         console.error('Error handling register:', e);
 
@@ -15883,7 +15783,7 @@ Write in a professional, objective, date-stamped report format.`,
       try {
         if (!currentUser) {
           toast('Please log in first', 'warning');
-          openAuthModal();
+          // AUTH DISABLED - openAuthModal() removed
           return;
         }
 
@@ -15934,11 +15834,16 @@ Write in a professional, objective, date-stamped report format.`,
 
     function openAuthModal() {
       try {
+        // AUTH DISABLED - Modal is commented out
+        console.warn('Auth modal is disabled');
+        return;
+        /*
         const modal = document.getElementById('authModal');
         modal.classList.add('fullscreen-auth');
         modal.classList.add('open');
         document.getElementById('authError').style.display = 'none';
         document.getElementById('authSuccess').style.display = 'none';
+        */
       } catch (e) {
         console.error('Error opening auth modal:', e);
       }
