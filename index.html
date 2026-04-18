@@ -522,6 +522,21 @@ v1.0.0 - İlk sürüm
       z-index: 5;
     }
 
+    .data-fragment {
+      position: fixed;
+      font-family: 'DM Sans', monospace;
+      font-size: 0.6rem;
+      color: #7B61FF;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 2;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .data-fragment.visible {
+      opacity: 0.4;
+    }
+
     /* Animations - Enhanced & Sophisticated */
     @keyframes shine {
       0% {
@@ -5524,6 +5539,139 @@ v1.0.0 - İlk sürüm
       margin-top: 50px;
     }
 
+    .system-status {
+      position: absolute;
+      bottom: 20px;
+      left: 30px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.65rem;
+      font-family: 'DM Sans', monospace;
+      color: #00D1FF;
+      opacity: 0.6;
+    }
+
+    .system-status-dot {
+      width: 6px;
+      height: 6px;
+      background: #00D1FF;
+      border-radius: 50%;
+      animation: statusPulse 2s ease-in-out infinite;
+      box-shadow: 0 0 10px rgba(0, 209, 255, 0.6);
+    }
+
+    .system-status-text {
+      animation: textFlicker 4s ease-in-out infinite;
+    }
+
+    @keyframes statusPulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      50% {
+        transform: scale(1.3);
+        opacity: 0.7;
+      }
+    }
+
+    @keyframes textFlicker {
+
+      0%,
+      100% {
+        opacity: 0.6;
+      }
+
+      5% {
+        opacity: 0.9;
+      }
+
+      10% {
+        opacity: 0.5;
+      }
+
+      15% {
+        opacity: 0.8;
+      }
+
+      20% {
+        opacity: 0.6;
+      }
+
+      50% {
+        opacity: 0.7;
+      }
+
+      55% {
+        opacity: 0.4;
+      }
+
+      60% {
+        opacity: 0.8;
+      }
+
+      65% {
+        opacity: 0.6;
+      }
+    }
+
+    .glass-shine {
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(135deg,
+          transparent 40%,
+          rgba(255, 255, 255, 0.03) 45%,
+          rgba(255, 255, 255, 0.08) 50%,
+          rgba(255, 255, 255, 0.03) 55%,
+          transparent 60%);
+      transform: rotate(45deg);
+      animation: glassShine 12s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes glassShine {
+
+      0%,
+      100% {
+        transform: rotate(45deg) translateY(-100%);
+      }
+
+      50% {
+        transform: rotate(45deg) translateY(100%);
+      }
+    }
+
+    .easter-egg-btn {
+      position: absolute;
+      bottom: 20px;
+      right: 30px;
+      background: transparent;
+      border: 1px solid rgba(123, 97, 255, 0.3);
+      color: #7B61FF;
+      font-family: 'DM Sans', monospace;
+      font-size: 0.7rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0.5;
+    }
+
+    .easter-egg-btn:hover {
+      opacity: 1;
+      border-color: rgba(123, 97, 255, 0.6);
+      box-shadow: 0 0 15px rgba(123, 97, 255, 0.4);
+      text-shadow: 0 0 10px rgba(123, 97, 255, 0.6);
+    }
+
     .hero-stat-num {
       font-family: 'Syne', sans-serif;
       font-size: 2rem;
@@ -5533,7 +5681,7 @@ v1.0.0 - İlk sürüm
 
     .hero-stat-label {
       font-size: 0.8rem;
-      color: #5a5a78;
+      color: #8888a8;
     }
 
     .auth-card {
@@ -5542,10 +5690,11 @@ v1.0.0 - İlk sürüm
       -webkit-backdrop-filter: blur(40px);
       border: 1px solid rgba(28, 28, 48, 0.6);
       border-left: 1px solid rgba(123, 97, 255, 0.3);
+      border-image: linear-gradient(135deg, rgba(123, 97, 255, 0.2) 0%, rgba(0, 209, 255, 0.1) 100%) 1;
       border-radius: 24px;
       width: 100%;
       max-width: 600px;
-      overflow: visible;
+      overflow: hidden;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(124, 106, 255, 0.15), -5px 0 20px rgba(123, 97, 255, 0.15);
       position: absolute;
       z-index: 10;
@@ -6848,7 +6997,7 @@ v1.0.0 - İlk sürüm
     }
 
     // Export for use in main application
-    window.WebRTCMeeting = WebRTCMeeting;
+    window.WRTCMeeting = WebRTCMeeting;
   </script>
 </head>
 
@@ -8558,9 +8707,15 @@ v1.0.0 - İlk sürüm
             <div class="hero-stat-label">Pro / month</div>
           </div>
         </div>
+        <div class="system-status">
+          <div class="system-status-dot"></div>
+          <div class="system-status-text">AI NODE: ACTIVE</div>
+        </div>
+        <button class="easter-egg-btn" onclick="triggerEasterEgg()">[ / ]</button>
       </div>
 
       <div class="auth-card">
+        <div class="glass-shine"></div>
         <div class="auth-header">
           <button class="close-btn" onclick="closeModal('authModal')" title="Close">✕</button>
           <div class="auth-header-content">
@@ -17771,10 +17926,47 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
       glow.className = 'mouse-glow';
       document.body.appendChild(glow);
 
+      // Data fragments array
+      const dataFragments = [];
+      const fragmentTexts = ['0x7B61FF', 'LAT: 40.18', 'CMD: EXECUTE', 'SYS: READY', 'NET: ACTIVE', 'MEM: 64TB', 'CPU: 99%'];
+
+      // Create data fragments
+      for (let i = 0; i < 6; i++) {
+        const fragment = document.createElement('div');
+        fragment.className = 'data-fragment';
+        fragment.textContent = fragmentTexts[i % fragmentTexts.length];
+        document.body.appendChild(fragment);
+        dataFragments.push({
+          element: fragment,
+          offsetX: (Math.random() - 0.5) * 100,
+          offsetY: (Math.random() - 0.5) * 100,
+          delay: Math.random() * 500
+        });
+      }
+
+      let lastMoveTime = 0;
+
       // Track mouse movement
       document.addEventListener('mousemove', (e) => {
         glow.style.left = e.clientX + 'px';
         glow.style.top = e.clientY + 'px';
+
+        const now = Date.now();
+        if (now - lastMoveTime > 100) {
+          lastMoveTime = now;
+
+          dataFragments.forEach((frag, index) => {
+            setTimeout(() => {
+              frag.element.style.left = (e.clientX + frag.offsetX) + 'px';
+              frag.element.style.top = (e.clientY + frag.offsetY) + 'px';
+              frag.element.classList.add('visible');
+
+              setTimeout(() => {
+                frag.element.classList.remove('visible');
+              }, 800);
+            }, frag.delay);
+          });
+        }
       });
 
       // Hide glow when mouse leaves window
@@ -17785,6 +17977,10 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
       document.addEventListener('mouseenter', () => {
         glow.style.opacity = '1';
       });
+    }
+
+    function triggerEasterEgg() {
+      alert('🔮 NEBULA PROTOCOL INITIATED\n\nAccessing classified neural interface...\n\n[ CLASSIFIED DATA STREAM ]\n> Neural sync: 99.7%\n> Memory banks: ONLINE\n> AI core: ACTIVE\n\nWelcome to the future of productivity.');
     }
 
     function initDarkMode() {
@@ -19820,7 +20016,7 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
         renderVaultTasks();
         renderVaultNotes();
       } catch (e) {
-        console.error('Load vault data error:', e);
+        console.error('Load vault da error:', e);
       }
     }
   </script>
