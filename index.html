@@ -4824,6 +4824,213 @@ v1.0.0 - İlk sürüm
       }
     }
 
+    /* Geometric Shapes Animation */
+    .geometric-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .geo-shape {
+      position: absolute;
+      border: 2px solid;
+      opacity: 0.6;
+      animation: floatShape 20s ease-in-out infinite;
+    }
+
+    .geo-hexagon {
+      width: 80px;
+      height: 80px;
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    }
+
+    .geo-triangle {
+      width: 60px;
+      height: 60px;
+      clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+
+    .geo-circle {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+    }
+
+    .geo-square {
+      width: 50px;
+      height: 50px;
+      transform: rotate(45deg);
+    }
+
+    .geo-shape-1 {
+      top: 10%;
+      left: 5%;
+      border-color: rgba(124, 106, 255, 0.4);
+      animation-delay: 0s;
+      animation-duration: 25s;
+    }
+
+    .geo-shape-2 {
+      top: 20%;
+      left: 15%;
+      border-color: rgba(0, 212, 255, 0.4);
+      animation-delay: -5s;
+      animation-duration: 30s;
+    }
+
+    .geo-shape-3 {
+      top: 60%;
+      left: 8%;
+      border-color: rgba(124, 106, 255, 0.5);
+      animation-delay: -10s;
+      animation-duration: 28s;
+    }
+
+    .geo-shape-4 {
+      top: 75%;
+      left: 20%;
+      border-color: rgba(0, 212, 255, 0.3);
+      animation-delay: -15s;
+      animation-duration: 22s;
+    }
+
+    .geo-shape-5 {
+      top: 40%;
+      left: 12%;
+      border-color: rgba(124, 106, 255, 0.4);
+      animation-delay: -8s;
+      animation-duration: 32s;
+    }
+
+    .geo-shape-6 {
+      top: 85%;
+      left: 25%;
+      border-color: rgba(0, 212, 255, 0.5);
+      animation-delay: -12s;
+      animation-duration: 26s;
+    }
+
+    @keyframes floatShape {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.6;
+      }
+
+      25% {
+        transform: translateY(-30px) rotate(90deg);
+        opacity: 0.8;
+      }
+
+      50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 0.5;
+      }
+
+      75% {
+        transform: translateY(-40px) rotate(270deg);
+        opacity: 0.7;
+      }
+    }
+
+    /* Floating Particles */
+    .particle-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124, 106, 255, 0.8) 0%, transparent 70%);
+      animation: particleFloat 15s ease-in-out infinite;
+    }
+
+    .particle-1 {
+      width: 15px;
+      height: 15px;
+      top: 15%;
+      left: 10%;
+      animation-delay: 0s;
+      animation-duration: 18s;
+    }
+
+    .particle-2 {
+      width: 20px;
+      height: 20px;
+      top: 35%;
+      left: 18%;
+      animation-delay: -3s;
+      animation-duration: 22s;
+    }
+
+    .particle-3 {
+      width: 12px;
+      height: 12px;
+      top: 55%;
+      left: 8%;
+      animation-delay: -6s;
+      animation-duration: 16s;
+    }
+
+    .particle-4 {
+      width: 18px;
+      height: 18px;
+      top: 70%;
+      left: 22%;
+      animation-delay: -9s;
+      animation-duration: 20s;
+    }
+
+    .particle-5 {
+      width: 14px;
+      height: 14px;
+      top: 25%;
+      left: 5%;
+      animation-delay: -12s;
+      animation-duration: 24s;
+    }
+
+    .particle-6 {
+      width: 16px;
+      height: 16px;
+      top: 80%;
+      left: 15%;
+      animation-delay: -15s;
+      animation-duration: 19s;
+    }
+
+    @keyframes particleFloat {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.6;
+      }
+
+      33% {
+        transform: translate(30px, -20px) scale(1.2);
+        opacity: 0.9;
+      }
+
+      66% {
+        transform: translate(-20px, 30px) scale(0.8);
+        opacity: 0.4;
+      }
+    }
+
     /* Matrix Rain Effect */
     .matrix-rain-container {
       position: absolute;
@@ -5037,9 +5244,9 @@ v1.0.0 - İlk sürüm
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(124, 106, 255, 0.15);
       position: absolute;
       z-index: 10;
-      left: 50%;
+      right: 5%;
       top: 50%;
-      transform: translate(-50%, -50%);
+      transform: translateY(-50%);
       display: flex;
       flex-direction: column;
       backdrop-filter: blur(20px);
@@ -7901,6 +8108,26 @@ v1.0.0 - İlk sürüm
   <!-- AUTH MODAL -->
   <div id="authModal">
     <div class="auth-bg">
+      <!-- Geometric Shapes Animation -->
+      <div class="geometric-container">
+        <div class="geo-shape geo-hexagon geo-shape-1"></div>
+        <div class="geo-shape geo-triangle geo-shape-2"></div>
+        <div class="geo-shape geo-circle geo-shape-3"></div>
+        <div class="geo-shape geo-square geo-shape-4"></div>
+        <div class="geo-shape geo-hexagon geo-shape-5"></div>
+        <div class="geo-shape geo-triangle geo-shape-6"></div>
+      </div>
+
+      <!-- Floating Particles -->
+      <div class="particle-container">
+        <div class="particle particle-1"></div>
+        <div class="particle particle-2"></div>
+        <div class="particle particle-3"></div>
+        <div class="particle particle-4"></div>
+        <div class="particle particle-5"></div>
+        <div class="particle particle-6"></div>
+      </div>
+
       <!-- Neural Network / Constellation Animation -->
       <canvas class="neural-canvas" id="neuralCanvas"></canvas>
 
