@@ -8623,172 +8623,174 @@ v1.0.0 - Initial release
     </div>
   </div>
 
-  <!-- AUTH MODAL -->
+  <!-- AUTH MODAL - DISABLED -->
+  <!--
   <div id="authModal">
     <div class="auth-bg">
       <!-- Liquid Aurora Animation -->
-      <div class="liquid-aurora">
-        <div class="aurora-spot-1"></div>
-        <div class="aurora-spot-2"></div>
+  <div class="liquid-aurora">
+    <div class="aurora-spot-1"></div>
+    <div class="aurora-spot-2"></div>
+  </div>
+
+  <!-- Quantum Grid Animation -->
+  <div class="quantum-grid"></div>
+
+  <!-- Slow-Flowing Data Mist -->
+  <div class="data-mist-container">
+    <div class="mist-patch mist-patch-1"></div>
+    <div class="mist-patch mist-patch-2"></div>
+    <div class="mist-patch mist-patch-3"></div>
+    <div class="mist-patch mist-patch-4"></div>
+    <div class="mist-patch mist-patch-5"></div>
+  </div>
+
+  <!-- Infrared Light Clouds -->
+  <div class="light-cloud-container">
+    <div class="light-cloud light-cloud-1"></div>
+    <div class="light-cloud light-cloud-2"></div>
+    <div class="light-cloud light-cloud-3"></div>
+    <div class="light-cloud light-cloud-4"></div>
+    <div class="light-cloud light-cloud-5"></div>
+  </div>
+
+  <div class="hero-section">
+    <div class="hero-logo">
+      <div class="hero-logo-icon"></div>
+      <div>
+        <span class="hero-logo-text">PROJEX AI.</span>
+        <span class="hero-slogan">CREATIVE</span>
+      </div>
+    </div>
+    <h1 class="hero-title">AI-Powered<br /><span>Project Hub</span></h1>
+    <p class="hero-desc">Organize projects, tasks, and notes with AI. Voice-to-text, smart chat, and seamless
+      collaboration.</p>
+    <div class="hero-features">
+      <div class="hero-feature">
+        <div class="hero-feature-icon">🎙️</div> Voice AI with transcription
+      </div>
+      <div class="hero-feature">
+        <div class="hero-feature-icon">🤖</div> AI Chat assistant
+      </div>
+      <div class="hero-feature">
+        <div class="hero-feature-icon">👥</div> Team chat panel
+      </div>
+      <div class="hero-feature">
+        <div class="hero-feature-icon">💻</div> Code editor & snippets
+      </div>
+      <div class="hero-feature">
+        <div class="hero-feature-icon">✅</div> Task list management
+      </div>
+      <div class="hero-feature">
+        <div class="hero-feature-icon">📝</div> Project instructions
+      </div>
+      <div class="hero-feature">
+        <div class="hero-feature-icon">📹</div> Video & voice calls
+      </div>
+      <div class="hero-feature">
+        <div class="hero-feature-icon">📅</div> Meeting scheduling
+      </div>
+      <div class="hero-feature">
+        <div class="hero-feature-icon">🍅</div> Focus & Pomodoro timer
+      </div>
+      <div class="hero-feature">
+        <div class="hero-feature-icon">📋</div> Kanban board
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">15</div>
+        <div class="hero-stat-label">Day trial</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">$4.99</div>
+        <div class="hero-stat-label">Pro / month</div>
+      </div>
+    </div>
+    <div class="system-status">
+      <div class="system-status-dot"></div>
+      <div class="system-status-text">AI NODE: ACTIVE</div>
+    </div>
+    <button class="easter-egg-btn" onclick="triggerEasterEgg()">[ / ]</button>
+  </div>
+
+  <div class="auth-card">
+    <div class="glass-shine"></div>
+    <div class="auth-header">
+      <button class="close-btn" onclick="closeModal('authModal')" title="Close">✕</button>
+      <div class="auth-header-content">
+        <div class="auth-logo">
+          <div class="auth-logo-icon"></div>
+          <span class="auth-logo-text">PROJEX AI.</span>
+        </div>
+        <div class="auth-tagline">AI-powered project & task hub</div>
+      </div>
+    </div>
+    <div class="auth-body">
+      <div class="auth-tabs">
+        <button class="auth-tab-btn active" id="authLoginTab" data-i18n="auth.login.tab"
+          onclick="switchAuthTab('login')">Login</button>
+        <button class="auth-tab-btn" id="authRegisterTab" data-i18n="auth.register.tab"
+          onclick="switchAuthTab('register')">Register</button>
       </div>
 
-      <!-- Quantum Grid Animation -->
-      <div class="quantum-grid"></div>
+      <div id="authError" class="error-msg hidden"></div>
+      <div id="authSuccess" class="success-msg hidden"></div>
 
-      <!-- Slow-Flowing Data Mist -->
-      <div class="data-mist-container">
-        <div class="mist-patch mist-patch-1"></div>
-        <div class="mist-patch mist-patch-2"></div>
-        <div class="mist-patch mist-patch-3"></div>
-        <div class="mist-patch mist-patch-4"></div>
-        <div class="mist-patch mist-patch-5"></div>
+      <div id="authLoginSection" class="auth-section">
+        <form onsubmit="handleLogin(); return false;">
+          <div class="form-group">
+            <label class="form-label" data-i18n="auth.email">Email</label>
+            <input type="email" class="form-input" id="authEmail" data-i18n-placeholder="auth.email.placeholder"
+              placeholder="example@email.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="auth.password">Password</label>
+            <input type="password" class="form-input" id="authPassword"
+              data-i18n-placeholder="auth.password.placeholder" placeholder="••••••••" required>
+          </div>
+          <div class="forgot-link">
+            <button type="button" data-i18n="auth.forgot.password" onclick="openPasswordResetModal()">Forgot
+              Password</button>
+          </div>
+          <button class="btn-submit" type="submit" data-i18n="auth.login.btn">Login</button>
+        </form>
       </div>
 
-      <!-- Infrared Light Clouds -->
-      <div class="light-cloud-container">
-        <div class="light-cloud light-cloud-1"></div>
-        <div class="light-cloud light-cloud-2"></div>
-        <div class="light-cloud light-cloud-3"></div>
-        <div class="light-cloud light-cloud-4"></div>
-        <div class="light-cloud light-cloud-5"></div>
-      </div>
-
-      <div class="hero-section">
-        <div class="hero-logo">
-          <div class="hero-logo-icon"></div>
-          <div>
-            <span class="hero-logo-text">PROJEX AI.</span>
-            <span class="hero-slogan">CREATIVE</span>
+      <div id="authRegisterSection" class="auth-section hidden">
+        <form onsubmit="handleRegister(); return false;">
+          <div class="form-group">
+            <label class="form-label" data-i18n="auth.fullname">Full Name</label>
+            <input type="text" class="form-input" id="authFullName" data-i18n-placeholder="auth.fullname.placeholder"
+              placeholder="Your Full Name" required>
           </div>
-        </div>
-        <h1 class="hero-title">AI-Powered<br /><span>Project Hub</span></h1>
-        <p class="hero-desc">Organize projects, tasks, and notes with AI. Voice-to-text, smart chat, and seamless
-          collaboration.</p>
-        <div class="hero-features">
-          <div class="hero-feature">
-            <div class="hero-feature-icon">🎙️</div> Voice AI with transcription
+          <div class="form-group">
+            <label class="form-label" data-i18n="auth.email">Email</label>
+            <input type="email" class="form-input" id="authRegEmail" data-i18n-placeholder="auth.email.placeholder"
+              placeholder="example@email.com" required>
           </div>
-          <div class="hero-feature">
-            <div class="hero-feature-icon">🤖</div> AI Chat assistant
-          </div>
-          <div class="hero-feature">
-            <div class="hero-feature-icon">👥</div> Team chat panel
-          </div>
-          <div class="hero-feature">
-            <div class="hero-feature-icon">💻</div> Code editor & snippets
-          </div>
-          <div class="hero-feature">
-            <div class="hero-feature-icon">✅</div> Task list management
-          </div>
-          <div class="hero-feature">
-            <div class="hero-feature-icon">📝</div> Project instructions
-          </div>
-          <div class="hero-feature">
-            <div class="hero-feature-icon">📹</div> Video & voice calls
-          </div>
-          <div class="hero-feature">
-            <div class="hero-feature-icon">📅</div> Meeting scheduling
-          </div>
-          <div class="hero-feature">
-            <div class="hero-feature-icon">🍅</div> Focus & Pomodoro timer
-          </div>
-          <div class="hero-feature">
-            <div class="hero-feature-icon">📋</div> Kanban board
-          </div>
-        </div>
-        <div class="hero-stats">
-          <div>
-            <div class="hero-stat-num">15</div>
-            <div class="hero-stat-label">Day trial</div>
-          </div>
-          <div>
-            <div class="hero-stat-num">$4.99</div>
-            <div class="hero-stat-label">Pro / month</div>
-          </div>
-        </div>
-        <div class="system-status">
-          <div class="system-status-dot"></div>
-          <div class="system-status-text">AI NODE: ACTIVE</div>
-        </div>
-        <button class="easter-egg-btn" onclick="triggerEasterEgg()">[ / ]</button>
-      </div>
-
-      <div class="auth-card">
-        <div class="glass-shine"></div>
-        <div class="auth-header">
-          <button class="close-btn" onclick="closeModal('authModal')" title="Close">✕</button>
-          <div class="auth-header-content">
-            <div class="auth-logo">
-              <div class="auth-logo-icon"></div>
-              <span class="auth-logo-text">PROJEX AI.</span>
+          <div class="form-group">
+            <label class="form-label" data-i18n="auth.password">Password</label>
+            <input type="password" class="form-input" id="authRegPassword"
+              data-i18n-placeholder="auth.password.min.placeholder" placeholder="min. 6 characters" required
+              oninput="checkPasswordStrength(this.value)">
+            <div class="password-strength-container">
+              <div class="password-strength-bar" id="passwordStrengthBar"></div>
+              <div class="password-strength-text" id="passwordStrengthText" data-i18n="auth.password.strength">
+                Password
+                strength: -</div>
             </div>
-            <div class="auth-tagline">AI-powered project & task hub</div>
           </div>
-        </div>
-        <div class="auth-body">
-          <div class="auth-tabs">
-            <button class="auth-tab-btn active" id="authLoginTab" data-i18n="auth.login.tab"
-              onclick="switchAuthTab('login')">Login</button>
-            <button class="auth-tab-btn" id="authRegisterTab" data-i18n="auth.register.tab"
-              onclick="switchAuthTab('register')">Register</button>
-          </div>
-
-          <div id="authError" class="error-msg hidden"></div>
-          <div id="authSuccess" class="success-msg hidden"></div>
-
-          <div id="authLoginSection" class="auth-section">
-            <form onsubmit="handleLogin(); return false;">
-              <div class="form-group">
-                <label class="form-label" data-i18n="auth.email">Email</label>
-                <input type="email" class="form-input" id="authEmail" data-i18n-placeholder="auth.email.placeholder"
-                  placeholder="example@email.com" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label" data-i18n="auth.password">Password</label>
-                <input type="password" class="form-input" id="authPassword"
-                  data-i18n-placeholder="auth.password.placeholder" placeholder="••••••••" required>
-              </div>
-              <div class="forgot-link">
-                <button type="button" data-i18n="auth.forgot.password" onclick="openPasswordResetModal()">Forgot
-                  Password</button>
-              </div>
-              <button class="btn-submit" type="submit" data-i18n="auth.login.btn">Login</button>
-            </form>
-          </div>
-
-          <div id="authRegisterSection" class="auth-section hidden">
-            <form onsubmit="handleRegister(); return false;">
-              <div class="form-group">
-                <label class="form-label" data-i18n="auth.fullname">Full Name</label>
-                <input type="text" class="form-input" id="authFullName"
-                  data-i18n-placeholder="auth.fullname.placeholder" placeholder="Your Full Name" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label" data-i18n="auth.email">Email</label>
-                <input type="email" class="form-input" id="authRegEmail" data-i18n-placeholder="auth.email.placeholder"
-                  placeholder="example@email.com" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label" data-i18n="auth.password">Password</label>
-                <input type="password" class="form-input" id="authRegPassword"
-                  data-i18n-placeholder="auth.password.min.placeholder" placeholder="min. 6 characters" required
-                  oninput="checkPasswordStrength(this.value)">
-                <div class="password-strength-container">
-                  <div class="password-strength-bar" id="passwordStrengthBar"></div>
-                  <div class="password-strength-text" id="passwordStrengthText" data-i18n="auth.password.strength">
-                    Password
-                    strength: -</div>
-                </div>
-              </div>
-              <button class="btn-submit" type="submit" data-i18n="auth.register.btn">Register</button>
-              <div class="trial-note"><strong data-i18n="auth.trial.note">15-day free trial</strong> - <span
-                  data-i18n="auth.trial.access">Access all features!</span></div>
-            </form>
-          </div>
-        </div>
+          <button class="btn-submit" type="submit" data-i18n="auth.register.btn">Register</button>
+          <div class="trial-note"><strong data-i18n="auth.trial.note">15-day free trial</strong> - <span
+              data-i18n="auth.trial.access">Access all features!</span></div>
+        </form>
       </div>
     </div>
   </div>
+  </div>
+  </div>
+  -->
 
   <!-- PASSWORD RESET MODAL -->
   <div class="modal-overlay" id="passwordResetModal">
@@ -15771,8 +15773,8 @@ Write in a professional, objective, date-stamped report format.`,
             onlineUsersBtn.style.display = 'inline-flex';
           } else {
             authBtn.textContent = 'Login';
-            authBtn.style.display = 'inline-flex';
-            authBtn.onclick = () => openModal('authModal');
+            authBtn.style.display = 'none'; // AUTH DISABLED
+            // authBtn.onclick = () => openModal('authModal');
             logoutBtn.style.display = 'none';
             onlineUsersBtn.style.display = 'none';
           }
@@ -15828,6 +15830,14 @@ Write in a professional, objective, date-stamped report format.`,
         const main = document.getElementById('main');
         const authModal = document.getElementById('authModal');
 
+        // AUTH DISABLED - Always show workspace
+        if (main) main.classList.remove('hidden');
+        if (authModal) {
+          authModal.classList.remove('fullscreen-auth');
+          authModal.classList.remove('open');
+        }
+
+        /*
         if (currentUser) {
           // Check trial expiration
           if (currentUser.trialEnd && Date.now() > currentUser.trialEnd && !currentUser.isPro) {
@@ -15844,14 +15854,15 @@ Write in a professional, objective, date-stamped report format.`,
         } else {
           // User is not logged in, hide workspace and show auth screen
           if (main) main.classList.add('hidden');
-          if (authModal) {
-            authModal.classList.add('fullscreen-auth');
-            authModal.classList.add('open');
-          }
+        */
+        if (authModal) {
+          authModal.classList.add('fullscreen-auth');
+          authModal.classList.add('open');
         }
-      } catch (e) {
-        console.error('Error checking auth state:', e);
       }
+      } catch (e) {
+      console.error('Error checking auth state:', e);
+    }
     }
 
     function showTrialExpiredPrompt() {
