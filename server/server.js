@@ -6,11 +6,45 @@ const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const validator = require('validator');
 require('dotenv').config();
 
 const app = express();
+
+// Security middleware
+app.use(helmet({
+  contentSecurityPolicy: false,
+  crossOriginEmbedderPolicy: false
+}));
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10kb' })); // Limit body size to prevent DoS
+
+// Rate limiting configuration
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // 5 requests per windowMs
+  message: { error: 'Çok fazla istek. Lütfen 15 dakika sonra tekrar deneyin.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // 10 login attempts per windowMs
+  message: { error: 'Çok fazla giriş denemesi. Lütfen 15 dakika sonra tekrar deneyin.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const emailLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 3, // 3 email requests per hour
+  message: { error: 'Çok fazla e-posta isteği. Lütfen 1 saat sonra tekrar deneyin.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -28,13 +62,130 @@ const users = new Map();
 const resetTokens = new Map();
 const verificationTokens = new Map();
 
-// JWT Secret
+// Account lockout storage
+const failedLoginAttempts = new Map();
+const lockedAccounts = new Map();
+
+// Security constants
 const JWT_SECRET = process.env.JWT_SECRET || 'projex_jwt_secret_2024';
 const JWT_EXPIRES_IN = '7d';
+const BCRYPT_SALT_ROUNDS = 12; // Increased from 10 for better security
+const MAX_LOGIN_ATTEMPTS = 5;
+const LOCKOUT_DURATION = 15 * 60 * 1000; // 15 minutes
+const VERIFICATION_TOKEN_EXPIRY = 24 * 60 * 60 * 1000; // 24 hours
+const RESET_TOKEN_EXPIRY = 60 * 60 * 1000; // 1 hour
 
 // Resend API
 const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
 const RESEND_FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'noreply@projex.ai';
+
+// Audit log storage (in production, use a database or file system)
+const auditLogs = [];
+
+// Logging function
+function logAuditEvent(event, details, ip) {
+  const logEntry = {
+    timestamp: new Date().toISOString(),
+    event,
+    details,
+    ip
+  };
+  auditLogs.push(logEntry);
+
+  // Keep only last 1000 logs
+  if (auditLogs.length > 1000) {
+    auditLogs.shift();
+  }
+
+  console.log(`[AUDIT] ${event}: ${details} from ${ip}`);
+}
+
+// Password strength validation
+function validatePasswordStrength(password) {
+  const minLength = 8;
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumbers = /\d/.test(password);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+  const errors = [];
+
+  if (password.length < minLength) {
+    errors.push(`Şifre en az ${minLength} karakter olmalı`);
+  }
+  if (!hasUpperCase) {
+    errors.push('Şifre en az bir büyük harf içermeli');
+  }
+  if (!hasLowerCase) {
+    errors.push('Şifre en az bir küçük harf içermeli');
+  }
+  if (!hasNumbers) {
+    errors.push('Şifre en az bir rakam içermeli');
+  }
+  if (!hasSpecialChar) {
+    errors.push('Şifre en az bir özel karakter içermeli');
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+    strength: calculatePasswordStrength(password)
+  };
+}
+
+function calculatePasswordStrength(password) {
+  let score = 0;
+  if (password.length >= 8) score += 1;
+  if (password.length >= 12) score += 1;
+  if (/[A-Z]/.test(password)) score += 1;
+  if (/[a-z]/.test(password)) score += 1;
+  if (/\d/.test(password)) score += 1;
+  if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) score += 1;
+
+  if (score <= 2) return 'weak';
+  if (score <= 3) return 'fair';
+  if (score <= 4) return 'good';
+  if (score <= 5) return 'strong';
+  return 'very strong';
+}
+
+// Input sanitization
+function sanitizeInput(input) {
+  if (typeof input !== 'string') return input;
+  return input.trim().replace(/[<>]/g, '');
+}
+
+function validateEmail(email) {
+  return validator.isEmail(email) && validator.isLength(email, { min: 5, max: 255 });
+}
+
+function checkAccountLockout(email) {
+  const lockout = lockedAccounts.get(email);
+  if (lockout && lockout.expiresAt > Date.now()) {
+    const remainingTime = Math.ceil((lockout.expiresAt - Date.now()) / 60000);
+    return { locked: true, remainingTime };
+  }
+  if (lockout) {
+    lockedAccounts.delete(email);
+  }
+  return { locked: false };
+}
+
+function recordFailedLogin(email) {
+  const attempts = (failedLoginAttempts.get(email) || 0) + 1;
+  failedLoginAttempts.set(email, attempts);
+
+  if (attempts >= MAX_LOGIN_ATTEMPTS) {
+    const lockoutUntil = Date.now() + LOCKOUT_DURATION;
+    lockedAccounts.set(email, { expiresAt: lockoutUntil });
+    failedLoginAttempts.delete(email);
+    logAuditEvent('ACCOUNT_LOCKED', `Account locked for email: ${email}`, 'N/A');
+  }
+}
+
+function resetFailedLogin(email) {
+  failedLoginAttempts.delete(email);
+}
 
 // API Keys endpoint - returns keys from Vercel environment variables
 app.get('/api/keys', (req, res) => {
@@ -81,44 +232,73 @@ async function sendEmail(to, subject, html) {
 }
 
 // Auth: Register
-app.post('/api/auth/register', async (req, res) => {
+app.post('/api/auth/register', authLimiter, async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
+    const clientIp = req.ip || req.connection.remoteAddress;
 
+    // Input validation
     if (!fullName || !email || !password) {
+      logAuditEvent('REGISTER_FAILED', 'Missing required fields', clientIp);
       return res.status(400).json({ error: 'Tüm alanlar gerekli' });
     }
 
-    if (password.length < 6) {
-      return res.status(400).json({ error: 'Şifre en az 6 karakter olmalı' });
+    // Sanitize inputs
+    const sanitizedFullName = sanitizeInput(fullName);
+    const sanitizedEmail = sanitizeInput(email).toLowerCase();
+
+    // Validate email format
+    if (!validateEmail(sanitizedEmail)) {
+      logAuditEvent('REGISTER_FAILED', 'Invalid email format', clientIp);
+      return res.status(400).json({ error: 'Geçersiz e-posta formatı' });
+    }
+
+    // Validate full name length
+    if (!validator.isLength(sanitizedFullName, { min: 2, max: 100 })) {
+      logAuditEvent('REGISTER_FAILED', 'Invalid name length', clientIp);
+      return res.status(400).json({ error: 'İsim 2-100 karakter arasında olmalı' });
+    }
+
+    // Password strength validation
+    const passwordValidation = validatePasswordStrength(password);
+    if (!passwordValidation.isValid) {
+      logAuditEvent('REGISTER_FAILED', 'Weak password', clientIp);
+      return res.status(400).json({
+        error: 'Şifre güvenlik gereksinimlerini karşılamıyor',
+        details: passwordValidation.errors,
+        strength: passwordValidation.strength
+      });
     }
 
     // Check if user already exists
-    const existingUser = users.get(email);
+    const existingUser = users.get(sanitizedEmail);
     if (existingUser) {
+      logAuditEvent('REGISTER_FAILED', `Email already registered: ${sanitizedEmail}`, clientIp);
       return res.status(400).json({ error: 'Bu e-posta zaten kayıtlı' });
     }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Hash password with increased salt rounds
+    const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
 
     // Create user
     const userId = uuidv4();
     const verificationToken = crypto.randomBytes(32).toString('hex');
+    const verificationExpiresAt = Date.now() + VERIFICATION_TOKEN_EXPIRY;
 
     const user = {
       id: userId,
-      email: email.toLowerCase(),
-      fullName,
+      email: sanitizedEmail,
+      fullName: sanitizedFullName,
       password: hashedPassword,
       verified: false,
       verificationToken,
+      verificationExpiresAt,
       createdAt: Date.now(),
       lastLogin: null
     };
 
-    users.set(email, user);
-    verificationTokens.set(verificationToken, email);
+    users.set(sanitizedEmail, user);
+    verificationTokens.set(verificationToken, { email: sanitizedEmail, expiresAt: verificationExpiresAt });
 
     // Send verification email
     const verificationLink = `${req.protocol}://${req.get('host')}/verify-email?token=${verificationToken}`;
@@ -128,47 +308,82 @@ app.post('/api/auth/register', async (req, res) => {
       <a href="${verificationLink}" style="display:inline-block;padding:12px 24px;background:#00d4ff;color:#000;text-decoration:none;border-radius:8px;font-weight:bold;">Hesabı Doğrula</a>
       <p>Bu link 24 saat geçerlidir.</p>
     `;
-    await sendEmail(email, 'PROJEX AI - Hesap Doğrulama', emailHtml);
+    await sendEmail(sanitizedEmail, 'PROJEX AI - Hesap Doğrulama', emailHtml);
 
     // Generate JWT token
     const token = jwt.sign({ userId, email: user.email }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 
+    logAuditEvent('REGISTER_SUCCESS', `User registered: ${sanitizedEmail}`, clientIp);
+
     res.json({
       message: 'Kayıt başarılı. Lütfen e-postanızı doğrulayın.',
-      user: { id: userId, email: user.email, fullName, verified: false },
+      user: { id: userId, email: user.email, fullName: sanitizedFullName, verified: false },
       token
     });
   } catch (error) {
     console.error('Register error:', error);
+    logAuditEvent('REGISTER_ERROR', error.message, req.ip);
     res.status(500).json({ error: 'Kayıt sırasında hata oluştu' });
   }
 });
 
 // Auth: Login
-app.post('/api/auth/login', async (req, res) => {
+app.post('/api/auth/login', loginLimiter, async (req, res) => {
   try {
     const { email, password } = req.body;
+    const clientIp = req.ip || req.connection.remoteAddress;
 
+    // Input validation
     if (!email || !password) {
+      logAuditEvent('LOGIN_FAILED', 'Missing email or password', clientIp);
       return res.status(400).json({ error: 'E-posta ve şifre gerekli' });
     }
 
-    const user = users.get(email.toLowerCase());
+    // Sanitize and validate email
+    const sanitizedEmail = sanitizeInput(email).toLowerCase();
+    if (!validateEmail(sanitizedEmail)) {
+      logAuditEvent('LOGIN_FAILED', 'Invalid email format', clientIp);
+      return res.status(400).json({ error: 'Geçersiz e-posta formatı' });
+    }
+
+    // Check account lockout
+    const lockoutStatus = checkAccountLockout(sanitizedEmail);
+    if (lockoutStatus.locked) {
+      logAuditEvent('LOGIN_BLOCKED', `Account locked: ${sanitizedEmail}`, clientIp);
+      return res.status(429).json({
+        error: `Hesabınız geçici olarak kilitlendi. Lütfen ${lockoutStatus.remainingTime} dakika sonra tekrar deneyin.`
+      });
+    }
+
+    const user = users.get(sanitizedEmail);
     if (!user) {
+      recordFailedLogin(sanitizedEmail);
+      logAuditEvent('LOGIN_FAILED', `User not found: ${sanitizedEmail}`, clientIp);
       return res.status(401).json({ error: 'Geçersiz e-posta veya şifre' });
     }
 
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
-      return res.status(401).json({ error: 'Geçersiz e-posta veya şifre' });
+      recordFailedLogin(sanitizedEmail);
+      const attempts = failedLoginAttempts.get(sanitizedEmail) || 0;
+      logAuditEvent('LOGIN_FAILED', `Invalid password for: ${sanitizedEmail}, attempts: ${attempts}`, clientIp);
+      return res.status(401).json({
+        error: 'Geçersiz e-posta veya şifre',
+        remainingAttempts: MAX_LOGIN_ATTEMPTS - attempts
+      });
     }
+
+    // Reset failed login attempts on successful login
+    resetFailedLogin(sanitizedEmail);
 
     // Update last login
     user.lastLogin = Date.now();
-    users.set(email, user);
+    users.set(sanitizedEmail, user);
 
     // Generate JWT token
     const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+
+    logAuditEvent('LOGIN_SUCCESS', `User logged in: ${sanitizedEmail}`, clientIp);
 
     res.json({
       message: 'Giriş başarılı',
@@ -177,28 +392,40 @@ app.post('/api/auth/login', async (req, res) => {
     });
   } catch (error) {
     console.error('Login error:', error);
+    logAuditEvent('LOGIN_ERROR', error.message, req.ip);
     res.status(500).json({ error: 'Giriş sırasında hata oluştu' });
   }
 });
 
 // Auth: Forgot Password
-app.post('/api/auth/forgot-password', async (req, res) => {
+app.post('/api/auth/forgot-password', emailLimiter, async (req, res) => {
   try {
     const { email } = req.body;
+    const clientIp = req.ip || req.connection.remoteAddress;
 
+    // Input validation
     if (!email) {
+      logAuditEvent('FORGOT_PASSWORD_FAILED', 'Missing email', clientIp);
       return res.status(400).json({ error: 'E-posta adresi gerekli' });
     }
 
-    const user = users.get(email.toLowerCase());
+    // Sanitize and validate email
+    const sanitizedEmail = sanitizeInput(email).toLowerCase();
+    if (!validateEmail(sanitizedEmail)) {
+      logAuditEvent('FORGOT_PASSWORD_FAILED', 'Invalid email format', clientIp);
+      return res.status(400).json({ error: 'Geçersiz e-posta formatı' });
+    }
+
+    const user = users.get(sanitizedEmail);
     if (!user) {
       // Don't reveal if email exists or not for security
+      logAuditEvent('FORGOT_PASSWORD_ATTEMPT', `Email not found: ${sanitizedEmail}`, clientIp);
       return res.json({ message: 'Şifre sıfırlama linki e-posta adresine gönderildi' });
     }
 
     // Generate reset token
     const resetToken = crypto.randomBytes(32).toString('hex');
-    const expiresAt = Date.now() + (60 * 60 * 1000); // 1 hour
+    const expiresAt = Date.now() + RESET_TOKEN_EXPIRY;
 
     resetTokens.set(resetToken, { email: user.email, expiresAt });
 
@@ -212,9 +439,12 @@ app.post('/api/auth/forgot-password', async (req, res) => {
     `;
     await sendEmail(user.email, 'PROJEX AI - Şifre Sıfırlama', emailHtml);
 
+    logAuditEvent('FORGOT_PASSWORD_SUCCESS', `Password reset link sent to: ${sanitizedEmail}`, clientIp);
+
     res.json({ message: 'Şifre sıfırlama linki e-posta adresine gönderildi' });
   } catch (error) {
     console.error('Forgot password error:', error);
+    logAuditEvent('FORGOT_PASSWORD_ERROR', error.message, req.ip);
     res.status(500).json({ error: 'Şifre sıfırlama isteği sırasında hata oluştu' });
   }
 });
@@ -223,41 +453,57 @@ app.post('/api/auth/forgot-password', async (req, res) => {
 app.post('/api/auth/reset-password', async (req, res) => {
   try {
     const { token, newPassword } = req.body;
+    const clientIp = req.ip || req.connection.remoteAddress;
 
+    // Input validation
     if (!token || !newPassword) {
+      logAuditEvent('RESET_PASSWORD_FAILED', 'Missing token or password', clientIp);
       return res.status(400).json({ error: 'Token ve yeni şifre gerekli' });
     }
 
-    if (newPassword.length < 6) {
-      return res.status(400).json({ error: 'Şifre en az 6 karakter olmalı' });
+    // Password strength validation
+    const passwordValidation = validatePasswordStrength(newPassword);
+    if (!passwordValidation.isValid) {
+      logAuditEvent('RESET_PASSWORD_FAILED', 'Weak password', clientIp);
+      return res.status(400).json({
+        error: 'Şifre güvenlik gereksinimlerini karşılamıyor',
+        details: passwordValidation.errors,
+        strength: passwordValidation.strength
+      });
     }
 
     const resetData = resetTokens.get(token);
     if (!resetData) {
+      logAuditEvent('RESET_PASSWORD_FAILED', 'Invalid token', clientIp);
       return res.status(400).json({ error: 'Geçersiz veya süresi dolmuş token' });
     }
 
     if (Date.now() > resetData.expiresAt) {
       resetTokens.delete(token);
+      logAuditEvent('RESET_PASSWORD_FAILED', 'Expired token', clientIp);
       return res.status(400).json({ error: 'Token süresi dolmuş' });
     }
 
     const user = users.get(resetData.email);
     if (!user) {
+      logAuditEvent('RESET_PASSWORD_FAILED', 'User not found', clientIp);
       return res.status(400).json({ error: 'Kullanıcı bulunamadı' });
     }
 
-    // Hash new password
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    // Hash new password with increased salt rounds
+    const hashedPassword = await bcrypt.hash(newPassword, BCRYPT_SALT_ROUNDS);
     user.password = hashedPassword;
     users.set(resetData.email, user);
 
     // Delete used token
     resetTokens.delete(token);
 
+    logAuditEvent('RESET_PASSWORD_SUCCESS', `Password reset for: ${resetData.email}`, clientIp);
+
     res.json({ message: 'Şifre başarıyla sıfırlandı' });
   } catch (error) {
     console.error('Reset password error:', error);
+    logAuditEvent('RESET_PASSWORD_ERROR', error.message, req.ip);
     res.status(500).json({ error: 'Şifre sıfırlama sırasında hata oluştu' });
   }
 });
@@ -266,30 +512,45 @@ app.post('/api/auth/reset-password', async (req, res) => {
 app.get('/api/auth/verify-email', async (req, res) => {
   try {
     const { token } = req.query;
+    const clientIp = req.ip || req.connection.remoteAddress;
 
     if (!token) {
+      logAuditEvent('VERIFY_EMAIL_FAILED', 'Missing token', clientIp);
       return res.status(400).json({ error: 'Token gerekli' });
     }
 
-    const email = verificationTokens.get(token);
-    if (!email) {
+    const tokenData = verificationTokens.get(token);
+    if (!tokenData) {
+      logAuditEvent('VERIFY_EMAIL_FAILED', 'Invalid token', clientIp);
       return res.status(400).json({ error: 'Geçersiz token' });
     }
 
-    const user = users.get(email);
+    // Check token expiration
+    if (Date.now() > tokenData.expiresAt) {
+      verificationTokens.delete(token);
+      logAuditEvent('VERIFY_EMAIL_FAILED', 'Expired token', clientIp);
+      return res.status(400).json({ error: 'Token süresi dolmuş' });
+    }
+
+    const user = users.get(tokenData.email);
     if (!user) {
+      logAuditEvent('VERIFY_EMAIL_FAILED', 'User not found', clientIp);
       return res.status(400).json({ error: 'Kullanıcı bulunamadı' });
     }
 
     user.verified = true;
     user.verificationToken = null;
-    users.set(email, user);
+    user.verificationExpiresAt = null;
+    users.set(tokenData.email, user);
 
     verificationTokens.delete(token);
+
+    logAuditEvent('VERIFY_EMAIL_SUCCESS', `Email verified for: ${tokenData.email}`, clientIp);
 
     res.json({ message: 'E-posta başarıyla doğrulandı' });
   } catch (error) {
     console.error('Verify email error:', error);
+    logAuditEvent('VERIFY_EMAIL_ERROR', error.message, req.ip);
     res.status(500).json({ error: 'E-posta doğrulama sırasında hata oluştu' });
   }
 });
