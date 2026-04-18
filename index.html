@@ -9119,7 +9119,7 @@ v1.0.0 - İlk sürüm
     const MIN_TRANSCRIPT_LENGTH = 10;
     const MAX_VOICE_HISTORY = 50;
     const TEXT_CHUNK_THRESHOLD = 3000;
-    const MIN_PASSWORD_LENGTH = 6;
+    const MIN_PASSWORD_LENGTH = 8;
     const MIN_QUERY_LENGTH = 2;
     const MIN_CLEAN_LENGTH = 8;
     const MAX_CLEAN_LENGTH = 200;
@@ -11937,8 +11937,7 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
         }
 
         // Call backend API
-        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        const baseUrl = isLocalhost ? 'http://localhost:3001' : '';
+        const baseUrl = 'http://localhost:3001';
 
         const response = await fetch(`${baseUrl}/api/auth/login`, {
           method: 'POST',
@@ -12008,8 +12007,7 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
         }
 
         // Call backend API
-        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        const baseUrl = isLocalhost ? 'http://localhost:3001' : '';
+        const baseUrl = 'http://localhost:3001';
 
         const response = await fetch(`${baseUrl}/api/auth/forgot-password`, {
           method: 'POST',
@@ -15489,14 +15487,40 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
         }
 
         if (password.length < MIN_PASSWORD_LENGTH) {
-          errorEl.textContent = 'Şifre en az 6 karakter olmalı';
+          errorEl.textContent = 'Şifre en az 8 karakter olmalı';
+          errorEl.style.display = 'block';
+          return;
+        }
+
+        // Password strength validation
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        const hasNumbers = /\d/.test(password);
+        const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+        if (!hasUpperCase) {
+          errorEl.textContent = 'Şifre en az bir büyük harf içermeli';
+          errorEl.style.display = 'block';
+          return;
+        }
+        if (!hasLowerCase) {
+          errorEl.textContent = 'Şifre en az bir küçük harf içermeli';
+          errorEl.style.display = 'block';
+          return;
+        }
+        if (!hasNumbers) {
+          errorEl.textContent = 'Şifre en az bir rakam içermeli';
+          errorEl.style.display = 'block';
+          return;
+        }
+        if (!hasSpecialChar) {
+          errorEl.textContent = 'Şifre en az bir özel karakter içermeli';
           errorEl.style.display = 'block';
           return;
         }
 
         // Call backend API
-        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        const baseUrl = isLocalhost ? 'http://localhost:3001' : '';
+        const baseUrl = 'http://localhost:3001';
 
         const response = await fetch(`${baseUrl}/api/auth/register`, {
           method: 'POST',
@@ -18679,9 +18703,8 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
     // ══════════════════════════════════════════════════════════════
     async function fetchApiKeysFromBackend() {
       try {
-        // Try Vercel API first, then fallback to localhost
-        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        const baseUrl = isLocalhost ? 'http://localhost:3001' : '';
+        // Use localhost backend
+        const baseUrl = 'http://localhost:3001';
         const response = await fetch(`${baseUrl}/api/keys`);
         const data = await response.json();
 
