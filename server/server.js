@@ -259,15 +259,10 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
       return res.status(400).json({ error: 'İsim 2-100 karakter arasında olmalı' });
     }
 
-    // Password strength validation
-    const passwordValidation = validatePasswordStrength(password);
-    if (!passwordValidation.isValid) {
-      logAuditEvent('REGISTER_FAILED', 'Weak password', clientIp);
-      return res.status(400).json({
-        error: 'Şifre güvenlik gereksinimlerini karşılamıyor',
-        details: passwordValidation.errors,
-        strength: passwordValidation.strength
-      });
+    // Simple password validation - minimum 6 characters
+    if (password.length < 6) {
+      logAuditEvent('REGISTER_FAILED', 'Password too short', clientIp);
+      return res.status(400).json({ error: 'Şifre en az 6 karakter olmalı' });
     }
 
     // Check if user already exists
@@ -461,15 +456,10 @@ app.post('/api/auth/reset-password', async (req, res) => {
       return res.status(400).json({ error: 'Token ve yeni şifre gerekli' });
     }
 
-    // Password strength validation
-    const passwordValidation = validatePasswordStrength(newPassword);
-    if (!passwordValidation.isValid) {
-      logAuditEvent('RESET_PASSWORD_FAILED', 'Weak password', clientIp);
-      return res.status(400).json({
-        error: 'Şifre güvenlik gereksinimlerini karşılamıyor',
-        details: passwordValidation.errors,
-        strength: passwordValidation.strength
-      });
+    // Simple password validation - minimum 6 characters
+    if (newPassword.length < 6) {
+      logAuditEvent('RESET_PASSWORD_FAILED', 'Password too short', clientIp);
+      return res.status(400).json({ error: 'Şifre en az 6 karakter olmalı' });
     }
 
     const resetData = resetTokens.get(token);
