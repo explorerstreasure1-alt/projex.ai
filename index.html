@@ -8313,9 +8313,9 @@ v1.0.0 - İlk sürüm
         <div class="auth-body">
           <div class="auth-tabs">
             <button class="auth-tab-btn active" id="authLoginTab" data-i18n="auth.login.tab"
-              onclick="switchAuthTab('login')">Giriş Yap</button>
+              onclick="switchAuthTab('login')">Login</button>
             <button class="auth-tab-btn" id="authRegisterTab" data-i18n="auth.register.tab"
-              onclick="switchAuthTab('register')">Kayıt Ol</button>
+              onclick="switchAuthTab('register')">Register</button>
           </div>
 
           <div id="authError" class="error-msg hidden"></div>
@@ -8324,49 +8324,50 @@ v1.0.0 - İlk sürüm
           <div id="authLoginSection" class="auth-section">
             <form onsubmit="handleLogin(); return false;">
               <div class="form-group">
-                <label class="form-label" data-i18n="auth.email">E-posta</label>
+                <label class="form-label" data-i18n="auth.email">Email</label>
                 <input type="email" class="form-input" id="authEmail" data-i18n-placeholder="auth.email.placeholder"
-                  placeholder="ornek@email.com" required>
+                  placeholder="example@email.com" required>
               </div>
               <div class="form-group">
-                <label class="form-label" data-i18n="auth.password">Şifre</label>
+                <label class="form-label" data-i18n="auth.password">Password</label>
                 <input type="password" class="form-input" id="authPassword"
                   data-i18n-placeholder="auth.password.placeholder" placeholder="••••••••" required>
               </div>
               <div class="forgot-link">
-                <button type="button" data-i18n="auth.forgot.password" onclick="openPasswordResetModal()">Şifremi
-                  unuttum</button>
+                <button type="button" data-i18n="auth.forgot.password" onclick="openPasswordResetModal()">Forgot
+                  Password</button>
               </div>
-              <button class="btn-submit" type="submit" data-i18n="auth.login.btn">Giriş Yap</button>
+              <button class="btn-submit" type="submit" data-i18n="auth.login.btn">Login</button>
             </form>
           </div>
 
           <div id="authRegisterSection" class="auth-section hidden">
             <form onsubmit="handleRegister(); return false;">
               <div class="form-group">
-                <label class="form-label" data-i18n="auth.fullname">Ad Soyad</label>
+                <label class="form-label" data-i18n="auth.fullname">Full Name</label>
                 <input type="text" class="form-input" id="authFullName"
-                  data-i18n-placeholder="auth.fullname.placeholder" placeholder="Adınız Soyadınız" required>
+                  data-i18n-placeholder="auth.fullname.placeholder" placeholder="Your Full Name" required>
               </div>
               <div class="form-group">
-                <label class="form-label" data-i18n="auth.email">E-posta</label>
+                <label class="form-label" data-i18n="auth.email">Email</label>
                 <input type="email" class="form-input" id="authRegEmail" data-i18n-placeholder="auth.email.placeholder"
-                  placeholder="ornek@email.com" required>
+                  placeholder="example@email.com" required>
               </div>
               <div class="form-group">
-                <label class="form-label" data-i18n="auth.password">Şifre</label>
+                <label class="form-label" data-i18n="auth.password">Password</label>
                 <input type="password" class="form-input" id="authRegPassword"
-                  data-i18n-placeholder="auth.password.min.placeholder" placeholder="min. 6 karakter" required
+                  data-i18n-placeholder="auth.password.min.placeholder" placeholder="min. 6 characters" required
                   oninput="checkPasswordStrength(this.value)">
                 <div class="password-strength-container">
                   <div class="password-strength-bar" id="passwordStrengthBar"></div>
-                  <div class="password-strength-text" id="passwordStrengthText" data-i18n="auth.password.strength">Şifre
-                    gücü: -</div>
+                  <div class="password-strength-text" id="passwordStrengthText" data-i18n="auth.password.strength">
+                    Password
+                    strength: -</div>
                 </div>
               </div>
-              <button class="btn-submit" type="submit" data-i18n="auth.register.btn">Kayıt Ol</button>
-              <div class="trial-note"><strong data-i18n="auth.trial.note">15 gün ücretsiz deneme</strong> - <span
-                  data-i18n="auth.trial.access">Tüm özelliklere erişin!</span></div>
+              <button class="btn-submit" type="submit" data-i18n="auth.register.btn">Register</button>
+              <div class="trial-note"><strong data-i18n="auth.trial.note">15-day free trial</strong> - <span
+                  data-i18n="auth.trial.access">Access all features!</span></div>
             </form>
           </div>
         </div>
@@ -8398,22 +8399,22 @@ v1.0.0 - İlk sürüm
       </div>
 
       <div class="auth-card">
-        <h2 class="auth-title">Şifre Yenileme</h2>
-        <p class="auth-desc">E-posta adresinize şifre yenileme linki göndereceğiz.</p>
+        <h2 class="auth-title">Password Reset</h2>
+        <p class="auth-desc">We will send a password reset link to your email address.</p>
 
         <div id="resetError" class="error-msg hidden"></div>
         <div id="resetSuccess" class="success-msg hidden"></div>
 
         <form onsubmit="handlePasswordReset(); return false;">
           <div class="form-group">
-            <label class="form-label">E-posta</label>
-            <input type="email" class="form-input" id="resetEmail" placeholder="ornek@email.com" required>
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" id="resetEmail" placeholder="example@email.com" required>
           </div>
-          <button class="btn-submit" type="submit">Link Gönder</button>
+          <button class="btn-submit" type="submit">Send Link</button>
         </form>
 
         <div class="auth-switch">
-          Giriş ekranına dön <button type="button" onclick="closeModal('passwordResetModal')">Giriş Yap</button>
+          Back to login screen <button type="button" onclick="closeModal('passwordResetModal')">Login</button>
         </div>
       </div>
     </div>
@@ -14688,7 +14689,7 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
       }
     };
 
-    let currentLanguage = 'tr';
+    let currentLanguage = 'en';
 
     function t(key) {
       try {
