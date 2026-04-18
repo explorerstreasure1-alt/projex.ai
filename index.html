@@ -4603,6 +4603,64 @@ v1.0.0 - İlk sürüm
       }
     }
 
+    .auth-bg::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 30%, rgba(124, 106, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+      animation: glowMove 10s ease-in-out infinite;
+    }
+
+    @keyframes glowMove {
+
+      0%,
+      100% {
+        transform: translate(0, 0);
+      }
+
+      25% {
+        transform: translate(5%, 5%);
+      }
+
+      50% {
+        transform: translate(-5%, 10%);
+      }
+
+      75% {
+        transform: translate(10%, -5%);
+      }
+    }
+
+    .auth-bg::after {
+      content: '';
+      position: absolute;
+      top: 20%;
+      right: 20%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(124, 106, 255, 0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: floatOrb 8s ease-in-out infinite;
+    }
+
+    @keyframes floatOrb {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.5;
+      }
+
+      50% {
+        transform: translate(30px, -30px) scale(1.2);
+        opacity: 0.8;
+      }
+    }
+
     /* Neural Network / Constellation Animation */
     .neural-canvas {
       position: absolute;
@@ -5199,8 +5257,24 @@ v1.0.0 - İlk sürüm
       justify-content: center;
       z-index: 0;
       box-shadow: 10px 0 40px rgba(124, 106, 255, 0.3), 20px 0 60px rgba(0, 212, 255, 0.2);
-      background: linear-gradient(135deg, rgba(26, 26, 46, 0.8) 0%, rgba(10, 10, 21, 0.9) 100%);
+      background: linear-gradient(135deg, rgba(26, 26, 46, 0.8) 0%, rgba(10, 10, 21, 0.9) 50%, rgba(26, 26, 46, 0.8) 100%);
+      background-size: 200% 200%;
+      animation: heroGradient 20s ease infinite;
       backdrop-filter: blur(10px);
+    }
+
+    @keyframes heroGradient {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
     }
 
     .hero-logo {
@@ -5318,6 +5392,15 @@ v1.0.0 - İlk sürüm
       color: #e4e4f0;
       font-size: 1rem;
       line-height: 1.4;
+      transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: default;
+      padding: 8px;
+      border-radius: 8px;
+    }
+
+    .hero-feature:hover {
+      transform: translateX(5px);
+      background: rgba(124, 106, 255, 0.1);
     }
 
     .hero-feature-icon {
@@ -5330,6 +5413,12 @@ v1.0.0 - İlk sürüm
       justify-content: center;
       font-size: 1.1rem;
       flex-shrink: 0;
+      transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hero-feature:hover .hero-feature-icon {
+      transform: scale(1.1) rotate(5deg);
+      background: rgba(124, 106, 255, 0.25);
     }
 
     .hero-stats {
@@ -5368,6 +5457,21 @@ v1.0.0 - İlk sürüm
       display: flex;
       flex-direction: column;
       backdrop-filter: blur(20px);
+      animation: authFloat 6s ease-in-out infinite;
+    }
+
+    @keyframes authFloat {
+
+      0%,
+      100% {
+        transform: translateY(-50%) translateX(0);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(124, 106, 255, 0.15);
+      }
+
+      50% {
+        transform: translateY(-52%) translateX(5px);
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7), 0 0 50px rgba(124, 106, 255, 0.25);
+      }
     }
 
     .auth-header {
@@ -5496,14 +5600,32 @@ v1.0.0 - İlk sürüm
       font-size: 0.85rem;
       background: transparent;
       color: #5a5a78;
-      transition: all .2s;
+      transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
       font-family: 'DM Sans', sans-serif;
+    }
+
+    .auth-tab-btn:hover:not(.active) {
+      background: rgba(124, 106, 255, 0.1);
+      color: #7c6aff;
     }
 
     .auth-tab-btn.active {
       background: #7c6aff;
       color: #fff;
       box-shadow: 0 2px 10px rgba(124, 106, 255, 0.4);
+      animation: tabPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes tabPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 2px 10px rgba(124, 106, 255, 0.4);
+      }
+
+      50% {
+        box-shadow: 0 2px 20px rgba(124, 106, 255, 0.6);
+      }
     }
 
     .form-group {
@@ -5528,12 +5650,13 @@ v1.0.0 - İlk sürüm
       font-family: 'DM Sans', sans-serif;
       font-size: 0.85rem;
       outline: none;
-      transition: border .2s;
+      transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .form-input:focus {
       border-color: #7c6aff;
-      box-shadow: 0 0 0 3px rgba(124, 106, 255, 0.12);
+      box-shadow: 0 0 0 3px rgba(124, 106, 255, 0.12), 0 0 20px rgba(124, 106, 255, 0.2);
+      transform: translateY(-2px);
     }
 
     .form-input::placeholder {
@@ -5552,13 +5675,20 @@ v1.0.0 - İlk sürüm
       cursor: pointer;
       margin-top: 4px;
       font-family: 'DM Sans', sans-serif;
-      transition: all .2s;
+      transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
     }
 
     .btn-submit:hover:not(:disabled) {
       filter: brightness(1.15);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 18px rgba(124, 106, 255, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(124, 106, 255, 0.4);
+    }
+
+    .btn-submit:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: 0 5px 15px rgba(124, 106, 255, 0.3);
     }
 
     .btn-submit:disabled {
