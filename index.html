@@ -4824,6 +4824,130 @@ v1.0.0 - İlk sürüm
       }
     }
 
+    /* Matrix Rain Effect */
+    .matrix-rain-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .matrix-rain {
+      position: absolute;
+      top: -100%;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      color: rgba(124, 106, 255, 0.3);
+      text-shadow: 0 0 10px rgba(124, 106, 255, 0.5);
+      white-space: nowrap;
+      animation: matrixFall linear infinite;
+    }
+
+    @keyframes matrixFall {
+      0% {
+        transform: translateY(0);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.3;
+      }
+
+      90% {
+        opacity: 0.3;
+      }
+
+      100% {
+        transform: translateY(200vh);
+        opacity: 0;
+      }
+    }
+
+    /* Wireframe Globe Effect */
+    .globe-container {
+      position: absolute;
+      left: 15%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 300px;
+      height: 300px;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0.15;
+    }
+
+    .globe {
+      width: 100%;
+      height: 100%;
+      border: 2px solid rgba(124, 106, 255, 0.3);
+      border-radius: 50%;
+      position: relative;
+      animation: globeRotate 30s linear infinite;
+    }
+
+    .globe::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: rgba(124, 106, 255, 0.2);
+      transform: translateY(-50%);
+    }
+
+    .globe::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background: rgba(124, 106, 255, 0.2);
+      transform: translateX(-50%);
+    }
+
+    .globe-ring {
+      position: absolute;
+      border: 1px solid rgba(124, 106, 255, 0.2);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .globe-ring-1 {
+      width: 70%;
+      height: 70%;
+      animation: globeRotate 25s linear infinite reverse;
+    }
+
+    .globe-ring-2 {
+      width: 50%;
+      height: 50%;
+      animation: globeRotate 20s linear infinite;
+    }
+
+    .globe-ring-3 {
+      width: 30%;
+      height: 30%;
+      animation: globeRotate 15s linear infinite reverse;
+    }
+
+    @keyframes globeRotate {
+      from {
+        transform: translate(-50%, -50%) rotateX(60deg) rotateZ(0deg);
+      }
+
+      to {
+        transform: translate(-50%, -50%) rotateX(60deg) rotateZ(360deg);
+      }
+    }
+
     .hero-section {
       position: absolute;
       left: 0;
@@ -4992,10 +5116,11 @@ v1.0.0 - İlk sürüm
       max-width: 500px;
       overflow: visible;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(124, 106, 255, 0.15);
-      position: relative;
+      position: absolute;
       z-index: 10;
-      margin-left: 52%;
-      margin-top: 8%;
+      right: 8%;
+      top: 50%;
+      transform: translateY(-50%);
       display: flex;
       flex-direction: column;
       backdrop-filter: blur(20px);
@@ -7859,6 +7984,17 @@ v1.0.0 - İlk sürüm
     <div class="auth-bg">
       <!-- Neural Network / Constellation Animation -->
       <canvas class="neural-canvas" id="neuralCanvas"></canvas>
+
+      <!-- Matrix Rain Effect -->
+      <div class="matrix-rain-container" id="matrixRainContainer"></div>
+
+      <!-- Wireframe Globe Effect -->
+      <div class="globe-container">
+        <div class="globe"></div>
+        <div class="globe-ring globe-ring-1"></div>
+        <div class="globe-ring globe-ring-2"></div>
+        <div class="globe-ring globe-ring-3"></div>
+      </div>
 
       <!-- Data Flow Effect -->
       <div class="data-flow-container" id="dataFlowContainer"></div>
@@ -15023,6 +15159,7 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
         document.getElementById('authError').style.display = 'none';
         document.getElementById('authSuccess').style.display = 'none';
         initNeuralAnimation('neuralCanvas');
+        initMatrixRain('matrixRainContainer');
         initDataFlow('dataFlowContainer');
       } catch (e) {
         console.error('Error opening auth modal:', e);
@@ -15171,9 +15308,39 @@ Profesyonel, nesnel, tarih damgalı bir rapor formatında yaz.`
       }
     }
 
-    // ══════════════════════════════════════════════════════════════
-    // 💬 CHAT
-    // ══════════════════════════════════════════════════════════════
+    function initMatrixRain(containerId) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      container.innerHTML = '';
+
+      const characters = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const rainCount = 30;
+
+      for (let i = 0; i < rainCount; i++) {
+        const rain = document.createElement('div');
+        rain.className = 'matrix-rain';
+
+        const leftPos = Math.random() * 100;
+        rain.style.left = leftPos + '%';
+
+        const duration = 8 + Math.random() * 12;
+        rain.style.animationDuration = duration + 's';
+
+        const delay = Math.random() * 10;
+        rain.style.animationDelay = delay + 's';
+
+        let code = '';
+        const codeLength = 10 + Math.floor(Math.random() * 20);
+        for (let j = 0; j < codeLength; j++) {
+          code += characters[Math.floor(Math.random() * characters.length)];
+        }
+        rain.textContent = code;
+
+        container.appendChild(rain);
+      }
+    }
+
     let chatRooms = [];
     let currentChatRoom = null;
     let chatMessages = {};
