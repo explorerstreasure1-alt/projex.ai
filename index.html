@@ -455,6 +455,8 @@ v1.0.0 - Initial release
       display: none;
     }
 
+    /* AUTH MODAL STYLES - DISABLED */
+    /*
     #authModal {
       display: none;
       opacity: 0;
@@ -15828,14 +15830,9 @@ Write in a professional, objective, date-stamped report format.`,
     function checkAuthState() {
       try {
         const main = document.getElementById('main');
-        const authModal = document.getElementById('authModal');
 
         // AUTH DISABLED - Always show workspace
         if (main) main.classList.remove('hidden');
-        if (authModal) {
-          authModal.classList.remove('fullscreen-auth');
-          authModal.classList.remove('open');
-        }
 
         /*
         if (currentUser) {
@@ -15855,14 +15852,13 @@ Write in a professional, objective, date-stamped report format.`,
           // User is not logged in, hide workspace and show auth screen
           if (main) main.classList.add('hidden');
         */
-        if (authModal) {
-          authModal.classList.add('fullscreen-auth');
-          authModal.classList.add('open');
-        }
-      }
+        // if (authModal) {
+        //   authModal.classList.add('fullscreen-auth');
+        //   authModal.classList.add('open');
+        // }
       } catch (e) {
-      console.error('Error checking auth state:', e);
-    }
+        console.error('Error checking auth state:', e);
+      }
     }
 
     function showTrialExpiredPrompt() {
