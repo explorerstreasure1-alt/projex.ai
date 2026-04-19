@@ -86,6 +86,9 @@ v1.0.0 - Initial release
       --color-bg-secondary: #334155;
       --color-bg-tertiary: #475569;
       --color-bg-elevated: #64748b;
+      --bg: var(--color-bg-primary);
+      --bg2: var(--color-bg-secondary);
+      --b: var(--color-border-subtle);
 
       /* Surface Colors with Glass Effect */
       --color-surface-1: rgba(51, 65, 85, 0.8);
@@ -104,6 +107,8 @@ v1.0.0 - Initial release
       --color-text-secondary: #cbd5e1;
       --color-text-tertiary: #94a3b8;
       --color-text-muted: #64748b;
+      --t: var(--color-text-primary);
+      --text-dim: var(--color-text-tertiary);
 
       /* Brand Colors - Corporate Depth (Navy/Night Blue) */
       --color-brand-primary: #1e40af;
@@ -120,12 +125,21 @@ v1.0.0 - Initial release
       --color-warning: #fde047;
       --color-warning-light: #fef08a;
       --color-warning-dark: #facc15;
+      --color-warning-dim: rgba(253, 224, 71, 0.15);
       --color-error: #fca5a5;
       --color-error-light: #fecaca;
       --color-error-dark: #f87171;
       --color-info: #7dd3fc;
       --color-info-light: #bae6fd;
       --color-info-dark: #38bdf8;
+
+      /* Secondary and Accent Dim Colors */
+      --color-secondary: #94a3b8;
+      --color-secondary-dim: rgba(148, 163, 184, 0.15);
+      --color-accent: #c4b5fd;
+      --color-accent-dim: rgba(196, 181, 253, 0.15);
+      --danger: #f87171;
+      --danger-dim: rgba(248, 113, 113, 0.15);
 
       /* Accent Colors */
       --color-accent-purple: #c4b5fd;
@@ -908,7 +922,8 @@ v1.0.0 - Initial release
     }
 
     .logo {
-      display: flex;
+      display: none;
+      /* AUTH DISABLED - Hidden */
       align-items: center;
       gap: var(--space-3);
       text-decoration: none;
@@ -969,6 +984,8 @@ v1.0.0 - Initial release
 
     /* SEARCH BAR - Modern Glass Design */
     .search-bar {
+      display: none;
+      /* AUTH DISABLED - Hidden */
       flex: 1;
       max-width: 460px;
       display: flex;
@@ -1186,6 +1203,17 @@ v1.0.0 - Initial release
       box-shadow: var(--shadow-xl), 0 0 20px rgba(245, 158, 11, 0.3);
     }
 
+    .btn-success {
+      background: linear-gradient(135deg, var(--color-success) 0%, #10b981 100%);
+      color: #fff;
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-success:hover {
+      background: linear-gradient(135deg, #059669 0%, var(--color-success) 100%);
+      box-shadow: var(--shadow-xl), 0 0 20px rgba(16, 185, 129, 0.3);
+    }
+
     /* FIX #5: Added missing btn-amber class definition (used at lines 1874 and 3494) */
     .btn-icon {
       width: 40px;
@@ -1219,7 +1247,8 @@ v1.0.0 - Initial release
     }
 
     .header-actions {
-      display: flex;
+      display: none;
+      /* AUTH DISABLED - Hidden */
       align-items: center;
       gap: 8px;
       margin-left: auto;
@@ -1257,6 +1286,8 @@ v1.0.0 - Initial release
     }
 
     .sidebar-section {
+      display: none;
+      /* AUTH DISABLED - Hidden */
       padding: 0 20px;
       position: relative;
       z-index: 1;
@@ -1264,6 +1295,8 @@ v1.0.0 - Initial release
     }
 
     .sidebar-label {
+      display: none;
+      /* AUTH DISABLED - Hidden */
       font-size: 0.7rem;
       font-weight: 700;
       letter-spacing: 0.15em;
@@ -1275,7 +1308,8 @@ v1.0.0 - Initial release
     }
 
     .nav-item {
-      display: flex;
+      display: none;
+      /* AUTH DISABLED - Hidden */
       align-items: center;
       gap: 12px;
       padding: 12px 16px;
@@ -1336,15 +1370,15 @@ v1.0.0 - Initial release
     }
 
     .badge {
+      display: none;
+      /* AUTH DISABLED - Hidden */
       margin-left: auto;
       background: linear-gradient(135deg, rgba(124, 106, 255, 0.8) 0%, rgba(0, 212, 255, 0.8) 100%);
       color: #fff;
       font-size: 0.7rem;
       font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-family: 'JetBrains Mono', monospace;
-      box-shadow: 0 2px 8px rgba(124, 106, 255, 0.3);
+      padding: 2px 8px;
+      border-radius: 12px;
       min-width: 24px;
       text-align: center;
     }
@@ -1355,6 +1389,8 @@ v1.0.0 - Initial release
     }
 
     .sidebar-divider {
+      display: none;
+      /* AUTH DISABLED - Hidden */
       border: none;
       border-top: 1px solid rgba(255, 255, 255, 0.05);
       margin: 24px 20px;
@@ -1429,12 +1465,12 @@ v1.0.0 - Initial release
 
     /* MAIN CONTENT */
     .main {
+      display: flex;
       flex: 1;
       min-width: 0;
       padding: 0;
       gap: 0;
       overflow: hidden;
-      display: flex;
       flex-direction: column;
     }
 
@@ -1451,7 +1487,8 @@ v1.0.0 - Initial release
 
     /* TABS - Modern Glass Design */
     .main-tabs {
-      display: flex;
+      display: none;
+      /* AUTH DISABLED - Hidden */
       background: rgba(26, 33, 64, 0.6);
       backdrop-filter: blur(15px);
       border: 1px solid var(--color-border-subtle);
@@ -1474,6 +1511,8 @@ v1.0.0 - Initial release
     }
 
     .main-tab {
+      display: none;
+      /* AUTH DISABLED - Hidden */
       flex: 1;
       padding: var(--space-3) var(--space-4);
       background: transparent;
@@ -1484,7 +1523,6 @@ v1.0.0 - Initial release
       font-family: 'DM Sans', sans-serif;
       font-size: 0.9rem;
       font-weight: 600;
-      display: flex;
       align-items: center;
       justify-content: center;
       gap: var(--space-2);
@@ -3505,6 +3543,12 @@ v1.0.0 - Initial release
     .voice-mode-card.active-update {
       border-color: var(--color-border-focus);
       background: rgba(0, 212, 255, 0.15);
+      box-shadow: var(--shadow-md), var(--glow-brand-primary);
+    }
+
+    .voice-mode-card.active-new {
+      border-color: var(--color-brand-primary);
+      background: rgba(30, 64, 175, 0.15);
       box-shadow: var(--shadow-md), var(--glow-brand-primary);
     }
 
@@ -7070,13 +7114,13 @@ v1.0.0 - Initial release
       </div>
       <div class="header-actions" style="display:flex;gap:8px;align-items:center">
         <button class="btn-icon" id="authBtn" title="Login / Register" aria-label="Login or register"
-          style="padding:8px 12px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--text);font-size:0.85rem;cursor:pointer;transition:all 0.2s;display:none">Login</button>
+          style="padding:8px 12px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--color-text-primary);font-size:0.85rem;cursor:pointer;transition:all 0.2s;display:none">Login</button>
         <button class="btn-icon" id="logoutBtn" data-i18n="logout" data-i18n-title="logout" title="Logout"
           onclick="logout()" aria-label="Logout"
-          style="padding:8px 12px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--text);font-size:0.85rem;cursor:pointer;transition:all 0.2s;display:none">Logout</button>
+          style="padding:8px 12px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--color-text-primary);font-size:0.85rem;cursor:pointer;transition:all 0.2s;display:none">Logout</button>
         <button class="btn-icon" id="onlineUsersBtn" data-i18n-title="online.users" title="Online Users"
           onclick="toggleOnlineUsersPanel()" aria-label="View online users"
-          style="padding:8px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--text);cursor:pointer;transition:all 0.2s;display:none">👥</button>
+          style="padding:8px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--color-text-primary);cursor:pointer;transition:all 0.2s;display:none">👥</button>
         <button class="btn-icon" data-i18n-title="theme" title="Theme" onclick="toggleDarkMode()" id="themeToggle"
           style="padding:8px;border-radius:12px;background:linear-gradient(135deg,#1a1a2e 0%,#0a0a15 100%);border:1px solid rgba(255,255,255,0.1);cursor:pointer;transition:all 0.3s;width:40px;height:24px;position:relative;overflow:hidden">
           <div id="themeToggleCircle"
@@ -7085,18 +7129,18 @@ v1.0.0 - Initial release
         </button>
         <button class="btn-icon" data-i18n-title="language" title="Language" onclick="toggleLanguageSelector()"
           id="langBtn"
-          style="padding:8px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--text);cursor:pointer;transition:all 0.2s">🌐</button>
+          style="padding:8px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--color-text-primary);cursor:pointer;transition:all 0.2s">🌐</button>
         <button class="btn-icon" data-i18n-title="import" title="Import" onclick="openImportModal()"
-          style="padding:8px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--text);cursor:pointer;transition:all 0.2s">📥</button>
+          style="padding:8px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--color-text-primary);cursor:pointer;transition:all 0.2s">📥</button>
         <button class="btn-icon" data-i18n-title="export" title="Export" onclick="exportData()"
-          style="padding:8px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--text);cursor:pointer;transition:all 0.2s">📤</button>
+          style="padding:8px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--color-text-primary);cursor:pointer;transition:all 0.2s">📤</button>
         <button class="btn-icon" data-i18n-title="nav.voice" onclick="switchMainTab('voice')"
-          style="padding:8px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--text);cursor:pointer;transition:all 0.2s">🎙️</button>
+          style="padding:8px;border-radius:8px;background:transparent;border:1px solid var(--border);color:var(--color-text-primary);cursor:pointer;transition:all 0.2s">🎙️</button>
         <button class="btn-icon" data-i18n="add.task" onclick="openAddTaskModal()"
-          style="padding:8px 14px;border-radius:8px;background:var(--accent);border:none;color:white;font-size:0.85rem;cursor:pointer;transition:all 0.2s">+
+          style="padding:8px 14px;border-radius:8px;background:var(--color-brand-primary);border:none;color:white;font-size:0.85rem;cursor:pointer;transition:all 0.2s">+
           Task</button>
         <button class="btn-icon" onclick="openAddModal()"
-          style="padding:8px 14px;border-radius:8px;background:var(--primary);border:none;color:white;font-size:0.85rem;cursor:pointer;transition:all 0.2s"
+          style="padding:8px 14px;border-radius:8px;background:var(--color-brand-primary);border:none;color:white;font-size:0.85rem;cursor:pointer;transition:all 0.2s"
           data-i18n="vault.add.item">+
           Add</button>
       </div>
@@ -7197,6 +7241,18 @@ v1.0.0 - Initial release
             <span class="nav-icon">🚀</span>
             <span data-i18n="upgrade.btn">Pro Plan - $4.99</span>
           </div>
+          <div style="padding:12px 16px;margin:0">
+            <div
+              style="font-size:0.75rem;color:var(--color-text-secondary);margin-bottom:8px;display:flex;justify-content:space-between">
+              <span data-i18n="today.progress">Today's Progress</span>
+              <span id="progressPct">0%</span>
+            </div>
+            <div style="width:100%;height:6px;background:var(--color-bg-secondary);border-radius:3px;overflow:hidden">
+              <div id="progressFill"
+                style="width:0%;height:100%;background:linear-gradient(90deg,var(--color-success),#10b981);transition:width 0.3s ease">
+              </div>
+            </div>
+          </div>
         </div>
         <hr class="sidebar-divider">
         <div class="sidebar-section">
@@ -7233,6 +7289,10 @@ v1.0.0 - Initial release
         <!-- VAULT VIEW -->
         <div id="vaultView"
           style="display:none;height:calc(100vh - 64px);overflow-y:auto;overflow-x:hidden;padding:0;margin:0">
+          <div style="padding:18px 24px;border-bottom:1px solid #1e293b;background:rgba(26,33,64,0.5)">
+            <h2 id="sectionTitle" style="font-size:1.25rem;font-weight:700;color:var(--color-text-primary);margin:0">All
+              Items</h2>
+          </div>
           <div class="dashboard-grid"
             style="display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:0;padding:0;margin:0;min-height:0;align-items:stretch">
             <!-- Left: Instructions -->
@@ -7491,6 +7551,9 @@ v1.0.0 - Initial release
               </div>
             </div>
           </div>
+          <!-- Cards Grid for Filtered Items -->
+          <div id="cardsGrid" class="cards-grid"
+            style="padding:24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px"></div>
         </div>
 
         <!-- TASKS VIEW -->
@@ -8461,7 +8524,6 @@ v1.0.0 - Initial release
           <label class="form-label">TYPE</label>
           <div class="type-tabs">
             <button class="type-tab active" id="tab-project" onclick="selectType('project')">📁 Project</button>
-            /* FIX #6: Changed class from "active-project" to "active" for consistent naming pattern */
             <button class="type-tab" id="tab-instruction" onclick="selectType('instruction')">⚙️ AI Instruction</button>
             <button class="type-tab" id="tab-code" onclick="selectType('code')">💻 Code</button>
           </div>
@@ -8505,8 +8567,6 @@ v1.0.0 - Initial release
             id="taskTitle" placeholder="Task title..."></div>
         <div class="form-group"><label class="form-label">DESCRIPTION</label><textarea
             class="form-textarea textarea-tall" id="taskDesc" placeholder="Details..."></textarea></div>
-        /* FIX #7: Removed duplicate class attribute - combined form-textarea and textarea-tall into single class
-        attribute */
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">PRIORITY</label>
@@ -8842,11 +8902,11 @@ v1.0.0 - Initial release
 
   <!-- ONLINE USERS PANEL -->
   <div class="panel-overlay" id="onlineUsersPanel"
-    style="display:none;position:fixed;top:0;right:0;width:320px;height:100%;background:var(--bg);border-left:1px solid var(--border);z-index:10001;box-shadow:-4px 0 20px rgba(0,0,0,0.3);padding:20px;overflow-y:auto">
+    style="display:none;position:fixed;top:0;right:0;width:320px;height:100%;background:var(--color-bg-primary);border-left:1px solid var(--color-border-subtle);z-index:10001;box-shadow:-4px 0 20px rgba(0,0,0,0.3);padding:20px;overflow-y:auto">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-      <h3 style="margin:0;color:var(--text);font-size:1.1rem">👥 Online Users</h3>
+      <h3 style="margin:0;color:var(--color-text-primary);font-size:1.1rem">👥 Online Users</h3>
       <button onclick="toggleOnlineUsersPanel()"
-        style="background:none;border:none;color:var(--text);cursor:pointer;font-size:1.2rem">✕</button>
+        style="background:none;border:none;color:var(--color-text-primary);cursor:pointer;font-size:1.2rem">✕</button>
     </div>
     <div id="onlineUsersList" style="display:flex;flex-direction:column;gap:12px">
       <!-- Online users will be rendered here -->
@@ -9466,7 +9526,7 @@ v1.0.0 - Initial release
     let activeFilter = 'all', activeTagFilter = null;
     let currentEditId = null, currentDetailId = null, currentTaskId = null;
     let currentType = 'project', currentView = 'grid';
-    let currentTags = [], currentTaskTags = [], currentPriority = 'medium', currentStatus = 'todo', currentSubtasks = [];
+    let currentTags = [], currentTaskTags = [], currentPriority = 'medium', currentStatus = 'todo', currentSubtasks = [], editingTaskId = null;
     let selectedDay = todayStr(), totalCopies = parseInt(localStorage.getItem(getUserKey('devvault_copies')) || '0');
     let currentMainTab = 'vault', urgentMode = false;
 
@@ -9477,11 +9537,12 @@ v1.0.0 - Initial release
     let recordTimer = null, recordSeconds = 0;
     let recognition = null, finalTranscript = '', interimTranscript = '';
     let audioContext = null, analyser = null, animFrameId = null;
-    let groqApiKey = localStorage.getItem(getUserKey('devvault_groq_key')) || '';
-    let sabmanovaId = localStorage.getItem(getUserKey('devvault_sabmanova_id')) || '';
-    let mistralApiKey = localStorage.getItem(getUserKey('devvault_mistral_key')) || '';
-    let hfToken = localStorage.getItem(getUserKey('devvault_hf_token')) || '';
-    let cloudflareToken = localStorage.getItem(getUserKey('devvault_cloudflare_key')) || '';
+    let clockInterval = null;
+    let groqApiKey = sessionStorage.getItem(getUserKey('devvault_groq_key')) || '';
+    let sabmanovaId = sessionStorage.getItem(getUserKey('devvault_sabmanova_id')) || '';
+    let mistralApiKey = sessionStorage.getItem(getUserKey('devvault_mistral_key')) || '';
+    let hfToken = sessionStorage.getItem(getUserKey('devvault_hf_token')) || '';
+    let cloudflareToken = sessionStorage.getItem(getUserKey('devvault_cloudflare_key')) || '';
     let currentAiResult = '';
     let transcriptEditMode = false;
     const MAX_REC_SECS = 5 * 60 * 60;
@@ -9505,10 +9566,19 @@ v1.0.0 - Initial release
     }
     function genId() {
       try {
-        return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
+        // Use crypto.getRandomValues for cryptographically secure random values
+        const array = new Uint32Array(2);
+        crypto.getRandomValues(array);
+        const timestamp = Date.now().toString(36);
+        const randomPart = Array.from(array)
+          .map(b => b.toString(36))
+          .join('')
+          .substr(0, 9);
+        return timestamp + randomPart;
       } catch (e) {
         console.error('Error generating ID:', e);
-        return Date.now().toString();
+        // Fallback to less secure method if crypto API is unavailable
+        return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
       }
     }
     function save() {
@@ -9534,15 +9604,6 @@ v1.0.0 - Initial release
         logger.error('Voice history save error', { error: e.message });
       }
     }
-    // Enhanced XSS sanitization
-    function escHtml(s) {
-      if (s === null || s === undefined) return '';
-      const str = String(s);
-      return str.replace(/[&<>'"`]/g, function (match) {
-        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#x27;', '"': '&quot;', '`': '&#x60;' }[match];
-      });
-    }
-
     // Input validation
     function validateTags(tags) {
       try {
@@ -9570,6 +9631,22 @@ v1.0.0 - Initial release
       }
     }
 
+    // Safe sessionStorage with quota handling (for sensitive data like API keys)
+    function safeSetSessionItem(key, value) {
+      try {
+        sessionStorage.setItem(key, value);
+        return true;
+      } catch (e) {
+        if (e.name === 'QuotaExceededError') {
+          toast('Session storage full! Clear some data.', 'error');
+        } else {
+          console.error('sessionStorage error:', e);
+          toast('Data could not be saved: ' + e.message, 'error');
+        }
+        return false;
+      }
+    }
+
     function safeGetItem(key, defaultValue) {
       try {
         const item = localStorage.getItem(key);
@@ -9591,6 +9668,15 @@ v1.0.0 - Initial release
       }
     }
 
+    // Auth guard for sensitive operations - protects even when auth is disabled
+    function requireAuth(operation = 'this operation') {
+      if (!currentUser) {
+        toast(`Authentication required for ${operation}. Please log in first.`, 'error');
+        return false;
+      }
+      return true;
+    }
+
     // Data integrity check
     function validateDataStructure(data, expectedFields) {
       try {
@@ -9605,12 +9691,15 @@ v1.0.0 - Initial release
     function sanitizeItem(item) {
       try {
         if (!item || typeof item !== 'object') return null;
+        const titleValidation = validateString(item.title, 200, true);
+        const contentValidation = validateString(item.content, 100000, true);
+        const languageValidation = validateString(item.language, 50, true);
         return {
           id: validateId(item.id) || genId(),
           type: ['project', 'instruction', 'code'].includes(item.type) ? item.type : 'project',
-          title: validateString(item.title, 200) || 'Unnamed Record',
-          content: validateString(item.content, 100000) || '',
-          language: validateString(item.language, 50) || '',
+          title: titleValidation.valid ? titleValidation.sanitized : 'Unnamed Record',
+          content: contentValidation.valid ? contentValidation.sanitized : '',
+          language: languageValidation.valid ? languageValidation.sanitized : '',
           tags: validateTags(item.tags),
           favorite: Boolean(item.favorite),
           aiGenerated: Boolean(item.aiGenerated),
@@ -9627,13 +9716,18 @@ v1.0.0 - Initial release
     function sanitizeTask(task) {
       try {
         if (!task || typeof task !== 'object') return null;
+        const titleValidation = validateString(task.title, MAX_TITLE_LENGTH, true);
+        const descValidation = validateString(task.description, MAX_DESCRIPTION_LENGTH, true);
+        const dateValidation = validateString(task.date, MAX_DATE_LENGTH, true);
+        const timeValidation = validateString(task.time, MAX_TIME_LENGTH, true);
+        const estimateValidation = validateString(task.estimate, MAX_ESTIMATE_LENGTH, true);
         return {
           id: validateId(task.id) || genId(),
-          title: validateString(task.title, MAX_TITLE_LENGTH) || 'Unnamed Task',
-          description: validateString(task.description, MAX_DESCRIPTION_LENGTH) || '',
-          date: validateString(task.date, MAX_DATE_LENGTH) || todayStr(),
-          time: validateString(task.time, MAX_TIME_LENGTH) || '',
-          estimate: validateString(task.estimate, MAX_ESTIMATE_LENGTH) || '',
+          title: titleValidation.valid ? titleValidation.sanitized : 'Unnamed Task',
+          description: descValidation.valid ? descValidation.sanitized : '',
+          date: dateValidation.valid ? dateValidation.sanitized : todayStr(),
+          time: timeValidation.valid ? timeValidation.sanitized : '',
+          estimate: estimateValidation.valid ? estimateValidation.sanitized : '',
           projectId: validateId(task.projectId) || '',
           priority: ['critical', 'high', 'medium', 'low', 'none'].includes(task.priority) ? task.priority : 'medium',
           status: ['todo', 'inprogress', 'review', 'done'].includes(task.status) ? task.status : 'todo',
@@ -9858,53 +9952,13 @@ v1.0.0 - Initial release
       }
     }
 
-    function renderCard(item, q = '') {
-      try {
-        const te = item.type === 'project' ? '📁' : item.type === 'instruction' ? '🤖' : '💻';
-        const date = formatDate(item.updatedAt || item.createdAt);
-        const preview = q ? highlightText(escapeHtml(item.content.slice(0, 200)), q) : escapeHtml(item.content.slice(0, 200));
-        const isCode = item.type === 'code';
-        let taskBar = '';
-        if (item.type === 'project') {
-          const pt = tasks.filter(t => t.projectId === item.id);
-          if (pt.length) {
-            const done = pt.filter(t => t.status === 'done' || t.completed).length;
-            const pct = Math.round(done / pt.length * 100);
-            taskBar = `<div class="card-task-bar"><div class="card-task-bar-inner"><div class="card-task-bar-fill" style="width:${pct}%"></div></div><span class="card-task-bar-text">${done}/${pt.length} tasks</span></div>`;
-          }
-        }
-        const tags = (item.tags || []).slice(0, 3).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
-        const langBadge = isCode && item.language ? `<span class="tag" style="background:var(--amber-dim);color:var(--amber)">${escapeHtml(item.language)}</span>` : '';
-        const aiBadge = item.aiGenerated ? `<span class="ai-badge">🎙️ AI</span>` : '';
-        return `<div class="card type-${item.type} ${item.favorite ? 'favorited' : ''}" onclick="openDetail('${item.id}')">
-    <div class="card-header">
-      <div class="card-type-badge">${te}</div>
-      <div class="card-title-wrap">
-        <div class="card-title" title="${escapeHtml(item.title)}">${q ? highlightText(escapeHtml(item.title), q) : escapeHtml(item.title)}</div>
-        <div class="card-meta">${date}${item.language ? ' · ' + escapeHtml(item.language) : ''}</div>
-      </div>
-      <div class="card-actions" onclick="event.stopPropagation()">
-        <button class="card-action-btn ${item.favorite ? 'fav-active' : ''}" onclick="toggleFavorite('${item.id}')" title="Favorite">⭐</button>
-        <button class="card-action-btn" onclick="copyItem('${item.id}',this)" title="Copy">📋</button>
-        ${item.type === 'project' ? `<button class="card-action-btn" onclick="openAddTaskForProject('${item.id}');event.stopPropagation()" title="Add Task" style="color:var(--green)">＋</button>` : ''}
-        <button class="card-action-btn" onclick="editItem('${item.id}');event.stopPropagation()" title="Edit">✏️</button>
-        <button class="card-action-btn" onclick="confirmDelete('${item.id}');event.stopPropagation()" title="Delete" style="color:var(--red)">🗑️</button>
-      </div>
-    </div>
-    ${taskBar}
-    <div class="card-preview ${isCode ? 'code-preview' : ''}">${preview}${item.content.length > 200 ? '…' : ''}</div>
-    <div class="card-footer">${langBadge}${tags}${aiBadge}${item.usageCount ? `<span class="usage-counter">📋 ${item.usageCount}</span>` : ''}</div>
-  </div>`;
-      } catch (e) {
-        console.error('Error rendering card:', e);
-        return '';
-      }
-    }
-
     function highlightText(text, q) {
-      if (!q) return text;
-      const regex = new RegExp(`(${escapeRegExp(q)})`, 'gi');
-      return text.replace(regex, '<mark>$1</mark>');
+      if (!q || typeof q !== 'string') return text;
+      // Escape HTML first to prevent XSS, then apply highlighting
+      const escapedText = escHtml(text);
+      const escapedQuery = escHtml(q);
+      const regex = new RegExp(`(${escapeRegExp(escapedQuery)})`, 'gi');
+      return escapedText.replace(regex, '<mark>$1</mark>');
     }
 
     function escapeRegExp(string) {
@@ -9986,7 +10040,7 @@ v1.0.0 - Initial release
     function createCardBadges(item) {
       try {
         const isCode = item.type === 'code';
-        const langBadge = isCode && item.language ? `<span class="tag" style="background:var(--amber-dim);color:var(--amber)">${escHtml(item.language)}</span>` : '';
+        const langBadge = isCode && item.language ? `<span class="tag" style="background:var(--color-warning-dim);color:var(--color-warning)">${escHtml(item.language)}</span>` : '';
         const aiBadge = item.aiGenerated ? '<span class="tag" style="background:var(--purple-dim);color:var(--purple)">AI</span>' : '';
         return langBadge + aiBadge;
       } catch (e) {
@@ -10000,9 +10054,9 @@ v1.0.0 - Initial release
         return `<div class="card-actions" onclick="event.stopPropagation()">
         <button class="card-action-btn ${item.favorite ? 'fav-active' : ''}" onclick="toggleFavorite('${item.id}')" title="Favorite">⭐</button>
         <button class="card-action-btn" onclick="copyItem('${item.id}',this)" title="Copy">📋</button>
-        ${item.type === 'project' ? `<button class="card-action-btn" onclick="openAddTaskForProject('${item.id}');event.stopPropagation()" title="Add Task" style="color:var(--green)">＋</button>` : ''}
+        ${item.type === 'project' ? `<button class="card-action-btn" onclick="openAddTaskForProject('${item.id}');event.stopPropagation()" title="Add Task" style="color:var(--color-success)">＋</button>` : ''}
         <button class="card-action-btn" onclick="editItem('${item.id}');event.stopPropagation()" title="Edit">✏️</button>
-        <button class="card-action-btn" onclick="confirmDelete('${item.id}');event.stopPropagation()" title="Delete" style="color:var(--red)">🗑️</button>
+        <button class="card-action-btn" onclick="confirmDelete('${item.id}');event.stopPropagation()" title="Delete" style="color:var(--color-error)">🗑️</button>
       </div>`;
       } catch (e) {
         console.error('Error creating card actions:', e);
@@ -10036,17 +10090,6 @@ v1.0.0 - Initial release
       } catch (e) {
         console.error('Error rendering card:', e);
         return '';
-      }
-    }
-
-    function highlightText(text, q) {
-      try {
-        if (!q) return text;
-        const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-        return text.replace(re, '<span class="highlight-match">$1</span>');
-      } catch (e) {
-        console.error('Error highlighting text:', e);
-        return text;
       }
     }
 
@@ -10096,7 +10139,7 @@ v1.0.0 - Initial release
         } else {
           addChatAiMessage(message, 'user');
           input.value = '';
-          if (typeof io !== 'undefined' && socket) {
+          if (typeof io !== 'undefined' && socket && socket.connected) {
             socket.emit('chat-ai-message', {
               message: message,
               userId: currentUser?.id,
@@ -10211,7 +10254,7 @@ v1.0.0 - Initial release
                 <span style="font-weight:600;font-size:0.8rem;color:${isUser ? 'var(--color-brand-primary)' : 'var(--color-brand-secondary)'}">${userName}</span>
                 <span style="font-size:0.7rem;color:var(--text-muted)">${new Date().toLocaleTimeString('en-US')}</span>
               </div>
-              <div style="font-size:0.9rem;color:var(--text);padding:12px;background:${isUser ? 'rgba(0,212,255,0.1)' : 'rgba(124,58,237,0.1)'};border-radius:12px;border:1px solid ${isUser ? 'rgba(0,212,255,0.3)' : 'rgba(124,58,237,0.3)'};line-height:1.6">${message}</div>
+              <div style="font-size:0.9rem;color:var(--color-text-primary);padding:12px;background:${isUser ? 'rgba(0,212,255,0.1)' : 'rgba(124,58,237,0.1)'};border-radius:12px;border:1px solid ${isUser ? 'rgba(0,212,255,0.3)' : 'rgba(124,58,237,0.3)'};line-height:1.6">${message}</div>
             </div>
           </div>
         `;
@@ -10321,6 +10364,8 @@ v1.0.0 - Initial release
     }
 
     function saveGroqKey() {
+      if (!requireAuth('API key saving')) return;
+
       try {
         const val = document.getElementById('groqKeyInput').value.trim();
         const validation = validateString(val, MAX_API_KEY_LENGTH, false);
@@ -10339,13 +10384,13 @@ v1.0.0 - Initial release
         if (!groqApiKey) {
           showSecurityWarning(() => {
             groqApiKey = val;
-            safeSetItem(getUserKey('devvault_groq_key'), val);
+            safeSetSessionItem(getUserKey('devvault_groq_key'), val);
             setKeyDot('ok');
             toast('Groq API key saved ✓', 'success');
           });
         } else {
           groqApiKey = val;
-          safeSetItem(getUserKey('devvault_groq_key'), val);
+          safeSetSessionItem(getUserKey('devvault_groq_key'), val);
           setKeyDot('ok');
           toast('Groq API key updated ✓', 'success');
         }
@@ -10357,10 +10402,12 @@ v1.0.0 - Initial release
 
     function showSecurityWarning(callback) {
       try {
-        const title = translations[currentLanguage]['security.warning.title'] || '⚠️ SECURITY WARNING';
-        const message = translations[currentLanguage]['security.warning.message'] || 'API key will be saved to your browser\'s localStorage. This may pose a security risk on shared computers.';
-        const confirmText = translations[currentLanguage]['security.warning.confirm'] || 'Do you want to continue?';
-        const cancelledText = translations[currentLanguage]['security.warning.cancelled'] || 'API key not saved';
+        const lang = typeof translations !== 'undefined' && currentLanguage ? currentLanguage : 'en';
+        const trans = typeof translations !== 'undefined' ? translations[lang] : {};
+        const title = trans['security.warning.title'] || '⚠️ SECURITY WARNING';
+        const message = trans['security.warning.message'] || 'API key will be saved to your browser\'s localStorage. This may pose a security risk on shared computers.';
+        const confirmText = trans['security.warning.confirm'] || 'Do you want to continue?';
+        const cancelledText = trans['security.warning.cancelled'] || 'API key not saved';
 
         const confirmed = confirm(`${title}\n\n${message}\n\n${confirmText}`);
         if (confirmed && callback) callback();
@@ -10756,7 +10803,7 @@ v1.0.0 - Initial release
         console.error('Error loading archive:', e);
         const archiveList = document.getElementById('archiveList');
         if (archiveList) {
-          archiveList.innerHTML = '<div style="padding:16px;text-align:center;font-size:14px;color:var(--red)">Error loading archive</div>';
+          archiveList.innerHTML = '<div style="padding:16px;text-align:center;font-size:14px;color:var(--color-error)">Error loading archive</div>';
         }
       }
     }
@@ -10807,7 +10854,7 @@ v1.0.0 - Initial release
     function cancelRecording() {
       try {
         if (isRecording) {
-          stopRecording();
+          finishRecording();
           toast('Recording cancelled', 'info');
         }
       } catch (e) {
@@ -11038,8 +11085,43 @@ Write in a professional, objective, date-stamped report format.`,
 
     function handleGroqError(err) {
       const resultArea = document.getElementById('aiResultArea');
-      resultArea.innerHTML = `<div style="padding:16px;color:var(--red);font-size:0.83rem">❌ Groq API error:\n\n${escHtml(err.message)}\n\n• Check API key\n• Check internet connection\n• Make sure transcript is not too long</div>`;
+      resultArea.innerHTML = `<div style="padding:16px;color:var(--color-error);font-size:0.83rem">❌ Groq API error:\n\n${escHtml(err.message)}\n\n• Check API key\n• Check internet connection\n• Make sure transcript is not too long</div>`;
       toast('API error: ' + err.message, 'error');
+    }
+
+    function getTranscriptText() {
+      try {
+        const textarea = document.getElementById('transcriptTextarea');
+        return textarea ? textarea.value : finalTranscript || '';
+      } catch (e) {
+        console.error('Error getting transcript text:', e);
+        return finalTranscript || '';
+      }
+    }
+
+    function setTranscriptDisplay(text) {
+      try {
+        const textarea = document.getElementById('transcriptTextarea');
+        if (textarea) {
+          textarea.value = text;
+        }
+        finalTranscript = text;
+      } catch (e) {
+        console.error('Error setting transcript display:', e);
+      }
+    }
+
+    function updateTranscriptMeta() {
+      try {
+        const wordCount = finalTranscript.split(/\s+/).filter(w => w.length > 0).length;
+        const charCount = finalTranscript.length;
+        const metaEl = document.getElementById('transcriptMeta');
+        if (metaEl) {
+          metaEl.textContent = `${wordCount} words · ${charCount} chars`;
+        }
+      } catch (e) {
+        console.error('Error updating transcript meta:', e);
+      }
     }
 
     async function runGroqAnalysis() {
@@ -11165,7 +11247,7 @@ Write in a professional, objective, date-stamped report format.`,
       if (!currentAiResult) return;
       const container = document.getElementById('aiResultArea');
       const ta = document.createElement('textarea');
-      ta.style.cssText = 'width:100%;min-height:300px;background:var(--bg);border:none;color:var(--text);font-family:\'DM Sans\',sans-serif;font-size:0.84rem;line-height:1.75;resize:vertical;outline:none;padding:0;';
+      ta.style.cssText = 'width:100%;min-height:300px;background:var(--bg);border:none;color:var(--color-text-primary);font-family:\'DM Sans\',sans-serif;font-size:0.84rem;line-height:1.75;resize:vertical;outline:none;padding:0;';
       ta.value = currentAiResult;
       ta.oninput = () => { currentAiResult = ta.value; };
       container.innerHTML = '';
@@ -11317,7 +11399,7 @@ Write in a professional, objective, date-stamped report format.`,
       const add = status !== 'done' ? `<div class="add-task-inline" onclick="openAddTaskModal('${status}')"><span>＋</span> Add task</div>` : '';
       return `<div class="task-column" style="margin-bottom:10px">
     <div class="task-column-header"><span>${icon}</span><span class="task-column-title" style="color:${color}">${label}</span><span class="task-column-count">${colTasks.length}</span></div>
-    <div class="task-column-body">${items || '<div style="font-size:0.75rem;color:var(--text-muted);text-align:center;padding:12px 0">Empty</div>'}${add}</div>
+    <div class="task-column-body">${items || '<div style="font-size:0.75rem;color:var(--color-text-tertiary);text-align:center;padding:12px 0">Empty</div>'}${add}</div>
   </div>`;
     }
 
@@ -11337,11 +11419,11 @@ Write in a professional, objective, date-stamped report format.`,
         ${task.estimate ? `<span class="task-time">⏱ ${escHtml(task.estimate)}</span>` : ''}
         ${(task.tags || []).slice(0, MAX_TASK_TAGS_DISPLAY).map(t => `<span class="tag" style="font-size:0.62rem">${escHtml(t)}</span>`).join('')}
       </div>
-      ${stotal ? `<div style="font-size:0.68rem;color:var(--text-muted);margin-top:3px">◻ ${sdone}/${stotal} subtasks</div>` : ''}
+      ${stotal ? `<div style="font-size:0.68rem;color:var(--color-text-tertiary);margin-top:3px">◻ ${sdone}/${stotal} subtasks</div>` : ''}
     </div>
     <div class="task-item-actions" onclick="event.stopPropagation()">
       <button class="task-action-btn" onclick="editTask('${task.id}')">✏️</button>
-      <button class="task-action-btn" onclick="confirmDeleteTask('${task.id}')" style="color:var(--red)">🗑️</button>
+      <button class="task-action-btn" onclick="confirmDeleteTask('${task.id}')" style="color:var(--color-error)">🗑️</button>
     </div>
   </div>`;
     }
@@ -11368,7 +11450,7 @@ Write in a professional, objective, date-stamped report format.`,
         document.getElementById('todayInProgress').textContent = ip; document.getElementById('todayUrgent').textContent = urg;
         const upcoming = tasks.filter(t => t.date && t.date > todayStr() && t.status !== 'done' && !t.completed).sort((a, b) => a.date.localeCompare(b.date)).slice(0, MAX_UPCOMING_TASKS);
         const upEl = document.getElementById('upcomingTasks');
-        if (!upcoming.length) { upEl.innerHTML = '<div style="font-size:0.78rem;color:var(--text-muted);text-align:center;padding:12px 0">No upcoming tasks ✓</div>'; return; }
+        if (!upcoming.length) { upEl.innerHTML = '<div style="font-size:0.78rem;color:var(--color-text-tertiary);text-align:center;padding:12px 0">No upcoming tasks ✓</div>'; return; }
         const cm = { critical: '#ff2d55', high: 'var(--red)', medium: 'var(--amber)', low: 'var(--green)', none: 'var(--text-muted)' };
         upEl.innerHTML = upcoming.map(t => `<div class="upcoming-item" onclick="selectDay('${t.date}');switchMainTab('tasks')">
     <div class="upcoming-dot" style="background:${cm[t.priority || 'none']}"></div>
@@ -11437,7 +11519,7 @@ Write in a professional, objective, date-stamped report format.`,
         renderPomodoroSessionHistory();
         updateWeeklyStats();
         updateClock();
-        setInterval(updateClock, 1000);
+        clockInterval = setInterval(updateClock, 1000);
       } catch (e) {
         console.error('Error initializing pomodoro:', e);
       }
@@ -11552,6 +11634,11 @@ Write in a professional, objective, date-stamped report format.`,
         pomodoroIsRunning = true;
         document.getElementById('pomodoroToggleBtn').textContent = '⏸ Duraklat';
         document.getElementById('pomodoroToggleBtn').className = 'btn btn-amber';
+
+        // Clear existing interval to prevent memory leak
+        if (pomodoroTimer) {
+          clearInterval(pomodoroTimer);
+        }
 
         pomodoroTimer = setInterval(() => {
           if (pomodoroTimeLeft > 0) {
@@ -11670,7 +11757,7 @@ Write in a professional, objective, date-stamped report format.`,
         if (!container) return;
 
         if (pomodoroSessions.length === 0) {
-          container.innerHTML = '<div style="font-size:0.85rem;color:var(--text-muted);text-align:center;padding:20px 0">No sessions yet</div>';
+          container.innerHTML = '<div style="font-size:0.85rem;color:var(--color-text-tertiary);text-align:center;padding:20px 0">No sessions yet</div>';
           return;
         }
 
@@ -11682,10 +11769,10 @@ Write in a professional, objective, date-stamped report format.`,
         };
 
         container.innerHTML = pomodoroSessions.slice(0, MAX_POMODORO_DISPLAY).map(session => `
-    <div style="padding:12px;background:var(--bg);border-radius:8px;border:1px solid var(--border);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+    <div style="padding:12px;background:var(--color-bg-primary);border-radius:8px;border:1px solid var(--color-border-subtle);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
       <div>
-        <div style="font-size:0.9rem;color:var(--text);font-weight:500">${modeLabels[session.mode] || session.mode} - ${session.duration}min</div>
-        ${session.task ? `<div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px">📌 ${escHtml(session.task)}</div>` : ''}
+        <div style="font-size:0.9rem;color:var(--color-text-primary);font-weight:500">${modeLabels[session.mode] || session.mode} - ${session.duration}min</div>
+        ${session.task ? `<div style="font-size:0.8rem;color:var(--color-text-tertiary);margin-top:4px">📌 ${escHtml(session.task)}</div>` : ''}
       </div>
       <div style="font-size:0.75rem;color:var(--text-muted)">${formatDateFull(session.timestamp)}</div>
     </div>
@@ -15276,7 +15363,7 @@ Write in a professional, objective, date-stamped report format.`,
             transition: background 0.2s;
             ${currentLanguage === lang.code ? 'background: var(--brand-primary-20);' : ''}
           `;
-          item.innerHTML = `<span style="font-size: 20px">${lang.flag}</span><span>${lang.name}</span>`;
+          item.innerHTML = `<span style="font-size: 20px">${lang.flag}</span><span>${escHtml(lang.name)}</span>`;
           item.onmouseover = () => item.style.background = 'var(--bg-hover)';
           item.onmouseout = () => item.style.background = currentLanguage === lang.code ? 'var(--brand-primary-20)' : 'var(--bg-secondary)';
           item.onclick = () => {
@@ -15585,8 +15672,8 @@ Write in a professional, objective, date-stamped report format.`,
               </div>
             </div>
             <div style="display:flex;gap:8px">
-              <button onclick="sendFileToUser('${user.id}')" title="Send File" style="padding:8px;background:rgba(124,106,255,0.2);border:1px solid rgba(124,106,255,0.3);border-radius:6px;cursor:pointer;color:var(--text);transition:all 0.2s">📎</button>
-              <button onclick="inviteToMeeting('${user.id}')" title="Invite to Meeting" style="padding:8px;background:rgba(124,106,255,0.2);border:1px solid rgba(124,106,255,0.3);border-radius:6px;cursor:pointer;color:var(--text);transition:all 0.2s">📹</button>
+              <button onclick="sendFileToUser('${user.id}')" title="Send File" style="padding:8px;background:rgba(124,106,255,0.2);border:1px solid rgba(124,106,255,0.3);border-radius:6px;cursor:pointer;color:var(--color-text-primary);transition:all 0.2s">📎</button>
+              <button onclick="inviteToMeeting('${user.id}')" title="Invite to Meeting" style="padding:8px;background:rgba(124,106,255,0.2);border:1px solid rgba(124,106,255,0.3);border-radius:6px;cursor:pointer;color:var(--color-text-primary);transition:all 0.2s">📹</button>
             </div>
           </div>
         `).join('');
@@ -16138,14 +16225,23 @@ Write in a professional, objective, date-stamped report format.`,
 
       start();
 
-      window.addEventListener('resize', resizeCanvas);
+      dataFlowResizeListener = resizeCanvas;
+      window.addEventListener('resize', dataFlowResizeListener);
 
       return { stop };
     }
 
+    // Store resize listener reference to prevent accumulation
+    let dataFlowResizeListener = null;
+
     function initDataFlow(containerId) {
       const container = document.getElementById(containerId);
       if (!container) return;
+
+      // Remove old resize listener if exists
+      if (dataFlowResizeListener) {
+        window.removeEventListener('resize', dataFlowResizeListener);
+      }
 
       container.innerHTML = '';
 
@@ -16255,14 +16351,14 @@ Write in a professional, objective, date-stamped report format.`,
       try {
         const list = document.getElementById('chatRoomsList');
         if (chatRooms.length === 0) {
-          list.innerHTML = '<div style="font-size:0.8rem;color:var(--text-muted);text-align:center;padding:20px 0">No rooms yet</div>';
+          list.innerHTML = '<div style="font-size:0.8rem;color:var(--color-text-tertiary);text-align:center;padding:20px 0">No rooms yet</div>';
           return;
         }
 
         list.innerHTML = chatRooms.map(room => `
     <div class="chat-room-item ${currentChatRoom === room.id ? 'active' : ''}" onclick="selectChatRoom('${room.id}')" style="padding:12px;border-radius:8px;cursor:pointer;margin-bottom:8px;background:${currentChatRoom === room.id ? 'var(--accent-dim)' : 'var(--bg)'};border:1px solid ${currentChatRoom === room.id ? 'var(--accent)' : 'var(--border)'}">
       <div style="font-weight:600;font-size:0.9rem">${escHtml(room.name)}</div>
-      <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px">${room.members.length} members · ${formatDate(room.createdAt)}</div>
+      <div style="font-size:0.75rem;color:var(--color-text-tertiary);margin-top:4px">${room.members.length} members · ${formatDate(room.createdAt)}</div>
     </div>
   `).join('');
       } catch (e) {
@@ -16328,7 +16424,7 @@ Write in a professional, objective, date-stamped report format.`,
 
         if (messages.length === 0) {
           const welcomeMsg = translations[currentLanguage]['chat.welcome'] || 'Welcome to community chat';
-          container.innerHTML = `<div style="font-size:0.85rem;color:var(--text-muted);text-align:center;padding:48px 0">💬 ${welcomeMsg}</div>`;
+          container.innerHTML = `<div style="font-size:0.85rem;color:var(--color-text-tertiary);text-align:center;padding:48px 0">💬 ${welcomeMsg}</div>`;
           return;
         }
 
@@ -16336,18 +16432,18 @@ Write in a professional, objective, date-stamped report format.`,
           let contentHtml = '';
 
           if (msg.image) {
-            contentHtml = `<img src="${msg.image}" style="max-width:100%;max-height:300px;border-radius:8px;margin-top:8px;border:1px solid var(--border)">`;
+            contentHtml = `<img src="${escUrl(msg.image)}" style="max-width:100%;max-height:300px;border-radius:8px;margin-top:8px;border:1px solid var(--border)">`;
           } else if (msg.file) {
             const fileSize = (msg.file.size / 1024).toFixed(1) + ' KB';
-            contentHtml = `<div style="margin-top:8px;padding:8px 12px;background:var(--accent-dim);border-radius:6px;border:1px solid rgba(124,106,255,0.2);display:flex;align-items:center;gap:8px">
+            contentHtml = `<div style="margin-top:8px;padding:8px 12px;background:var(--color-brand-primary-dim);border-radius:6px;border:1px solid rgba(124,106,255,0.2);display:flex;align-items:center;gap:8px">
         <span style="font-size:1.2rem">📎</span>
         <div>
-          <div style="font-size:0.85rem;color:var(--accent);font-weight:600">${escHtml(msg.file.name)}</div>
+          <div style="font-size:0.85rem;color:var(--color-brand-primary);font-weight:600">${escHtml(msg.file.name)}</div>
           <div style="font-size:0.75rem;color:var(--text-muted)">${fileSize}</div>
         </div>
       </div>`;
           } else {
-            contentHtml = `<div style="font-size:0.95rem;color:var(--text);margin-top:6px;white-space:pre-wrap;line-height:1.5">${escHtml(msg.text)}</div>`;
+            contentHtml = `<div style="font-size:0.95rem;color:var(--color-text-primary);margin-top:6px;white-space:pre-wrap;line-height:1.5">${escHtml(msg.text)}</div>`;
           }
 
           // Generate avatar color based on sender name
@@ -16707,23 +16803,6 @@ Write in a professional, objective, date-stamped report format.`,
       toast(meetingCameraEnabled ? 'Camera turned on' : 'Camera turned off', 'info');
     }
 
-    async function toggleScreenShare() {
-      const btn = document.getElementById('toggleScreenShareBtn');
-
-      if (webRTCMeeting) {
-        const screenStream = await webRTCMeeting.startScreenShare();
-        if (screenStream) {
-          btn.style.background = 'rgba(16,185,129,0.4)';
-          btn.style.borderColor = 'rgba(16,185,129,0.6)';
-          toast('Screen sharing started', 'success');
-        } else {
-          btn.style.background = 'rgba(16,185,129,0.2)';
-          btn.style.borderColor = 'rgba(16,185,129,0.4)';
-          toast('Screen sharing stopped', 'info');
-        }
-      }
-    }
-
     async function captureMeetingScreenshot() {
       try {
         const videoGrid = document.getElementById('videoGrid');
@@ -16987,7 +17066,7 @@ Write in a professional, objective, date-stamped report format.`,
         // Simulate transcription (in production, use Whisper API)
         setTimeout(() => {
           const simulatedTranscript = 'This is a simulated transcript message. In a real application, Whisper API would be used to convert speech to text.';
-          transcriptDiv.innerHTML = `<div style="font-size:0.85rem;color:var(--text);line-height:1.6;padding:8px;background:var(--bg);border-radius:6px;margin-bottom:8px">${simulatedTranscript}</div>`;
+          transcriptDiv.innerHTML = `<div style="font-size:0.85rem;color:var(--color-text-primary);line-height:1.6;padding:8px;background:var(--color-bg-primary);border-radius:6px;margin-bottom:8px">${simulatedTranscript}</div>`;
           status.textContent = 'Recording status: Transcription completed';
           transcribeBtn.disabled = false;
           toast('Audio converted to text 📝', 'success');
@@ -17014,7 +17093,7 @@ Write in a professional, objective, date-stamped report format.`,
         <span style="font-weight:600;font-size:0.8rem;color:var(--accent)">${userName}</span>
         <span style="font-size:0.7rem;color:var(--text-muted)">${time}</span>
       </div>
-      <div style="font-size:0.85rem;color:var(--text);padding:8px 12px;background:var(--bg);border-radius:8px;border-left:3px solid var(--accent)">${message}</div>
+      <div style="font-size:0.85rem;color:var(--color-text-primary);padding:8px 12px;background:var(--bg);border-radius:8px;border-left:3px solid var(--accent)">${message}</div>
     </div>
   `;
 
@@ -17193,6 +17272,8 @@ Write in a professional, objective, date-stamped report format.`,
       }
     }
     function confirmDeleteTask(id) {
+      if (!requireAuth('task deletion')) return;
+
       try {
         openModal('confirmModal');
         document.getElementById('confirmDeleteBtn').onclick = () => { tasks = tasks.filter(t => t.id !== id); save(); renderAll(); closeModal('confirmModal'); toast('Task deleted', 'info'); };
@@ -17255,7 +17336,7 @@ Write in a professional, objective, date-stamped report format.`,
     }
     function renderSubtaskList() {
       try {
-        document.getElementById('subtaskList').innerHTML = currentSubtasks.map((s, i) => `<div style="display:flex;align-items:center;gap:7px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 10px"><span style="font-size:0.8rem;flex:1;color:var(--text-dim)">${escHtml(s.title)}</span><button onclick="currentSubtasks.splice(${i},1);renderSubtaskList()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:12px">✕</button></div>`).join('');
+        document.getElementById('subtaskList').innerHTML = currentSubtasks.map((s, i) => `<div style="display:flex;align-items:center;gap:7px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 10px"><span style="font-size:0.8rem;flex:1;color:var(--text-dim)">${escHtml(s.title)}</span><button onclick="currentSubtasks.splice(${i},1);renderSubtaskList()" style="background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);font-size:12px">✕</button></div>`).join('');
       } catch (e) {
         console.error('Error rendering subtask list:', e);
       }
@@ -17270,15 +17351,15 @@ Write in a professional, objective, date-stamped report format.`,
 
     function saveTask() {
       try {
-        const title = validateString(document.getElementById('taskTitle').value.trim(), MAX_TITLE_LENGTH);
-        if (!title) { toast('Title cannot be empty!', 'error'); return; }
+        const titleValidation = validateString(document.getElementById('taskTitle').value.trim(), MAX_TITLE_LENGTH);
+        if (!titleValidation.valid) { toast(titleValidation.error || 'Title cannot be empty!', 'error'); return; }
 
         const data = {
-          title,
-          description: validateString(document.getElementById('taskDesc').value.trim(), MAX_DESCRIPTION_LENGTH) || '',
-          date: validateString(document.getElementById('taskDate').value, MAX_DATE_LENGTH) || todayStr(),
-          time: validateString(document.getElementById('taskTime').value, MAX_TIME_LENGTH) || '',
-          estimate: validateString(document.getElementById('taskEstimate').value.trim(), MAX_ESTIMATE_LENGTH) || '',
+          title: titleValidation.sanitized,
+          description: validateString(document.getElementById('taskDesc').value.trim(), MAX_DESCRIPTION_LENGTH).sanitized || '',
+          date: validateString(document.getElementById('taskDate').value, MAX_DATE_LENGTH).sanitized || todayStr(),
+          time: validateString(document.getElementById('taskTime').value, MAX_TIME_LENGTH).sanitized || '',
+          estimate: validateString(document.getElementById('taskEstimate').value.trim(), MAX_ESTIMATE_LENGTH).sanitized || '',
           projectId: validateId(document.getElementById('taskProject').value) || '',
           priority: currentPriority,
           status: currentStatus,
@@ -17403,10 +17484,18 @@ Write in a professional, objective, date-stamped report format.`,
 
     function validateItemInput(title, content) {
       try {
-        if (!title || !content) {
-          toast('Title and content required', 'error');
+        const titleValidation = validateString(title, MAX_TITLE_LENGTH, false);
+        if (!titleValidation.valid) {
+          toast(titleValidation.error || 'Title required', 'error');
           return false;
         }
+
+        const contentValidation = validateString(content, MAX_CONTENT_LENGTH, true);
+        if (!contentValidation.valid) {
+          toast(contentValidation.error || 'Content validation failed', 'error');
+          return false;
+        }
+
         return true;
       } catch (e) {
         console.error('Error validating item input:', e);
@@ -17486,7 +17575,7 @@ Write in a professional, objective, date-stamped report format.`,
         const cw = document.getElementById('detailContentWrap');
         if (item.type === 'code') { const lang = (item.language || '').toLowerCase(); cw.innerHTML = `<div class="detail-content code-content"><pre><code class="language-${lang}">${escHtml(item.content)}</code></pre></div>`; cw.querySelectorAll('pre code').forEach(el => hljs.highlightElement(el)); }
         else { cw.innerHTML = `<div class="detail-content">${escHtml(item.content)}</div>`; }
-        document.getElementById('detailTagsWrap').innerHTML = (item.tags || []).map(t => `<span class="tag">${escHtml(t)}</span>`).join('') + (item.favorite ? '<span class="tag" style="background:var(--amber-dim);color:var(--amber)">⭐</span>' : '') + (item.aiGenerated ? '<span class="ai-badge">🎙️ AI</span>' : '');
+        document.getElementById('detailTagsWrap').innerHTML = (item.tags || []).map(t => `<span class="tag">${escHtml(t)}</span>`).join('') + (item.favorite ? '<span class="tag" style="background:var(--color-warning-dim);color:var(--color-warning)">⭐</span>' : '') + (item.aiGenerated ? '<span class="ai-badge">🎙️ AI</span>' : '');
         openModal('detailModal');
       } catch (e) {
         console.error('Error opening detail:', e);
@@ -17618,6 +17707,17 @@ Write in a professional, objective, date-stamped report format.`,
         console.error('Error checking item date match:', e);
         return true;
       }
+    }
+
+    // Debounce utility for performance optimization
+    let searchDebounceTimer = null;
+    function debounceSearch(query, delay = 300) {
+      if (searchDebounceTimer) {
+        clearTimeout(searchDebounceTimer);
+      }
+      searchDebounceTimer = setTimeout(() => {
+        handleSearch(query);
+      }, delay);
     }
 
     function handleSearch(query) {
@@ -17848,7 +17948,7 @@ Write in a professional, objective, date-stamped report format.`,
     </div>
 
     <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px">
-      <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px">Item Distribution</div>
+      <div style="font-size:0.75rem;font-weight:700;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px">Item Distribution</div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px">
         <div style="text-align:center">
           <div style="font-size:1.5rem;font-weight:600;color:var(--text)">⚙️</div>
@@ -17879,7 +17979,7 @@ Write in a professional, objective, date-stamped report format.`,
     </div>
 
     <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px">
-      <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px">Task Progress</div>
+      <div style="font-size:0.75rem;font-weight:700;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px">Task Progress</div>
       <div style="display:flex;align-items:center;gap:16px">
         <div style="flex:1;background:var(--bg);border-radius:8px;height:12px;overflow:hidden">
           <div style="width:${taskCompletionRate}%;height:100%;background:var(--secondary);transition:width 0.3s"></div>
@@ -17893,7 +17993,7 @@ Write in a professional, objective, date-stamped report format.`,
     </div>
 
     <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px">
-      <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px">Archive Summary</div>
+      <div style="font-size:0.75rem;font-weight:700;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px">Archive Summary</div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:12px;font-size:0.85rem">
         <div style="display:flex;justify-content:space-between"><span>Instruction:</span><span style="font-weight:600">${stats.archivedInstructions}</span></div>
         <div style="display:flex;justify-content:space-between"><span>File:</span><span style="font-weight:600">${stats.archivedFiles}</span></div>
@@ -18112,7 +18212,7 @@ Write in a professional, objective, date-stamped report format.`,
           ${activityLog.map(entry => `
             <div style="padding:12px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:start">
               <div style="font-weight:600;font-size:0.9rem;color:var(--text)">${entry.action}</div>
-              <div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px">${entry.details}</div>
+              <div style="font-size:0.8rem;color:var(--color-text-tertiary);margin-top:4px">${entry.details}</div>
               <div style="font-size:0.75rem;color:var(--text-dim);margin-top:4px">${new Date(entry.timestamp).toLocaleString('en-US')}</div>
             </div>
           `).join('')}
@@ -18236,6 +18336,8 @@ Write in a professional, objective, date-stamped report format.`,
       }
     }
     function confirmDelete(id) {
+      if (!requireAuth('item deletion')) return;
+
       try {
         openModal('confirmModal');
         document.getElementById('confirmDeleteBtn').onclick = () => {
@@ -18247,12 +18349,11 @@ Write in a professional, objective, date-stamped report format.`,
             toast('Deleted', 'info');
           } catch (e) {
             console.error('Error deleting item:', e);
-            toast('Deletion error', 'error');
+            toast('Delete error', 'error');
           }
         };
       } catch (e) {
-        console.error('Error opening delete confirmation:', e);
-        toast('Delete confirmation could not be opened', 'error');
+        console.error('Error confirming delete:', e);
       }
     }
     function copyToClipboard(text) {
@@ -18274,6 +18375,8 @@ Write in a professional, objective, date-stamped report format.`,
     // EXPORT / IMPORT
     // ══════════════════════════════════════════════════════════════
     function exportData() {
+      if (!requireAuth('data export')) return;
+
       const exportBtn = document.querySelector('button[onclick="exportData()"]');
       setLoading(exportBtn, true);
 
@@ -18527,27 +18630,45 @@ Write in a professional, objective, date-stamped report format.`,
       output.textContent = 'Running...';
 
       if (language === 'javascript') {
-        try {
-          // Security: Validate code length before execution
-          if (code.length > MAX_CODE_LENGTH) {
-            output.textContent = 'Security warning: Code too long (max 10,000 characters)';
-            toast('Code length limit exceeded', 'error');
+        // Security: Validate code length before execution
+        if (code.length > MAX_CODE_LENGTH) {
+          output.textContent = 'Security warning: Code too long (max 10,000 characters)';
+          toast('Code length limit exceeded', 'error');
+          return;
+        }
+
+        // Security: Block dangerous patterns including infinite loops and dangerous APIs
+        const dangerousPatterns = [
+          /while\s*\(true\)/i,
+          /for\s*\(;;\)/i,
+          /function\s*\(\)\s*\{.*while.*\}/i,
+          /new\s+Worker\s*\(/i,
+          /new\s+WebSocket\s*\(/i,
+          /fetch\s*\(/i,
+          /XMLHttpRequest/i,
+          /\.localStorage/i,
+          /\.sessionStorage/i,
+          /\.cookie/i,
+          /importScripts/i,
+          /postMessage/i,
+          /eval\s*\(/i
+        ];
+        for (const pattern of dangerousPatterns) {
+          if (pattern.test(code)) {
+            output.textContent = 'Security warning: Potentially dangerous code detected. APIs like Worker, fetch, WebSocket, and localStorage are blocked.';
+            toast('Security warning: Dangerous API detected', 'error');
             return;
           }
+        }
 
-          // Security: Block dangerous patterns
-          const dangerousPatterns = [/while\s*\(true\)/i, /for\s*\(;;\)/i, /function\s*\(\)\s*\{.*while.*\}/i];
-          for (const pattern of dangerousPatterns) {
-            if (pattern.test(code)) {
-              output.textContent = 'Security warning: Potentially dangerous code detected';
-              toast('Security warning', 'error');
-              return;
-            }
-          }
-
-          const logs = [];
-          const customLog = (...args) => logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
-          const result = eval(code);
+        const logs = [];
+        const customLog = (...args) => logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '));
+        // SECURITY: Using eval with strict mode instead of new Function() for better security
+        try {
+          const safeCode = `'use strict'; (${code})`;
+          const safeFunction = eval(safeCode);
+          const sandboxConsole = { log: customLog, error: customLog, warn: customLog };
+          const result = safeFunction(sandboxConsole);
           output.textContent = logs.length ? logs.join('\n') + (result !== undefined ? '\n\nResult: ' + String(result) : '') : (result !== undefined ? String(result) : 'No output');
           toast('Code successfully executed ✓', 'success');
         } catch (e) {
@@ -18696,20 +18817,21 @@ Write in a professional, objective, date-stamped report format.`,
     // ══════════════════════════════════════════════════════════════
     async function fetchApiKeysFromBackend() {
       try {
-        // Use localhost backend
-        const baseUrl = 'http://localhost:3001';
-        const response = await fetch(`${baseUrl}/api/keys`);
+        // Use configurable backend URL
+        const response = await fetch(`${API_BASE_URL}/api/keys`);
         const data = await response.json();
 
-        if (data.groqApiKey) localStorage.setItem(getUserKey('devvault_groq_key'), data.groqApiKey);
-        if (data.mistralApiKey) localStorage.setItem(getUserKey('devvault_mistral_key'), data.mistralApiKey);
-        if (data.sabmanovaId) localStorage.setItem(getUserKey('devvault_sabmanova_id'), data.sabmanovaId);
-        if (data.hfToken) localStorage.setItem(getUserKey('devvault_hf_token'), data.hfToken);
-        if (data.cloudflareApiKey) localStorage.setItem(getUserKey('devvault_cloudflare_key'), data.cloudflareApiKey);
+        if (data.groqApiKey) sessionStorage.setItem(getUserKey('devvault_groq_key'), data.groqApiKey);
+        if (data.mistralApiKey) sessionStorage.setItem(getUserKey('devvault_mistral_key'), data.mistralApiKey);
+        if (data.sabmanovaId) sessionStorage.setItem(getUserKey('devvault_sabmanova_id'), data.sabmanovaId);
+        if (data.hfToken) sessionStorage.setItem(getUserKey('devvault_hf_token'), data.hfToken);
+        if (data.cloudflareApiKey) sessionStorage.setItem(getUserKey('devvault_cloudflare_key'), data.cloudflareApiKey);
 
         console.log('[INFO] API keys fetched from backend');
       } catch (e) {
         console.error('[ERROR] Failed to fetch API keys from backend:', e);
+        // Show user notification for silent failure
+        toast('Could not fetch API keys from backend. Using manual configuration.', 'warning', 5000);
       }
     }
 
@@ -18721,6 +18843,13 @@ Write in a professional, objective, date-stamped report format.`,
       initKeyboardShortcuts();
       initLanguage();
       updateTranslations();
+
+      // Cleanup intervals on page unload to prevent memory leaks
+      window.addEventListener('beforeunload', () => {
+        if (clockInterval) clearInterval(clockInterval);
+        if (recordTimer) clearInterval(recordTimer);
+        if (pomodoroTimer) clearInterval(pomodoroTimer);
+      });
 
       // Mouse-Follow Glow Effect
       initMouseGlow();
@@ -18793,19 +18922,41 @@ Write in a professional, objective, date-stamped report format.`,
     // ══════════════════════════════════════════════════════════════
     function addSampleData() {
       try {
-        if (items.length > 0 || tasks.length > 0) return;
+        // Check if sample data already exists by looking for known sample titles
+        const sampleTitles = ['E‑commerce Admin Panel', 'Portfolio — Next.js 14', 'React Query — Data Fetching', 'Debounce Utility'];
+        const hasSampleItems = items.some(item => sampleTitles.includes(item.title));
+        const hasSampleTasks = tasks.some(task => task.title === 'Write admin panel CRUD endpoints');
+
+        // If sample data exists, clean it up first
+        if (hasSampleItems) {
+          items = items.filter(item => !sampleTitles.includes(item.title));
+        }
+        if (hasSampleTasks) {
+          tasks = tasks.filter(task => task.title !== 'Write admin panel CRUD endpoints' &&
+            task.title !== 'Write pagination component' &&
+            task.title !== 'Portfolio blog page' &&
+            task.title !== 'Update README' &&
+            task.title !== 'Unit test — Auth module');
+        }
+
+        // Only add sample data if arrays are empty after cleanup
+        if (items.length > 0 || tasks.length > 0) {
+          save(); renderAll();
+          return;
+        }
+
         const p1 = genId(), p2 = genId();
         items.push(
-          { id: p1, type: 'project', title: 'E-Commerce Project — React + Node.js', content: `## 📋 Project Summary\nModern e-commerce platform. Full-stack JavaScript.\n\n## 🛠️ Tech Stack\n- Frontend: React 18, Tailwind CSS, Redux Toolkit\n- Backend: Node.js, Express.js, JWT Auth\n- DB: MongoDB Atlas\n- Deploy: Vercel (FE) + Railway (BE)\n\n## ✅ To-do\n- [CRITICAL] Admin panel API endpoints\n- [HIGH] Product list pagination\n- [MEDIUM] Email notifications\n- [LOW] Dark mode`, tags: ['react', 'nodejs', 'mongodb'], favorite: true, createdAt: Date.now() - 86400000 * 5, updatedAt: Date.now() - 86400000 * 2, usageCount: 3 },
+          { id: p1, type: 'project', title: 'E‑commerce Admin Panel', content: `Full-stack admin dashboard.\n\nTech: React 18, Tailwind, Node.js, Express, MongoDB\nDeploy: Vercel + MongoDB Atlas\n\nFeatures:\n- Product management (CRUD)\n- Order tracking\n- User roles (admin, editor, viewer)\n- Analytics dashboard\n- Real-time updates (Socket.io)`, tags: ['react', 'admin', 'ecommerce'], favorite: false, createdAt: Date.now() - 86400000 * 5, updatedAt: Date.now() - 86400000 * 3, usageCount: 0 },
           { id: p2, type: 'project', title: 'Portfolio — Next.js 14', content: `Personal portfolio site.\n\nTech: Next.js 14 App Router, Framer Motion, MDX blog\nDeploy: Vercel\n\nTo-do:\n- Blog list & detail page\n- Project showcase\n- Contact form (Resend API)`, tags: ['nextjs', 'portfolio'], favorite: false, createdAt: Date.now() - 86400000 * 2, updatedAt: Date.now() - 86400000, usageCount: 0 },
-          { id: genId(), type: 'instruction', title: 'Senior Full-Stack Developer', content: `You are an experienced senior full-stack developer.\n\n## RULES\n1. Use TypeScript, avoid any type\n2. Don't skip error handling, use try-catch\n3. Add JSDoc comments to public APIs\n4. Apply SOLID principles\n5. Write testable code\n6. Watch for security vulnerabilities (XSS, SQL injection)`, tags: ['typescript', 'senior'], favorite: true, createdAt: Date.now() - 86400000 * 7, updatedAt: Date.now() - 86400000 * 7, usageCount: 15 },
-          { id: genId(), type: 'code', language: 'TypeScript', title: 'useLocalStorage Hook', content: `import { useState } from 'react';\n\nexport function useLocalStorage<T>(key: string, initialValue: T) {\n  const [storedValue, setStoredValue] = useState<T>(() => {\n    try {\n      const item = window.localStorage.getItem(key);\n      return item ? JSON.parse(item) : initialValue;\n    } catch { return initialValue; }\n  });\n  const setValue = (value: T | ((val: T) => T)) => {\n    try {\n      const v = value instanceof Function ? value(storedValue) : value;\n      setStoredValue(v);\n      window.localStorage.setItem(key, JSON.stringify(v));\n    } catch(err) { console.error(err); }\n  };\n  return [storedValue, setValue] as const;\n}`, tags: ['react', 'typescript', 'hook'], favorite: false, createdAt: Date.now() - 86400000, updatedAt: Date.now() - 86400000, usageCount: 4 }
+          { id: genId(), type: 'instruction', title: 'React Query — Data Fetching', content: `React Query (TanStack Query) simplifies data fetching, caching, and state management.\n\nKey hooks:\n- useQuery: Fetch and cache data\n- useMutation: POST/PUT/DELETE operations\n- useInfiniteQuery: Pagination\n\nBest practices:\n- Set staleTime to reduce refetches\n- Use queryKeys for cache invalidation\n- Enable optimistic updates`, tags: ['react', 'api'], favorite: true, createdAt: Date.now() - 86400000 * 4, updatedAt: Date.now() - 86400000 * 2, usageCount: 0 },
+          { id: genId(), type: 'code', title: 'Debounce Utility', content: `function debounce(fn, delay) {\n  let timeout;\n  return (...args) => {\n    clearTimeout(timeout);\n    timeout = setTimeout(() => fn(...args), delay);\n  };\n}\n\n// Usage\nconst debouncedSearch = debounce((query) => {\n  fetchResults(query);\n}, 300);`, language: 'javascript', tags: ['utility', 'performance'], favorite: false, createdAt: Date.now() - 86400000 * 6, updatedAt: Date.now() - 86400000 * 1, usageCount: 0 }
         );
         const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 2);
         tasks.push(
           { id: genId(), title: 'Write admin panel CRUD endpoints', description: 'RESTful API for products, categories, orders', date: todayStr(), time: '10:00', estimate: '3 hours', projectId: p1, priority: 'critical', status: 'inprogress', completed: false, tags: ['api'], subtasks: [{ title: 'GET /admin/products', done: true }, { title: 'POST /admin/products', done: false }, { title: 'DELETE endpoint', done: false }], createdAt: Date.now(), updatedAt: Date.now() },
           { id: genId(), title: 'Write pagination component', description: 'Infinite scroll or paginated navigation', date: todayStr(), time: '14:00', estimate: '2 hours', projectId: p1, priority: 'high', status: 'todo', completed: false, tags: ['react'], subtasks: [], createdAt: Date.now(), updatedAt: Date.now() },
-          { id: genId(), title: 'Portfolio blog page', description: 'MDX-supported dynamic blog', date: todayStr(), time: '', estimate: '4 hours', projectId: p2, priority: 'medium', status: 'todo', completed: false, tags: ['nextjs'], subtasks: [{ title: 'Blog list', done: false }, { title: 'MDX renderer', done: false }], createdAt: Date.now(), updatedAt: Date.now() }
+          { id: genId(), title: 'Portfolio blog page', description: 'MDX-supported dynamic blog', date: todayStr(), time: '', estimate: '4 hours', projectId: p2, priority: 'medium', status: 'todo', completed: false, tags: ['nextjs'], subtasks: [{ title: 'Blog list', done: false }, { title: 'MDX renderer', done: false }], createdAt: Date.now(), updatedAt: Date.now() },
           { id: genId(), title: 'Update README', description: 'Setup steps and deployment instructions', date: todayStr(), time: '', estimate: '30min', projectId: p1, priority: 'low', status: 'done', completed: true, tags: ['docs'], subtasks: [], createdAt: Date.now(), updatedAt: Date.now() },
           { id: genId(), title: 'Unit test — Auth module', description: 'JWT and session management tests', date: tomorrow.toISOString().slice(0, 10), time: '11:00', estimate: '3 hours', projectId: p1, priority: 'high', status: 'todo', completed: false, tags: ['test'], subtasks: [], createdAt: Date.now(), updatedAt: Date.now() }
         );
@@ -18891,18 +19042,18 @@ Write in a professional, objective, date-stamped report format.`,
       try {
         const container = document.getElementById('filesList');
         if (vaultFiles.length === 0) {
-          container.innerHTML = '<div style="font-size:0.85rem;color:var(--text-muted);text-align:center;padding:20px 0">No files yet</div>';
+          container.innerHTML = '<div style="font-size:0.85rem;color:var(--color-text-tertiary);text-align:center;padding:20px 0">No files yet</div>';
           return;
         }
 
         container.innerHTML = vaultFiles.map(file => `
     <div style="padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;margin-bottom:8px">
-      <div style="font-weight:600;font-size:0.9rem;color:var(--text);margin-bottom:4px">${escHtml(file.name)}</div>
+      <div style="font-weight:600;font-size:0.9rem;color:var(--color-text-primary);margin-bottom:4px">${escHtml(file.name)}</div>
       <div style="font-size:0.8rem;color:var(--text-dim);margin-bottom:8px;line-height:1.4;max-height:100px;overflow-y:auto">${escHtml(file.content.substring(0, CONTENT_PREVIEW_LENGTH))}${file.content.length > CONTENT_PREVIEW_LENGTH ? '...' : ''}</div>
       <div style="display:flex;justify-content:space-between;align-items:center">
         <span style="font-size:0.7rem;color:var(--text-muted)">${new Date(file.createdAt).toLocaleDateString('en-US')}</span>
         <div style="display:flex;gap:6px">
-          <button onclick="editFile('${file.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--accent-dim);color:var(--accent);border:none;border-radius:4px;cursor:pointer">Edit</button>
+          <button onclick="editFile('${file.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--color-brand-primary-dim);color:var(--color-brand-primary);border:none;border-radius:4px;cursor:pointer">Edit</button>
           <button onclick="enhanceFileById('${file.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--secondary-dim);color:var(--secondary);border:none;border-radius:4px;cursor:pointer">✨</button>
           <button onclick="toggleArchiveFile('${file.id}')" style="padding:4px 8px;font-size:0.75rem;background:${file.folder === 'archive' ? 'var(--secondary-dim)' : 'var(--warning-dim)'};color:${file.folder === 'archive' ? 'var(--secondary)' : 'var(--warning)'};border:none;border-radius:4px;cursor:pointer">${file.folder === 'archive' ? 'Restore' : 'Archive'}</button>
           <button onclick="deleteFile('${file.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--danger-dim);color:var(--danger);border:none;border-radius:4px;cursor:pointer">Delete</button>
@@ -19048,7 +19199,7 @@ Write in a professional, objective, date-stamped report format.`,
       try {
         const container = document.getElementById('projectsList');
         if (vaultProjects.length === 0) {
-          container.innerHTML = '<div style="font-size:0.85rem;color:var(--text-muted);text-align:center;padding:20px 0">No projects yet</div>';
+          container.innerHTML = '<div style="font-size:0.85rem;color:var(--color-text-tertiary);text-align:center;padding:20px 0">No projects yet</div>';
           return;
         }
 
@@ -19061,14 +19212,14 @@ Write in a professional, objective, date-stamped report format.`,
 
         container.innerHTML = vaultProjects.map(project => `
     <div style="padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;margin-bottom:8px">
-      <div style="font-weight:600;font-size:0.9rem;color:var(--text);margin-bottom:4px">${escHtml(project.name)}</div>
+      <div style="font-weight:600;font-size:0.9rem;color:var(--color-text-primary);margin-bottom:4px">${escHtml(project.name)}</div>
       <div style="font-size:0.8rem;color:var(--text-dim);margin-bottom:8px;line-height:1.4;max-height:100px;overflow-y:auto">${escHtml(project.description.substring(0, CONTENT_PREVIEW_LENGTH))}${project.description.length > CONTENT_PREVIEW_LENGTH ? '...' : ''}</div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
         <span style="font-size:0.7rem;padding:2px 8px;border-radius:4px;background:${priorityColors[project.priority]}-dim;color:${priorityColors[project.priority]}">${project.priority}</span>
         <span style="font-size:0.7rem;color:var(--text-muted)">${new Date(project.createdAt).toLocaleDateString('en-US')}</span>
       </div>
       <div style="display:flex;gap:6px">
-        <button onclick="editProject('${project.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--accent-dim);color:var(--accent);border:none;border-radius:4px;cursor:pointer">Edit</button>
+        <button onclick="editProject('${project.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--color-brand-primary-dim);color:var(--color-brand-primary);border:none;border-radius:4px;cursor:pointer">Edit</button>
         <button onclick="enhanceProjectById('${project.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--secondary-dim);color:var(--secondary);border:none;border-radius:4px;cursor:pointer">✨</button>
         <button onclick="toggleArchiveProject('${project.id}')" style="padding:4px 8px;font-size:0.75rem;background:${project.folder === 'archive' ? 'var(--secondary-dim)' : 'var(--warning-dim)'};color:${project.folder === 'archive' ? 'var(--secondary)' : 'var(--warning)'};border:none;border-radius:4px;cursor:pointer">${project.folder === 'archive' ? 'Restore' : 'Archive'}</button>
         <button onclick="deleteProject('${project.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--danger-dim);color:var(--danger);border:none;border-radius:4px;cursor:pointer">Delete</button>
@@ -19217,7 +19368,7 @@ Write in a professional, objective, date-stamped report format.`,
       try {
         const container = document.getElementById('instructionsList');
         if (vaultInstructions.length === 0) {
-          container.innerHTML = '<div style="font-size:0.85rem;color:var(--text-muted);text-align:center;padding:20px 0">No instructions yet</div>';
+          container.innerHTML = '<div style="font-size:0.85rem;color:var(--color-text-tertiary);text-align:center;padding:20px 0">No instructions yet</div>';
           return;
         }
 
@@ -19230,12 +19381,12 @@ Write in a professional, objective, date-stamped report format.`,
 
         container.innerHTML = vaultInstructions.map(instruction => `
     <div style="padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;margin-bottom:8px">
-      <div style="font-weight:600;font-size:0.9rem;color:var(--text);margin-bottom:4px">${typeIcons[instruction.type]} ${escHtml(instruction.name)}</div>
+      <div style="font-weight:600;font-size:0.9rem;color:var(--color-text-primary);margin-bottom:4px">${typeIcons[instruction.type]} ${escHtml(instruction.name)}</div>
       <div style="font-size:0.8rem;color:var(--text-dim);margin-bottom:8px;line-height:1.4;max-height:100px;overflow-y:auto">${escHtml(instruction.content.substring(0, INSTRUCTION_PREVIEW_LENGTH))}${instruction.content.length > INSTRUCTION_PREVIEW_LENGTH ? '...' : ''}</div>
       <div style="display:flex;justify-content:space-between;align-items:center">
         <span style="font-size:0.7rem;color:var(--text-muted)">${new Date(instruction.createdAt).toLocaleDateString('en-US')}</span>
         <div style="display:flex;gap:6px">
-          <button onclick="editInstruction('${instruction.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--accent-dim);color:var(--accent);border:none;border-radius:4px;cursor:pointer">Edit</button>
+          <button onclick="editInstruction('${instruction.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--color-brand-primary-dim);color:var(--color-brand-primary);border:none;border-radius:4px;cursor:pointer">Edit</button>
           <button onclick="enhanceInstructionById('${instruction.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--secondary-dim);color:var(--secondary);border:none;border-radius:4px;cursor:pointer">✨</button>
           <button onclick="toggleArchiveInstruction('${instruction.id}')" style="padding:4px 8px;font-size:0.75rem;background:${instruction.folder === 'archive' ? 'var(--secondary-dim)' : 'var(--warning-dim)'};color:${instruction.folder === 'archive' ? 'var(--secondary)' : 'var(--warning)'};border:none;border-radius:4px;cursor:pointer">${instruction.folder === 'archive' ? 'Restore' : 'Archive'}</button>
           <button onclick="deleteInstruction('${instruction.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--danger-dim);color:var(--danger);border:none;border-radius:4px;cursor:pointer">Delete</button>
@@ -19345,27 +19496,8 @@ Write in a professional, objective, date-stamped report format.`,
       }
     }
 
-    function loadVaultData() {
-      try {
-        const files = safeGetItem(getUserKey('devvault_vault_files'));
-        if (files) vaultFiles = JSON.parse(files);
-
-        const projects = safeGetItem(getUserKey('devvault_vault_projects'));
-        if (projects) vaultProjects = JSON.parse(projects);
-
-        const instructions = safeGetItem(getUserKey('devvault_vault_instructions'));
-        if (instructions) vaultInstructions = JSON.parse(instructions);
-
-        renderVaultFiles();
-        renderVaultProjects();
-        renderVaultInstructions();
-      } catch (e) {
-        console.error('Load vault data error:', e);
-      }
-    }
-
     // Load vault data on init
-    setTimeout(loadVaultData, 100);
+    loadVaultData();
 
     // ══════════════════════════════════════════════════════════════
     // AI ENHANCEMENT FUNCTIONS
@@ -19698,7 +19830,7 @@ Write in a professional, objective, date-stamped report format.`,
       try {
         const container = document.getElementById('taskList1');
         if (vaultTasks.length === 0) {
-          container.innerHTML = '<div style="font-size:0.85rem;color:var(--text-muted);text-align:center;padding:20px 0">No tasks yet</div>';
+          container.innerHTML = '<div style="font-size:0.85rem;color:var(--color-text-tertiary);text-align:center;padding:20px 0">No tasks yet</div>';
           return;
         }
 
@@ -19711,7 +19843,7 @@ Write in a professional, objective, date-stamped report format.`,
 
         container.innerHTML = vaultTasks.map(task => `
     <div style="padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;margin-bottom:8px">
-      <div style="font-weight:600;font-size:0.9rem;color:var(--text);margin-bottom:4px">${escHtml(task.title)}</div>
+      <div style="font-weight:600;font-size:0.9rem;color:var(--color-text-primary);margin-bottom:4px">${escHtml(task.title)}</div>
       <div style="font-size:0.8rem;color:var(--text-dim);margin-bottom:8px;line-height:1.4;max-height:100px;overflow-y:auto">${escHtml(task.description.substring(0, CONTENT_PREVIEW_LENGTH))}${task.description.length > CONTENT_PREVIEW_LENGTH ? '...' : ''}</div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
         <span style="font-size:0.7rem;padding:2px 8px;border-radius:4px;background:${priorityColors[task.priority]}-dim;color:${priorityColors[task.priority]}">${task.priority}</span>
@@ -19719,7 +19851,7 @@ Write in a professional, objective, date-stamped report format.`,
       </div>
       <div style="display:flex;gap:6px">
         <button onclick="toggleVaultTask('${task.id}')" style="padding:4px 8px;font-size:0.75rem;background:${task.completed ? 'var(--secondary-dim)' : 'var(--accent-dim)'};color:${task.completed ? 'var(--secondary)' : 'var(--accent)'};border:none;border-radius:4px;cursor:pointer">${task.completed ? '✓' : '○'}</button>
-        <button onclick="editVaultTask('${task.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--accent-dim);color:var(--accent);border:none;border-radius:4px;cursor:pointer">Edit</button>
+        <button onclick="editVaultTask('${task.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--color-brand-primary-dim);color:var(--color-brand-primary);border:none;border-radius:4px;cursor:pointer">Edit</button>
         <button onclick="enhanceVaultTaskById('${task.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--secondary-dim);color:var(--secondary);border:none;border-radius:4px;cursor:pointer">✨</button>
         <button onclick="toggleArchiveTask('${task.id}')" style="padding:4px 8px;font-size:0.75rem;background:${task.folder === 'archive' ? 'var(--secondary-dim)' : 'var(--warning-dim)'};color:${task.folder === 'archive' ? 'var(--secondary)' : 'var(--warning)'};border:none;border-radius:4px;cursor:pointer">${task.folder === 'archive' ? 'Restore' : 'Archive'}</button>
         <button onclick="deleteVaultTask('${task.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--danger-dim);color:var(--danger);border:none;border-radius:4px;cursor:pointer">Delete</button>
@@ -19887,18 +20019,18 @@ Write in a professional, objective, date-stamped report format.`,
       try {
         const container = document.getElementById('notesList'); // FIX #8: Changed from taskList2 to notesList
         if (vaultNotes.length === 0) {
-          container.innerHTML = '<div style="font-size:0.85rem;color:var(--text-muted);text-align:center;padding:20px 0">No notes yet</div>';
+          container.innerHTML = '<div style="font-size:0.85rem;color:var(--color-text-tertiary);text-align:center;padding:20px 0">No notes yet</div>';
           return;
         }
 
         container.innerHTML = vaultNotes.map(note => `
     <div style="padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;margin-bottom:8px">
-      <div style="font-weight:600;font-size:0.9rem;color:var(--text);margin-bottom:4px">${escHtml(note.title)}</div>
+      <div style="font-weight:600;font-size:0.9rem;color:var(--color-text-primary);margin-bottom:4px">${escHtml(note.title)}</div>
       <div style="font-size:0.8rem;color:var(--text-dim);margin-bottom:8px;line-height:1.4;max-height:100px;overflow-y:auto">${escHtml(note.content.substring(0, 200))}${note.content.length > 200 ? '...' : ''}</div>
       <div style="display:flex;justify-content:space-between;align-items:center">
         <span style="font-size:0.7rem;color:var(--text-muted)">${new Date(note.createdAt).toLocaleDateString('en-US')}</span>
         <div style="display:flex;gap:6px">
-          <button onclick="editNote('${note.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--accent-dim);color:var(--accent);border:none;border-radius:4px;cursor:pointer">Edit</button>
+          <button onclick="editNote('${note.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--color-brand-primary-dim);color:var(--color-brand-primary);border:none;border-radius:4px;cursor:pointer">Edit</button>
           <button onclick="enhanceNoteById('${note.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--secondary-dim);color:var(--secondary);border:none;border-radius:4px;cursor:pointer">✨</button>
           <button onclick="toggleArchiveNote('${note.id}')" style="padding:4px 8px;font-size:0.75rem;background:${note.folder === 'archive' ? 'var(--secondary-dim)' : 'var(--warning-dim)'};color:${note.folder === 'archive' ? 'var(--secondary)' : 'var(--warning)'};border:none;border-radius:4px;cursor:pointer">${note.folder === 'archive' ? 'Restore' : 'Archive'}</button>
           <button onclick="deleteNote('${note.id}')" style="padding:4px 8px;font-size:0.75rem;background:var(--danger-dim);color:var(--danger);border:none;border-radius:4px;cursor:pointer">Delete</button>
@@ -20034,6 +20166,7 @@ Write in a professional, objective, date-stamped report format.`,
       } catch (e) {
         console.error('Load vault da error:', e);
       }
+    }
 
   </script>
 </body>
