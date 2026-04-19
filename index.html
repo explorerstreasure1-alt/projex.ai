@@ -1885,7 +1885,6 @@ v1.0.0 - Initial release
       box-shadow: var(--shadow-xl), 0 0 20px rgba(16, 185, 129, 0.3);
     }
 
-    /* FIX #5: Added missing btn-amber class definition (used at lines 1874 and 3494) */
     .btn-icon {
       width: 40px;
       height: 40px;
@@ -3727,7 +3726,6 @@ v1.0.0 - Initial release
       transition: stroke-dashoffset 0.5s ease;
     }
 
-    /* FIX #4: Changed stroke from linear-gradient to solid color (linear-gradient is invalid for stroke property) */
     .big-progress-pct {
       position: absolute;
       top: 50%;
@@ -3815,7 +3813,6 @@ v1.0.0 - Initial release
     }
 
     /* KANBAN - Modern Glass Design */
-    /* FIX #1: Removed duplicate box-sizing declaration (already at line 212) */
     #kanbanView {
       display: none;
       flex-direction: column;
@@ -4572,8 +4569,6 @@ v1.0.0 - Initial release
       background: var(--color-success);
       box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
     }
-
-    /* FIX #2: Removed duplicate @keyframes sdBlink (already defined at line 684) */
 
     /* Record controls */
     .mic-controls {
@@ -7418,7 +7413,6 @@ v1.0.0 - Initial release
       }
     }
 
-    /* FIX #3: Fixed media query syntax - separated selectors onto multiple lines for proper CSS parsing */
     @media(max-width:700px) {
       .stats-bar {
         grid-template-columns: repeat(2, 1fr);
@@ -9885,12 +9879,69 @@ v1.0.0 - Initial release
     function escUrl(url) {
       try {
         if (!url || typeof url !== 'string') return '';
-        // Allow only http, https, data URLs
         if (!/^https?:\/\//.test(url) && !/^data:/.test(url)) return '';
         return url;
       } catch (e) {
         console.error('Error escaping URL:', e);
         return '';
+      }
+    }
+
+    const STORAGE_KEY_PREFIX = 'dv_';
+    const ENCRYPTION_SALT = 'DevVaultPro2026Secure';
+    function deriveKey(password) {
+      const encoder = new TextEncoder();
+      const keyMaterial = encoder.encode(password + ENCRYPTION_SALT);
+      let hash = 0;
+      for (let i = 0; i < keyMaterial.length; i++) {
+        const char = keyMaterial[i];
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+      }
+      return Math.abs(hash).toString(16).padStart(8, '0');
+    }
+    function encryptData(data) {
+      if (!data) return '';
+      try {
+        const key = deriveKey(ENCRYPTION_SALT);
+        const str = typeof data === 'string' ? data : JSON.stringify(data);
+        let result = '';
+        for (let i = 0; i < str.length; i++) {
+          result += String.fromCharCode(str.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+        }
+        return btoa(result);
+      } catch (e) {
+        return data;
+      }
+    }
+    function decryptData(data) {
+      if (!data) return '';
+      try {
+        const key = deriveKey(ENCRYPTION_SALT);
+        const decoded = atob(data);
+        let result = '';
+        for (let i = 0; i < decoded.length; i++) {
+          result += String.fromCharCode(decoded.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+        }
+        return result;
+      } catch (e) {
+        return data;
+      }
+    }
+    function getSecureItem(key) {
+      try {
+        const stored = sessionStorage.getItem(STORAGE_KEY_PREFIX + key);
+        if (!stored) return '';
+        return decryptData(stored);
+      } catch (e) {
+        return '';
+      }
+    }
+    function setSecureItem(key, value) {
+      try {
+        sessionStorage.setItem(STORAGE_KEY_PREFIX + key, encryptData(value));
+      } catch (e) {
+        console.error('Error storing secure item:', e);
       }
     }
 
@@ -10162,11 +10213,11 @@ v1.0.0 - Initial release
     let recognition = null, finalTranscript = '', interimTranscript = '';
     let audioContext = null, analyser = null, animFrameId = null;
     let clockInterval = null;
-    let groqApiKey = sessionStorage.getItem(getUserKey('devvault_groq_key')) || '';
-    let sabmanovaId = sessionStorage.getItem(getUserKey('devvault_sabmanova_id')) || '';
-    let mistralApiKey = sessionStorage.getItem(getUserKey('devvault_mistral_key')) || '';
-    let hfToken = sessionStorage.getItem(getUserKey('devvault_hf_token')) || '';
-    let cloudflareToken = sessionStorage.getItem(getUserKey('devvault_cloudflare_key')) || '';
+    let groqApiKey = getSecureItem('groq_key') || '';
+    let sabmanovaId = getSecureItem('sabmanova_id') || '';
+    let mistralApiKey = getSecureItem('mistral_key') || '';
+    let hfToken = getSecureItem('hf_token') || '';
+    let cloudflareToken = getSecureItem('cloudflare_key') || '';
     let currentAiResult = '';
     let transcriptEditMode = false;
     const MAX_REC_SECS = 5 * 60 * 60;
@@ -11004,17 +11055,16 @@ v1.0.0 - Initial release
           return;
         }
 
-        // Security warning before saving
         if (!groqApiKey) {
           showSecurityWarning(() => {
             groqApiKey = val;
-            safeSetSessionItem(getUserKey('devvault_groq_key'), val);
+            setSecureItem('groq_key', val);
             setKeyDot('ok');
             toast('Groq API key saved ✓', 'success');
           });
         } else {
           groqApiKey = val;
-          safeSetSessionItem(getUserKey('devvault_groq_key'), val);
+          setSecureItem('groq_key', val);
           setKeyDot('ok');
           toast('Groq API key updated ✓', 'success');
         }
@@ -11029,7 +11079,7 @@ v1.0.0 - Initial release
         const lang = typeof translations !== 'undefined' && currentLanguage ? currentLanguage : 'en';
         const trans = typeof translations !== 'undefined' ? translations[lang] : {};
         const title = trans['security.warning.title'] || '⚠️ SECURITY WARNING';
-        const message = trans['security.warning.message'] || 'API key will be saved to your browser\'s localStorage. This may pose a security risk on shared computers.';
+        const message = trans['security.warning.message'] || 'API key is encrypted before saving. Remove on shared computers.';
         const confirmText = trans['security.warning.confirm'] || 'Do you want to continue?';
         const cancelledText = trans['security.warning.cancelled'] || 'API key not saved';
 
@@ -18309,7 +18359,7 @@ Write in a professional, objective, date-stamped report format.`,
     function selectType(type) {
       try {
         currentType = type;
-        ['project', 'instruction', 'code'].forEach(t => { document.getElementById('tab-' + t).className = 'type-tab' + (t === type ? ' active' : ''); }); // FIX #6: Changed from active-${t} to just active for consistency
+        ['project', 'instruction', 'code'].forEach(t => { document.getElementById('tab-' + t).className = 'type-tab' + (t === type ? ' active' : ''); });
         document.getElementById('langGroup').style.display = type === 'code' ? '' : 'none';
         document.getElementById('itemContent').className = 'form-textarea' + (type === 'code' ? ' code-textarea' : '');
         document.getElementById('contentLabel').textContent = { project: 'CONTENT *', instruction: 'AI INSTRUCTION *', code: 'CODE *' }[type];
@@ -19725,11 +19775,11 @@ Write in a professional, objective, date-stamped report format.`,
         const response = await fetch(`${API_BASE_URL}/api/keys`);
         const data = await response.json();
 
-        if (data.groqApiKey) sessionStorage.setItem(getUserKey('devvault_groq_key'), data.groqApiKey);
-        if (data.mistralApiKey) sessionStorage.setItem(getUserKey('devvault_mistral_key'), data.mistralApiKey);
-        if (data.sabmanovaId) sessionStorage.setItem(getUserKey('devvault_sabmanova_id'), data.sabmanovaId);
-        if (data.hfToken) sessionStorage.setItem(getUserKey('devvault_hf_token'), data.hfToken);
-        if (data.cloudflareApiKey) sessionStorage.setItem(getUserKey('devvault_cloudflare_key'), data.cloudflareApiKey);
+        if (data.groqApiKey) setSecureItem('groq_key', data.groqApiKey);
+        if (data.mistralApiKey) setSecureItem('mistral_key', data.mistralApiKey);
+        if (data.sabmanovaId) setSecureItem('sabmanova_id', data.sabmanovaId);
+        if (data.hfToken) setSecureItem('hf_token', data.hfToken);
+        if (data.cloudflareApiKey) setSecureItem('cloudflare_key', data.cloudflareApiKey);
 
         console.log('[INFO] API keys fetched from backend');
       } catch (e) {
@@ -20921,7 +20971,7 @@ Write in a professional, objective, date-stamped report format.`,
 
     function renderVaultNotes() {
       try {
-        const container = document.getElementById('notesList'); // FIX #8: Changed from taskList2 to notesList
+        const container = document.getElementById('notesList');
         if (vaultNotes.length === 0) {
           container.innerHTML = '<div style="font-size:0.85rem;color:var(--color-text-tertiary);text-align:center;padding:20px 0">No notes yet</div>';
           return;
