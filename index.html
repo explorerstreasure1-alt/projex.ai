@@ -15831,8 +15831,8 @@ Write in a professional, objective, date-stamped report format.`,
             onlineUsersBtn.style.display = 'inline-flex';
           } else {
             authBtn.textContent = 'Login';
-            authBtn.style.display = 'none'; // AUTH DISABLED
-            // authBtn.onclick = () => openModal('authModal');
+            authBtn.style.display = 'inline-flex';
+            authBtn.onclick = () => openAuthModal();
             logoutBtn.style.display = 'none';
             onlineUsersBtn.style.display = 'none';
           }
@@ -15990,16 +15990,11 @@ Write in a professional, objective, date-stamped report format.`,
 
     function openAuthModal() {
       try {
-        // AUTH DISABLED - Modal is commented out
-        console.warn('Auth modal is disabled');
-        return;
-        /*
         const modal = document.getElementById('authModal');
         modal.classList.add('fullscreen-auth');
         modal.classList.add('open');
         document.getElementById('authError').style.display = 'none';
         document.getElementById('authSuccess').style.display = 'none';
-        */
       } catch (e) {
         console.error('Error opening auth modal:', e);
       }
