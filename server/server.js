@@ -25,7 +25,7 @@ app.use(express.json({ limit: '10kb' })); // Limit body size to prevent DoS
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 5, // 5 requests per windowMs
-  message: { error: 'Çok fazla istek. Lütfen 15 dakika sonra tekrar deneyin.' },
+  message: { error: 'Too many requests. Please try again in 15 minutes.' },
   standardHeaders: true,
   legacyHeaders: false,
 });
@@ -33,7 +33,7 @@ const authLimiter = rateLimit({
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 10, // 10 login attempts per windowMs
-  message: { error: 'Çok fazla giriş denemesi. Lütfen 15 dakika sonra tekrar deneyin.' },
+  message: { error: 'Too many login attempts. Please try again in 15 minutes.' },
   standardHeaders: true,
   legacyHeaders: false,
 });
@@ -41,7 +41,7 @@ const loginLimiter = rateLimit({
 const emailLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
   max: 3, // 3 email requests per hour
-  message: { error: 'Çok fazla e-posta isteği. Lütfen 1 saat sonra tekrar deneyin.' },
+  message: { error: 'Too many email requests. Please try again in 1 hour.' },
   standardHeaders: true,
   legacyHeaders: false,
 });
@@ -111,19 +111,19 @@ function validatePasswordStrength(password) {
   const errors = [];
 
   if (password.length < minLength) {
-    errors.push(`Şifre en az ${minLength} karakter olmalı`);
+    errors.push(`Password must be at least ${minLength} characters`);
   }
   if (!hasUpperCase) {
-    errors.push('Şifre en az bir büyük harf içermeli');
+    errors.push('Password must contain at least one uppercase letter');
   }
   if (!hasLowerCase) {
-    errors.push('Şifre en az bir küçük harf içermeli');
+    errors.push('Password must contain at least one lowercase letter');
   }
   if (!hasNumbers) {
-    errors.push('Şifre en az bir rakam içermeli');
+    errors.push('Password must contain at least one number');
   }
   if (!hasSpecialChar) {
-    errors.push('Şifre en az bir özel karakter içermeli');
+    errors.push('Password must contain at least one special character');
   }
 
   return {
@@ -240,7 +240,7 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
     // Input validation
     if (!fullName || !email || !password) {
       logAuditEvent('REGISTER_FAILED', 'Missing required fields', clientIp);
-      return res.status(400).json({ error: 'Tüm alanlar gerekli' });
+      return res.status(400).json({ error: 'All fields are required' });
     }
 
     // Sanitize inputs
@@ -250,26 +250,26 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
     // Validate email format
     if (!validateEmail(sanitizedEmail)) {
       logAuditEvent('REGISTER_FAILED', 'Invalid email format', clientIp);
-      return res.status(400).json({ error: 'Geçersiz e-posta formatı' });
+      return res.status(400).json({ error: 'Invalid email format' });
     }
 
     // Validate full name length
     if (!validator.isLength(sanitizedFullName, { min: 2, max: 100 })) {
       logAuditEvent('REGISTER_FAILED', 'Invalid name length', clientIp);
-      return res.status(400).json({ error: 'İsim 2-100 karakter arasında olmalı' });
+      return res.status(400).json({ error: 'Name must be between 2-100 characters' });
     }
 
     // Simple password validation - minimum 6 characters
     if (password.length < 6) {
       logAuditEvent('REGISTER_FAILED', 'Password too short', clientIp);
-      return res.status(400).json({ error: 'Şifre en az 6 karakter olmalı' });
+      return res.status(400).json({ error: 'Password must be at least 6 characters' });
     }
 
     // Check if user already exists
     const existingUser = users.get(sanitizedEmail);
     if (existingUser) {
       logAuditEvent('REGISTER_FAILED', `Email already registered: ${sanitizedEmail}`, clientIp);
-      return res.status(400).json({ error: 'Bu e-posta zaten kayıtlı' });
+      return res.status(400).json({ error: 'This email is already registered' });
     }
 
     // Hash password with increased salt rounds
@@ -298,12 +298,12 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
     // Send verification email
     const verificationLink = `${req.protocol}://${req.get('host')}/verify-email?token=${verificationToken}`;
     const emailHtml = `
-      <h2>Hoş Geldiniz!</h2>
-      <p>PROJEX AI hesabınızı doğrulamak için aşağıdaki linke tıklayın:</p>
-      <a href="${verificationLink}" style="display:inline-block;padding:12px 24px;background:#00d4ff;color:#000;text-decoration:none;border-radius:8px;font-weight:bold;">Hesabı Doğrula</a>
-      <p>Bu link 24 saat geçerlidir.</p>
+      <h2>Welcome!</h2>
+      <p>Click the link below to verify your PROJEX AI account:</p>
+      <a href="${verificationLink}" style="display:inline-block;padding:12px 24px;background:#00d4ff;color:#000;text-decoration:none;border-radius:8px;font-weight:bold;">Verify Account</a>
+      <p>This link is valid for 24 hours.</p>
     `;
-    await sendEmail(sanitizedEmail, 'PROJEX AI - Hesap Doğrulama', emailHtml);
+    await sendEmail(sanitizedEmail, 'PROJEX AI - Account Verification', emailHtml);
 
     // Generate JWT token
     const token = jwt.sign({ userId, email: user.email }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
@@ -311,14 +311,14 @@ app.post('/api/auth/register', authLimiter, async (req, res) => {
     logAuditEvent('REGISTER_SUCCESS', `User registered: ${sanitizedEmail}`, clientIp);
 
     res.json({
-      message: 'Kayıt başarılı. Lütfen e-postanızı doğrulayın.',
+      message: 'Registration successful. Please verify your email.',
       user: { id: userId, email: user.email, fullName: sanitizedFullName, verified: false },
       token
     });
   } catch (error) {
     console.error('Register error:', error);
     logAuditEvent('REGISTER_ERROR', error.message, req.ip);
-    res.status(500).json({ error: 'Kayıt sırasında hata oluştu' });
+    res.status(500).json({ error: 'Error during registration' });
   }
 });
 
@@ -331,14 +331,14 @@ app.post('/api/auth/login', loginLimiter, async (req, res) => {
     // Input validation
     if (!email || !password) {
       logAuditEvent('LOGIN_FAILED', 'Missing email or password', clientIp);
-      return res.status(400).json({ error: 'E-posta ve şifre gerekli' });
+      return res.status(400).json({ error: 'Email and password are required' });
     }
 
     // Sanitize and validate email
     const sanitizedEmail = sanitizeInput(email).toLowerCase();
     if (!validateEmail(sanitizedEmail)) {
       logAuditEvent('LOGIN_FAILED', 'Invalid email format', clientIp);
-      return res.status(400).json({ error: 'Geçersiz e-posta formatı' });
+      return res.status(400).json({ error: 'Invalid email format' });
     }
 
     // Check account lockout
@@ -346,7 +346,7 @@ app.post('/api/auth/login', loginLimiter, async (req, res) => {
     if (lockoutStatus.locked) {
       logAuditEvent('LOGIN_BLOCKED', `Account locked: ${sanitizedEmail}`, clientIp);
       return res.status(429).json({
-        error: `Hesabınız geçici olarak kilitlendi. Lütfen ${lockoutStatus.remainingTime} dakika sonra tekrar deneyin.`
+        error: `Your account is temporarily locked. Please try again in ${lockoutStatus.remainingTime} minutes.`
       });
     }
 
@@ -354,7 +354,7 @@ app.post('/api/auth/login', loginLimiter, async (req, res) => {
     if (!user) {
       recordFailedLogin(sanitizedEmail);
       logAuditEvent('LOGIN_FAILED', `User not found: ${sanitizedEmail}`, clientIp);
-      return res.status(401).json({ error: 'Geçersiz e-posta veya şifre' });
+      return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     const isValidPassword = await bcrypt.compare(password, user.password);
@@ -363,7 +363,7 @@ app.post('/api/auth/login', loginLimiter, async (req, res) => {
       const attempts = failedLoginAttempts.get(sanitizedEmail) || 0;
       logAuditEvent('LOGIN_FAILED', `Invalid password for: ${sanitizedEmail}, attempts: ${attempts}`, clientIp);
       return res.status(401).json({
-        error: 'Geçersiz e-posta veya şifre',
+        error: 'Invalid email or password',
         remainingAttempts: MAX_LOGIN_ATTEMPTS - attempts
       });
     }
@@ -381,14 +381,14 @@ app.post('/api/auth/login', loginLimiter, async (req, res) => {
     logAuditEvent('LOGIN_SUCCESS', `User logged in: ${sanitizedEmail}`, clientIp);
 
     res.json({
-      message: 'Giriş başarılı',
+      message: 'Login successful',
       user: { id: user.id, email: user.email, fullName: user.fullName, verified: user.verified },
       token
     });
   } catch (error) {
     console.error('Login error:', error);
     logAuditEvent('LOGIN_ERROR', error.message, req.ip);
-    res.status(500).json({ error: 'Giriş sırasında hata oluştu' });
+    res.status(500).json({ error: 'Error during login' });
   }
 });
 
@@ -401,21 +401,21 @@ app.post('/api/auth/forgot-password', emailLimiter, async (req, res) => {
     // Input validation
     if (!email) {
       logAuditEvent('FORGOT_PASSWORD_FAILED', 'Missing email', clientIp);
-      return res.status(400).json({ error: 'E-posta adresi gerekli' });
+      return res.status(400).json({ error: 'Email address is required' });
     }
 
     // Sanitize and validate email
     const sanitizedEmail = sanitizeInput(email).toLowerCase();
     if (!validateEmail(sanitizedEmail)) {
       logAuditEvent('FORGOT_PASSWORD_FAILED', 'Invalid email format', clientIp);
-      return res.status(400).json({ error: 'Geçersiz e-posta formatı' });
+      return res.status(400).json({ error: 'Invalid email format' });
     }
 
     const user = users.get(sanitizedEmail);
     if (!user) {
       // Don't reveal if email exists or not for security
       logAuditEvent('FORGOT_PASSWORD_ATTEMPT', `Email not found: ${sanitizedEmail}`, clientIp);
-      return res.json({ message: 'Şifre sıfırlama linki e-posta adresine gönderildi' });
+      return res.json({ message: 'Password reset link sent to email address' });
     }
 
     // Generate reset token
@@ -427,20 +427,20 @@ app.post('/api/auth/forgot-password', emailLimiter, async (req, res) => {
     // Send password reset email
     const resetLink = `${req.protocol}://${req.get('host')}/reset-password?token=${resetToken}`;
     const emailHtml = `
-      <h2>Şifre Sıfırlama</h2>
-      <p>Şifrenizi sıfırlamak için aşağıdaki linke tıklayın:</p>
-      <a href="${resetLink}" style="display:inline-block;padding:12px 24px;background:#00d4ff;color:#000;text-decoration:none;border-radius:8px;font-weight:bold;">Şifreyi Sıfırla</a>
-      <p>Bu link 1 saat geçerlidir.</p>
+      <h2>Password Reset</h2>
+      <p>Click the link below to reset your password:</p>
+      <a href="${resetLink}" style="display:inline-block;padding:12px 24px;background:#00d4ff;color:#000;text-decoration:none;border-radius:8px;font-weight:bold;">Reset Password</a>
+      <p>This link is valid for 1 hour.</p>
     `;
-    await sendEmail(user.email, 'PROJEX AI - Şifre Sıfırlama', emailHtml);
+    await sendEmail(user.email, 'PROJEX AI - Password Reset', emailHtml);
 
     logAuditEvent('FORGOT_PASSWORD_SUCCESS', `Password reset link sent to: ${sanitizedEmail}`, clientIp);
 
-    res.json({ message: 'Şifre sıfırlama linki e-posta adresine gönderildi' });
+    res.json({ message: 'Password reset link sent to email address' });
   } catch (error) {
     console.error('Forgot password error:', error);
     logAuditEvent('FORGOT_PASSWORD_ERROR', error.message, req.ip);
-    res.status(500).json({ error: 'Şifre sıfırlama isteği sırasında hata oluştu' });
+    res.status(500).json({ error: 'Error during password reset request' });
   }
 });
 
@@ -453,31 +453,31 @@ app.post('/api/auth/reset-password', async (req, res) => {
     // Input validation
     if (!token || !newPassword) {
       logAuditEvent('RESET_PASSWORD_FAILED', 'Missing token or password', clientIp);
-      return res.status(400).json({ error: 'Token ve yeni şifre gerekli' });
+      return res.status(400).json({ error: 'Token and new password are required' });
     }
 
     // Simple password validation - minimum 6 characters
     if (newPassword.length < 6) {
       logAuditEvent('RESET_PASSWORD_FAILED', 'Password too short', clientIp);
-      return res.status(400).json({ error: 'Şifre en az 6 karakter olmalı' });
+      return res.status(400).json({ error: 'Password must be at least 6 characters' });
     }
 
     const resetData = resetTokens.get(token);
     if (!resetData) {
       logAuditEvent('RESET_PASSWORD_FAILED', 'Invalid token', clientIp);
-      return res.status(400).json({ error: 'Geçersiz veya süresi dolmuş token' });
+      return res.status(400).json({ error: 'Invalid or expired token' });
     }
 
     if (Date.now() > resetData.expiresAt) {
       resetTokens.delete(token);
       logAuditEvent('RESET_PASSWORD_FAILED', 'Expired token', clientIp);
-      return res.status(400).json({ error: 'Token süresi dolmuş' });
+      return res.status(400).json({ error: 'Token has expired' });
     }
 
     const user = users.get(resetData.email);
     if (!user) {
       logAuditEvent('RESET_PASSWORD_FAILED', 'User not found', clientIp);
-      return res.status(400).json({ error: 'Kullanıcı bulunamadı' });
+      return res.status(400).json({ error: 'User not found' });
     }
 
     // Hash new password with increased salt rounds
@@ -490,11 +490,11 @@ app.post('/api/auth/reset-password', async (req, res) => {
 
     logAuditEvent('RESET_PASSWORD_SUCCESS', `Password reset for: ${resetData.email}`, clientIp);
 
-    res.json({ message: 'Şifre başarıyla sıfırlandı' });
+    res.json({ message: 'Password successfully reset' });
   } catch (error) {
     console.error('Reset password error:', error);
     logAuditEvent('RESET_PASSWORD_ERROR', error.message, req.ip);
-    res.status(500).json({ error: 'Şifre sıfırlama sırasında hata oluştu' });
+    res.status(500).json({ error: 'Error during password reset' });
   }
 });
 
@@ -506,26 +506,26 @@ app.get('/api/auth/verify-email', async (req, res) => {
 
     if (!token) {
       logAuditEvent('VERIFY_EMAIL_FAILED', 'Missing token', clientIp);
-      return res.status(400).json({ error: 'Token gerekli' });
+      return res.status(400).json({ error: 'Token is required' });
     }
 
     const tokenData = verificationTokens.get(token);
     if (!tokenData) {
       logAuditEvent('VERIFY_EMAIL_FAILED', 'Invalid token', clientIp);
-      return res.status(400).json({ error: 'Geçersiz token' });
+      return res.status(400).json({ error: 'Invalid token' });
     }
 
     // Check token expiration
     if (Date.now() > tokenData.expiresAt) {
       verificationTokens.delete(token);
       logAuditEvent('VERIFY_EMAIL_FAILED', 'Expired token', clientIp);
-      return res.status(400).json({ error: 'Token süresi dolmuş' });
+      return res.status(400).json({ error: 'Token has expired' });
     }
 
     const user = users.get(tokenData.email);
     if (!user) {
       logAuditEvent('VERIFY_EMAIL_FAILED', 'User not found', clientIp);
-      return res.status(400).json({ error: 'Kullanıcı bulunamadı' });
+      return res.status(400).json({ error: 'User not found' });
     }
 
     user.verified = true;
@@ -537,11 +537,11 @@ app.get('/api/auth/verify-email', async (req, res) => {
 
     logAuditEvent('VERIFY_EMAIL_SUCCESS', `Email verified for: ${tokenData.email}`, clientIp);
 
-    res.json({ message: 'E-posta başarıyla doğrulandı' });
+    res.json({ message: 'Email successfully verified' });
   } catch (error) {
     console.error('Verify email error:', error);
     logAuditEvent('VERIFY_EMAIL_ERROR', error.message, req.ip);
-    res.status(500).json({ error: 'E-posta doğrulama sırasında hata oluştu' });
+    res.status(500).json({ error: 'Error during email verification' });
   }
 });
 
@@ -551,14 +551,14 @@ app.get('/api/auth/me', (req, res) => {
     const token = req.headers.authorization?.replace('Bearer ', '');
 
     if (!token) {
-      return res.status(401).json({ error: 'Token gerekli' });
+      return res.status(401).json({ error: 'Token is required' });
     }
 
     const decoded = jwt.verify(token, JWT_SECRET);
     const user = users.get(decoded.email);
 
     if (!user) {
-      return res.status(404).json({ error: 'Kullanıcı bulunamadı' });
+      return res.status(404).json({ error: 'User not found' });
     }
 
     res.json({
@@ -566,7 +566,7 @@ app.get('/api/auth/me', (req, res) => {
     });
   } catch (error) {
     console.error('Get current user error:', error);
-    res.status(401).json({ error: 'Geçersiz token' });
+    res.status(401).json({ error: 'Invalid token' });
   }
 });
 
