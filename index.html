@@ -490,11 +490,685 @@ v1.0.0 - Initial release
       transition: none !important;
     }
 
-    #authModal.fullscreen-auth .auth-bg {
-      width: 100% !important;
-      height: 100vh !important;
-      position: relative !important;
-      overflow: visible !important;
+    /* New Auth Screen Design */
+    .auth-root {
+      min-height: 600px;
+      height: 600px;
+      width: 100%;
+      background: #02040a;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: stretch;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+    }
+
+    .orb-1 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(124, 106, 255, 0.25) 0%, transparent 70%);
+      top: -100px;
+      left: -100px;
+      animation: orbMove1 12s ease-in-out infinite;
+    }
+
+    .orb-2 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(0, 209, 255, 0.18) 0%, transparent 70%);
+      bottom: -80px;
+      left: 20%;
+      animation: orbMove2 15s ease-in-out infinite;
+    }
+
+    .orb-3 {
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(124, 106, 255, 0.12) 0%, transparent 70%);
+      top: 20%;
+      right: 300px;
+      animation: orbMove3 10s ease-in-out infinite;
+    }
+
+    @keyframes orbMove1 {
+
+      0%,
+      100% {
+        transform: translate(0, 0);
+      }
+
+      50% {
+        transform: translate(40px, -30px);
+      }
+    }
+
+    @keyframes orbMove2 {
+
+      0%,
+      100% {
+        transform: translate(0, 0);
+      }
+
+      50% {
+        transform: translate(-30px, 20px);
+      }
+    }
+
+    @keyframes orbMove3 {
+
+      0%,
+      100% {
+        transform: translate(0, 0);
+      }
+
+      50% {
+        transform: translate(20px, 30px);
+      }
+    }
+
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(124, 106, 255, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(124, 106, 255, 0.07) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: gridPulse 4s ease-in-out infinite;
+    }
+
+    @keyframes gridPulse {
+
+      0%,
+      100% {
+        opacity: 0.5;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    .hero {
+      flex: 1;
+      padding: 40px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+      border-right: 1px solid rgba(124, 106, 255, 0.15);
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    .logo-icon {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(145deg, #1a1a2e, #0a0a15);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .logo-icon::before {
+      content: '';
+      width: 22px;
+      height: 28px;
+      background: linear-gradient(180deg, #e8e8e8, #a0a0a0 50%, #c0c0c0);
+      clip-path: polygon(0 0, 100% 0, 100% 30%, 40% 30%, 40% 100%, 0 100%);
+    }
+
+    .logo-icon::after {
+      content: '';
+      position: absolute;
+      right: 10px;
+      width: 11px;
+      height: 14px;
+      background: linear-gradient(180deg, #e8e8e8, #a0a0a0 50%, #c0c0c0);
+      clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%, 50% 70%, 10% 70%, 10% 30%, 50% 30%);
+    }
+
+    .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.6rem;
+      color: #fff;
+      letter-spacing: 0.2em;
+    }
+
+    .logo-slogan {
+      font-size: 0.55rem;
+      color: rgba(255, 255, 255, 0.3);
+      letter-spacing: 0.5em;
+      display: block;
+      margin-top: 1px;
+    }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.15;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #7c6aff, #00d1ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 0.9rem;
+      color: #6a6a88;
+      line-height: 1.65;
+      margin-bottom: 28px;
+      max-width: 340px;
+    }
+
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #c4c4d8;
+      font-size: 0.85rem;
+      animation: fadeSlide 0.5s ease both;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateX(-12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .feature:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+
+    .feature:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .feature:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    .feature:nth-child(4) {
+      animation-delay: 0.4s;
+    }
+
+    .feature:nth-child(5) {
+      animation-delay: 0.5s;
+    }
+
+    .feat-icon {
+      width: 30px;
+      height: 30px;
+      background: rgba(124, 106, 255, 0.15);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+      border: 1px solid rgba(124, 106, 255, 0.2);
+    }
+
+    .stats {
+      display: flex;
+      gap: 28px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #7c6aff;
+    }
+
+    .stat-lbl {
+      font-size: 0.7rem;
+      color: #5a5a78;
+      margin-top: 2px;
+    }
+
+    .sys-status {
+      position: absolute;
+      bottom: 18px;
+      left: 48px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.6rem;
+      color: rgba(0, 209, 255, 0.5);
+      letter-spacing: 0.08em;
+    }
+
+    .sys-dot {
+      width: 5px;
+      height: 5px;
+      background: #00d1ff;
+      border-radius: 50%;
+      animation: sysPulse 2s ease-in-out infinite;
+      box-shadow: 0 0 6px rgba(0, 209, 255, 0.6);
+    }
+
+    @keyframes sysPulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.6;
+        transform: scale(1.3);
+      }
+    }
+
+    .card-panel {
+      width: 360px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 32px 28px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .card {
+      background: rgba(10, 10, 20, 0.85);
+      border: 1px solid rgba(124, 106, 255, 0.2);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), -10px 0 40px rgba(124, 106, 255, 0.08);
+      animation: cardFloat 6s ease-in-out infinite;
+    }
+
+    @keyframes cardFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    .card-header {
+      padding: 24px 24px 18px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      position: relative;
+    }
+
+    .close-x {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #5a5a78;
+      cursor: pointer;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .close-x:hover {
+      background: rgba(255, 79, 106, 0.15);
+      color: #ff4f6a;
+      border-color: rgba(255, 79, 106, 0.3);
+    }
+
+    .card-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 6px;
+    }
+
+    .card-logo-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(145deg, #1a1a2e, #0a0a15);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      flex-shrink: 0;
+    }
+
+    .card-logo-icon::before {
+      content: '';
+      width: 16px;
+      height: 20px;
+      background: linear-gradient(180deg, #e8e8e8, #a0a0a0 50%, #c0c0c0);
+      clip-path: polygon(0 0, 100% 0, 100% 30%, 40% 30%, 40% 100%, 0 100%);
+    }
+
+    .card-logo-icon::after {
+      content: '';
+      position: absolute;
+      right: 7px;
+      width: 8px;
+      height: 10px;
+      background: linear-gradient(180deg, #e8e8e8, #a0a0a0 50%, #c0c0c0);
+      clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%, 50% 70%, 10% 70%, 10% 30%, 50% 30%);
+    }
+
+    .card-logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: #fff;
+      letter-spacing: 0.18em;
+    }
+
+    .card-tagline {
+      font-size: 0.72rem;
+      color: #5a5a78;
+    }
+
+    .card-body {
+      padding: 20px 24px;
+    }
+
+    .tabs {
+      display: flex;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 9px;
+      padding: 3px;
+      gap: 3px;
+      margin-bottom: 18px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 7px;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.78rem;
+      background: transparent;
+      color: #5a5a78;
+      transition: all 0.25s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .tab-btn.active {
+      background: #7c6aff;
+      color: #fff;
+      box-shadow: 0 2px 12px rgba(124, 106, 255, 0.5);
+    }
+
+    .msg-box {
+      padding: 8px 11px;
+      border-radius: 7px;
+      font-size: 0.75rem;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .msg-error {
+      background: rgba(255, 79, 106, 0.1);
+      border: 1px solid rgba(255, 79, 106, 0.3);
+      color: #ff4f6a;
+    }
+
+    .msg-success {
+      background: rgba(16, 212, 138, 0.1);
+      border: 1px solid rgba(16, 212, 138, 0.3);
+      color: #10d48a;
+    }
+
+    .fg {
+      margin-bottom: 12px;
+    }
+
+    .flabel {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #8888a8;
+      margin-bottom: 4px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .finput {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 9px 12px;
+      color: #e4e4f0;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .finput:focus {
+      border-color: rgba(124, 106, 255, 0.7);
+      box-shadow: 0 0 0 3px rgba(124, 106, 255, 0.12);
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    .finput::placeholder {
+      color: rgba(255, 255, 255, 0.15);
+    }
+
+    .forgot-row {
+      text-align: right;
+      margin: -6px 0 10px;
+    }
+
+    .forgot-btn {
+      background: none;
+      border: none;
+      color: #5a5a78;
+      font-size: 0.7rem;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: color 0.2s;
+    }
+
+    .forgot-btn:hover {
+      color: #7c6aff;
+    }
+
+    .pw-strength {
+      margin-top: 5px;
+      height: 3px;
+      border-radius: 3px;
+      transition: all 0.3s;
+      background: #1c1c30;
+    }
+
+    .pw-label {
+      font-size: 0.65rem;
+      color: #5a5a78;
+      margin-top: 4px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: #7c6aff;
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      padding: 11px;
+      font-weight: 700;
+      font-size: 0.84rem;
+      cursor: pointer;
+      margin-top: 4px;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      filter: brightness(1.15);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(124, 106, 255, 0.45);
+    }
+
+    .submit-btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .submit-btn .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .trial-note {
+      margin-top: 12px;
+      padding: 10px;
+      background: rgba(251, 191, 36, 0.06);
+      border: 1px solid rgba(251, 191, 36, 0.18);
+      border-radius: 8px;
+      font-size: 0.7rem;
+      color: #8888a8;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .trial-note strong {
+      color: #fbbf24;
+    }
+
+    .lang-bar {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+      margin-top: 14px;
+    }
+
+    .lang-pill {
+      padding: 4px 9px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 5px;
+      color: #5a5a78;
+      font-size: 0.65rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .lang-pill:hover {
+      background: rgba(124, 106, 255, 0.15);
+      color: #a89aff;
+      border-color: rgba(124, 106, 255, 0.3);
+    }
+
+    .lang-pill.active {
+      background: rgba(124, 106, 255, 0.25);
+      color: #c4b5fd;
+      border-color: rgba(124, 106, 255, 0.4);
+    }
+
+    .shimmer {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        left: -100%;
+      }
+
+      100% {
+        left: 100%;
+      }
+    }
+
+    .tab-panel {
+      animation: panelIn 0.25s ease;
+    }
+
+    @keyframes panelIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .main::before {
@@ -4663,7 +5337,7 @@ v1.0.0 - Initial release
       width: 100%;
       height: 100%;
       background: #02040A;
-      overflow: hidden;
+      overflow: visible;
     }
 
     /* Liquid Aurora Animation */
@@ -8717,165 +9391,88 @@ v1.0.0 - Initial release
 
   <!-- AUTH MODAL -->
   <div id="authModal">
-    <div class="auth-bg">
-      <!-- Liquid Aurora Animation -->
-      <div class="liquid-aurora">
-        <div class="aurora-spot-1"></div>
-        <div class="aurora-spot-2"></div>
-      </div>
+    <div class="auth-root">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="grid-bg"></div>
 
-      <!-- Quantum Grid Animation -->
-      <div class="quantum-grid"></div>
-
-      <!-- Slow-Flowing Data Mist -->
-      <div class="data-mist-container">
-        <div class="mist-patch mist-patch-1"></div>
-        <div class="mist-patch mist-patch-2"></div>
-        <div class="mist-patch mist-patch-3"></div>
-        <div class="mist-patch mist-patch-4"></div>
-        <div class="mist-patch mist-patch-5"></div>
-      </div>
-
-      <!-- Infrared Light Clouds -->
-      <div class="light-cloud-container">
-        <div class="light-cloud light-cloud-1"></div>
-        <div class="light-cloud light-cloud-2"></div>
-        <div class="light-cloud light-cloud-3"></div>
-        <div class="light-cloud light-cloud-4"></div>
-        <div class="light-cloud light-cloud-5"></div>
-      </div>
-
-      <div class="hero-section">
-        <div class="hero-logo">
-          <div class="hero-logo-icon"></div>
+      <!-- Hero -->
+      <div class="hero">
+        <div class="logo-wrap">
+          <div class="logo-icon"></div>
           <div>
-            <span class="hero-logo-text">PROJEX AI.</span>
-            <span class="hero-slogan">CREATIVE</span>
+            <span class="logo-text">PROJEX</span>
+            <span class="logo-slogan">CREATIVE AI</span>
           </div>
         </div>
         <h1 class="hero-title">AI-Powered<br /><span>Project Hub</span></h1>
         <p class="hero-desc">Organize projects, tasks, and notes with AI. Voice-to-text, smart chat, and seamless
           collaboration.</p>
-        <div class="hero-features">
-          <div class="hero-feature">
-            <div class="hero-feature-icon">🎙️</div> Voice AI with transcription
+        <div class="features">
+          <div class="feature">
+            <div class="feat-icon">🎙️</div><span id="f1">Voice AI with transcription</span>
           </div>
-          <div class="hero-feature">
-            <div class="hero-feature-icon">🤖</div> AI Chat assistant
+          <div class="feature">
+            <div class="feat-icon">🤖</div><span id="f2">AI Chat assistant</span>
           </div>
-          <div class="hero-feature">
-            <div class="hero-feature-icon">👥</div> Team chat panel
+          <div class="feature">
+            <div class="feat-icon">🍅</div><span id="f3">Focus & Pomodoro timer</span>
           </div>
-          <div class="hero-feature">
-            <div class="hero-feature-icon">💻</div> Code editor & snippets
+          <div class="feature">
+            <div class="feat-icon">📋</div><span id="f4">Kanban & task management</span>
           </div>
-          <div class="hero-feature">
-            <div class="hero-feature-icon">✅</div> Task list management
-          </div>
-          <div class="hero-feature">
-            <div class="hero-feature-icon">📝</div> Project instructions
-          </div>
-          <div class="hero-feature">
-            <div class="hero-feature-icon">📹</div> Video & voice calls
-          </div>
-          <div class="hero-feature">
-            <div class="hero-feature-icon">📅</div> Meeting scheduling
-          </div>
-          <div class="hero-feature">
-            <div class="hero-feature-icon">🍅</div> Focus & Pomodoro timer
-          </div>
-          <div class="hero-feature">
-            <div class="hero-feature-icon">📋</div> Kanban board
+          <div class="feature">
+            <div class="feat-icon">📹</div><span id="f5">Video meetings & recording</span>
           </div>
         </div>
-        <div class="hero-stats">
+        <div class="stats">
           <div>
-            <div class="hero-stat-num">15</div>
-            <div class="hero-stat-label">Day trial</div>
+            <div class="stat-num" id="sn1">7</div>
+            <div class="stat-lbl" id="sl1">Day free trial</div>
           </div>
           <div>
-            <div class="hero-stat-num">$4.99</div>
-            <div class="hero-stat-label">Pro / month</div>
+            <div class="stat-num">$10</div>
+            <div class="stat-lbl" id="sl2">Pro / month</div>
+          </div>
+          <div>
+            <div class="stat-num">10+</div>
+            <div class="stat-lbl" id="sl3">AI features</div>
           </div>
         </div>
-        <div class="system-status">
-          <div class="system-status-dot"></div>
-          <div class="system-status-text">AI NODE: ACTIVE</div>
+        <div class="sys-status">
+          <div class="sys-dot"></div><span id="sysLbl">AI NODE: ACTIVE</span>
         </div>
-        <button class="easter-egg-btn" onclick="triggerEasterEgg()">[ / ]</button>
       </div>
 
-      <div class="auth-card">
-        <div class="glass-shine"></div>
-        <div class="auth-header">
-          <button class="close-btn" onclick="closeModal('authModal')" title="Close">✕</button>
-          <div class="auth-header-content">
-            <div class="auth-logo">
-              <div class="auth-logo-icon"></div>
-              <span class="auth-logo-text">PROJEX AI.</span>
+      <!-- Auth Card -->
+      <div class="card-panel">
+        <div class="card">
+          <div class="card-header">
+            <button class="close-x" onclick="closeModal('authModal')" title="Close">✕</button>
+            <div class="card-logo">
+              <div class="card-logo-icon"></div>
+              <span class="card-logo-text">PROJEX</span>
             </div>
-            <div class="auth-tagline">AI-powered project & task hub</div>
+            <div class="card-tagline" id="tagline">AI-powered project & task hub</div>
+            <div class="shimmer"></div>
           </div>
-        </div>
-        <div class="auth-body">
-          <div class="auth-tabs">
-            <button class="auth-tab-btn active" id="authLoginTab" data-i18n="auth.login.tab"
-              onclick="switchAuthTab('login')">Login</button>
-            <button class="auth-tab-btn" id="authRegisterTab" data-i18n="auth.register.tab"
-              onclick="switchAuthTab('register')">Register</button>
-          </div>
-
-          <div id="authError" class="error-msg hidden"></div>
-          <div id="authSuccess" class="success-msg hidden"></div>
-
-          <div id="authLoginSection" class="auth-section">
-            <form onsubmit="handleLogin(); return false;">
-              <div class="form-group">
-                <label class="form-label" data-i18n="auth.email">Email</label>
-                <input type="email" class="form-input" id="authEmail" data-i18n-placeholder="auth.email.placeholder"
-                  placeholder="example@email.com" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label" data-i18n="auth.password">Password</label>
-                <input type="password" class="form-input" id="authPassword"
-                  data-i18n-placeholder="auth.password.placeholder" placeholder="••••••••" required>
-              </div>
-              <div class="forgot-link">
-                <button type="button" data-i18n="auth.forgot.password" onclick="openPasswordResetModal()">Forgot
-                  Password</button>
-              </div>
-              <button class="btn-submit" type="submit" data-i18n="auth.login.btn">Login</button>
-            </form>
-          </div>
-
-          <div id="authRegisterSection" class="auth-section hidden">
-            <form onsubmit="handleRegister(); return false;">
-              <div class="form-group">
-                <label class="form-label" data-i18n="auth.fullname">Full Name</label>
-                <input type="text" class="form-input" id="authFullName"
-                  data-i18n-placeholder="auth.fullname.placeholder" placeholder="Your Full Name" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label" data-i18n="auth.email">Email</label>
-                <input type="email" class="form-input" id="authRegEmail" data-i18n-placeholder="auth.email.placeholder"
-                  placeholder="example@email.com" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label" data-i18n="auth.password">Password</label>
-                <input type="password" class="form-input" id="authRegPassword"
-                  data-i18n-placeholder="auth.password.min.placeholder" placeholder="min. 6 characters" required
-                  oninput="checkPasswordStrength(this.value)">
-                <div class="password-strength-container">
-                  <div class="password-strength-bar" id="passwordStrengthBar"></div>
-                  <div class="password-strength-text" id="passwordStrengthText" data-i18n="auth.password.strength">
-                    Password
-                    strength: -</div>
-                </div>
-              </div>
-              <button class="btn-submit" type="submit" data-i18n="auth.register.btn">Register</button>
-              <div class="trial-note"><strong data-i18n="auth.trial.note">15-day free trial</strong> - <span
-                  data-i18n="auth.trial.access">Access all features!</span></div>
-            </form>
+          <div class="card-body">
+            <div class="tabs">
+              <button class="tab-btn active" id="loginTabBtn" onclick="switchAuthTab('login')"><span
+                  id="tb-login">Login</span></button>
+              <button class="tab-btn" id="registerTabBtn" onclick="switchAuthTab('register')"><span
+                  id="tb-register">Sign Up</span></button>
+            </div>
+            <div id="msg-area"></div>
+            <div id="form-area"></div>
+            <div class="lang-bar">
+              <button class="lang-pill active" onclick="setAuthLang('en')">EN</button>
+              <button class="lang-pill" onclick="setAuthLang('tr')">TR</button>
+              <button class="lang-pill" onclick="setAuthLang('es')">ES</button>
+              <button class="lang-pill" onclick="setAuthLang('fr')">FR</button>
+              <button class="lang-pill" onclick="setAuthLang('de')">DE</button>
+            </div>
           </div>
         </div>
       </div>
@@ -11976,23 +12573,185 @@ Write in a professional, objective, date-stamped report format.`,
       users = [];
     }
 
-    function switchAuthTab(tab) {
+    // Auth Modal Translation Object
+    const authTranslations = {
+      en: { login: 'Login', register: 'Sign Up', email: 'Email', password: 'Password', fullName: 'Full Name', loginBtn: 'Sign In', createBtn: 'Create Account', forgot: 'Forgot password?', trialNote: '<strong>7-day free trial</strong> — No credit card required', tagline: 'AI-powered project & task hub', f1: 'Voice AI with transcription', f2: 'AI Chat assistant', f3: 'Focus & Pomodoro timer', f4: 'Kanban & task management', f5: 'Video meetings & recording', sl1: 'Day free trial', sl2: 'Pro / month', sl3: 'AI features', sysLbl: 'AI NODE: ACTIVE', errEmpty: 'Please fill in all fields.', errEmail: 'Invalid email address.', errPassLen: 'Password must be at least 6 characters.', errPassMatch: 'Passwords do not match.', errExists: 'This email is already registered.', errNotFound: 'Invalid email or password.', successLogin: 'Login successful! Redirecting...', successRegister: 'Account created! Enjoy your 7-day trial.', forgotMsg: 'Reset link sent to your email.', confirmPw: 'Confirm Password', pwStrength: ['', 'Weak', 'Fair', 'Good', 'Strong', 'Very strong'], resetSent: 'Password reset link sent!', enterEmail: 'Enter your email to reset password' },
+      tr: { login: 'Giriş', register: 'Kayıt', email: 'E-posta', password: 'Şifre', fullName: 'Ad Soyad', loginBtn: 'Giriş Yap', createBtn: 'Hesap Oluştur', forgot: 'Şifremi unuttum?', trialNote: '<strong>7 günlük ücretsiz deneme</strong> — Kredi kartı gerekmez', tagline: 'AI destekli proje & görev merkezi', f1: 'Sesli AI ile transkripsiyon', f2: 'AI sohbet asistanı', f3: 'Odak & Pomodoro zamanlayıcı', f4: 'Kanban & görev yönetimi', f5: 'Video toplantı & kayıt', sl1: 'Günlük ücretsiz deneme', sl2: 'Pro / ay', sl3: 'AI özellik', sysLbl: 'AI DÜĞÜM: AKTİF', errEmpty: 'Lütfen tüm alanları doldurun.', errEmail: 'Geçersiz e-posta adresi.', errPassLen: 'Şifre en az 6 karakter olmalı.', errPassMatch: 'Şifreler eşleşmiyor.', errExists: 'Bu e-posta zaten kayıtlı.', errNotFound: 'Geçersiz e-posta veya şifre.', successLogin: 'Giriş başarılı! Yönlendiriliyor...', successRegister: 'Hesap oluşturuldu! 7 günlük denemeniz başladı.', forgotMsg: 'Sıfırlama bağlantısı gönderildi.', confirmPw: 'Şifre Tekrar', pwStrength: ['', 'Zayıf', 'Orta', 'İyi', 'Güçlü', 'Çok güçlü'], resetSent: 'Şifre sıfırlama bağlantısı gönderildi!', enterEmail: 'Şifrenizi sıfırlamak için e-postanızı girin' },
+      es: { login: 'Entrar', register: 'Registrarse', email: 'Correo', password: 'Contraseña', fullName: 'Nombre completo', loginBtn: 'Iniciar sesión', createBtn: 'Crear cuenta', forgot: '¿Olvidé mi contraseña?', trialNote: '<strong>7 días gratis</strong> — Sin tarjeta de crédito', tagline: 'Hub de proyectos con IA', f1: 'IA de voz con transcripción', f2: 'Asistente de chat IA', f3: 'Temporizador Pomodoro', f4: 'Kanban y gestión de tareas', f5: 'Reuniones y grabación', sl1: 'Días de prueba', sl2: 'Pro / mes', sl3: 'Funciones IA', sysLbl: 'NODO IA: ACTIVO', errEmpty: 'Por favor completa todos los campos.', errEmail: 'Correo electrónico no válido.', errPassLen: 'La contraseña debe tener al menos 6 caracteres.', errPassMatch: 'Las contraseñas no coinciden.', errExists: 'Este correo ya está registrado.', errNotFound: 'Correo o contraseña no válidos.', successLogin: '¡Inicio de sesión exitoso!', successRegister: '¡Cuenta creada! Disfruta tu prueba.', forgotMsg: 'Enlace de recuperación enviado.', confirmPw: 'Confirmar contraseña', pwStrength: ['', 'Débil', 'Regular', 'Buena', 'Fuerte', 'Muy fuerte'], resetSent: '¡Enlace de restablecimiento enviado!', enterEmail: 'Ingresa tu correo para restablecer' },
+      fr: { login: 'Connexion', register: "S'inscrire", email: 'Email', password: 'Mot de passe', fullName: 'Nom complet', loginBtn: 'Se connecter', createBtn: 'Créer un compte', forgot: 'Mot de passe oublié?', trialNote: '<strong>7 jours gratuits</strong> — Sans carte bancaire', tagline: 'Hub de projets propulsé par IA', f1: 'IA vocale avec transcription', f2: 'Assistant de chat IA', f3: 'Minuteur Pomodoro', f4: 'Kanban et gestion de tâches', f5: 'Réunions vidéo et enregistrement', sl1: 'Jours d\'essai', sl2: 'Pro / mois', sl3: 'Fonctions IA', sysLbl: 'NOEUD IA: ACTIF', errEmpty: 'Veuillez remplir tous les champs.', errEmail: 'Adresse email invalide.', errPassLen: 'Le mot de passe doit comporter au moins 6 caractères.', errPassMatch: 'Les mots de passe ne correspondent pas.', errExists: 'Cet email est déjà enregistré.', errNotFound: 'Email ou mot de passe invalide.', successLogin: 'Connexion réussie!', successRegister: 'Compte créé! Profitez de votre essai.', forgotMsg: 'Lien de récupération envoyé.', confirmPw: 'Confirmer le mot de passe', pwStrength: ['', 'Faible', 'Moyen', 'Bon', 'Fort', 'Très fort'], resetSent: 'Lien de réinitialisation envoyé!', enterEmail: 'Entrez votre email pour réinitialiser' },
+      de: { login: 'Anmelden', register: 'Registrieren', email: 'E-Mail', password: 'Passwort', fullName: 'Vollständiger Name', loginBtn: 'Einloggen', createBtn: 'Konto erstellen', forgot: 'Passwort vergessen?', trialNote: '<strong>7 Tage kostenlos</strong> — Keine Kreditkarte erforderlich', tagline: 'KI-gestützter Projekt-Hub', f1: 'Sprach-KI mit Transkription', f2: 'KI-Chat-Assistent', f3: 'Fokus & Pomodoro-Timer', f4: 'Kanban & Aufgabenverwaltung', f5: 'Video-Meetings & Aufnahme', sl1: 'Tage Testphase', sl2: 'Pro / Monat', sl3: 'KI-Funktionen', sysLbl: 'KI-KNOTEN: AKTIV', errEmpty: 'Bitte füllen Sie alle Felder aus.', errEmail: 'Ungültige E-Mail-Adresse.', errPassLen: 'Das Passwort muss mindestens 6 Zeichen lang sein.', errPassMatch: 'Passwörter stimmen nicht überein.', errExists: 'Diese E-Mail ist bereits registriert.', errNotFound: 'Ungültige E-Mail oder Passwort.', successLogin: 'Erfolgreich eingeloggt!', successRegister: 'Konto erstellt! Genießen Sie Ihre Testversion.', forgotMsg: 'Link zum Zurücksetzen gesendet.', confirmPw: 'Passwort bestätigen', pwStrength: ['', 'Schwach', 'Mäßig', 'Gut', 'Stark', 'Sehr stark'], resetSent: 'Link zum Zurücksetzen wurde gesendet!', enterEmail: 'E-Mail eingeben um zurückzusetzen' }
+    };
+
+    let authLang = 'en';
+    let authTab = 'login';
+    let authLoading = false;
+    let authUsers = JSON.parse(localStorage.getItem('px_users') || '[]');
+
+    function authT(k) { return authTranslations[authLang][k] || authTranslations.en[k] || k; }
+
+    function setAuthLang(l) {
+      authLang = l;
+      document.querySelectorAll('.lang-pill').forEach(b => b.classList.toggle('active', b.textContent === l.toUpperCase()));
+      document.getElementById('tagline').textContent = authT('tagline');
+      document.getElementById('f1').textContent = authT('f1');
+      document.getElementById('f2').textContent = authT('f2');
+      document.getElementById('f3').textContent = authT('f3');
+      document.getElementById('f4').textContent = authT('f4');
+      document.getElementById('f5').textContent = authT('f5');
+      document.getElementById('sl1').textContent = authT('sl1');
+      document.getElementById('sl2').textContent = authT('sl2');
+      document.getElementById('sl3').textContent = authT('sl3');
+      document.getElementById('sysLbl').textContent = authT('sysLbl');
+      document.getElementById('tb-login').textContent = authT('login');
+      document.getElementById('tb-register').textContent = authT('register');
+      renderAuthForm();
+    }
+
+    function switchAuthTab(newTab) {
       try {
-        // AUTH DISABLED - Elements are commented out
-        console.warn('Auth tabs are disabled');
-        return;
-        /*
-        document.getElementById('authLoginTab').classList.toggle('active', tab === 'login');
-        document.getElementById('authRegisterTab').classList.toggle('active', tab === 'register');
-        document.getElementById('authLoginSection').style.display = tab === 'login' ? 'block' : 'none';
-        document.getElementById('authRegisterSection').style.display = tab === 'register' ? 'block' : 'none';
-        document.getElementById('authError').style.display = 'none';
-        document.getElementById('authSuccess').style.display = 'none';
-        */
+        authTab = newTab;
+        document.getElementById('loginTabBtn').classList.toggle('active', authTab === 'login');
+        document.getElementById('registerTabBtn').classList.toggle('active', authTab === 'register');
+        clearAuthMsg();
+        renderAuthForm();
       } catch (e) {
         console.error('Error switching auth tab:', e);
       }
     }
+
+    function showAuthMsg(txt, type) {
+      document.getElementById('msg-area').innerHTML = `<div class="msg-box msg-${type}">${txt}</div>`;
+    }
+
+    function clearAuthMsg() {
+      document.getElementById('msg-area').innerHTML = '';
+    }
+
+    function getStrength(pw) {
+      let s = 0;
+      if (pw.length >= 6) s++;
+      if (pw.length >= 10) s++;
+      if (/[a-z]/.test(pw) && /[A-Z]/.test(pw)) s++;
+      if (/[0-9]/.test(pw)) s++;
+      if (/[^a-zA-Z0-9]/.test(pw)) s++;
+      return Math.min(s, 5);
+    }
+
+    function updateStrength() {
+      const pw = document.getElementById('pw-field')?.value || '';
+      const s = getStrength(pw);
+      const colors = ['', '#ef4444', '#f97316', '#eab308', '#22c55e', '#7c6aff'];
+      const bar = document.getElementById('pw-bar');
+      const lbl = document.getElementById('pw-lbl');
+      if (bar) { bar.style.width = (s * 20) + '%'; bar.style.background = colors[s]; }
+      if (lbl) { lbl.textContent = pw.length ? authT('pwStrength')[s] : ''; }
+    }
+
+    function renderAuthForm() {
+      const area = document.getElementById('form-area');
+      if (authTab === 'login') {
+        area.innerHTML = `
+    <div class="tab-panel">
+      <div class="fg"><label class="flabel">${authT('email')}</label><input class="finput" id="em" type="email" placeholder="you@company.com" autocomplete="email"/></div>
+      <div class="fg"><label class="flabel">${authT('password')}</label><input class="finput" id="pw" type="password" placeholder="••••••••" autocomplete="current-password"/></div>
+      <div class="forgot-row"><button class="forgot-btn" onclick="handleAuthForgot()">${authT('forgot')}</button></div>
+      <button class="submit-btn" id="sub-btn" onclick="handleAuthLogin()">${authT('loginBtn')}</button>
+    </div>`;
+      } else {
+        area.innerHTML = `
+    <div class="tab-panel">
+      <div class="fg"><label class="flabel">${authT('fullName')}</label><input class="finput" id="fn" type="text" placeholder="Your name" autocomplete="name"/></div>
+      <div class="fg"><label class="flabel">${authT('email')}</label><input class="finput" id="em" type="email" placeholder="you@company.com" autocomplete="email"/></div>
+      <div class="fg">
+        <label class="flabel">${authT('password')}</label>
+        <input class="finput" id="pw-field" type="password" placeholder="min. 6 characters" oninput="updateStrength()" autocomplete="new-password"/>
+        <div class="pw-strength" id="pw-bar" style="width:0%;background:#ef4444"></div>
+        <div class="pw-label" id="pw-lbl"></div>
+      </div>
+      <div class="fg"><label class="flabel">${authT('confirmPw')}</label><input class="finput" id="pw2" type="password" placeholder="••••••••" autocomplete="new-password"/></div>
+      <button class="submit-btn" id="sub-btn" onclick="handleAuthRegister()">${authT('createBtn')}</button>
+      <div class="trial-note">${authT('trialNote')}</div>
+    </div>`;
+      }
+    }
+
+    function validateEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+
+    function setLoadingState(on) {
+      authLoading = on;
+      const btn = document.getElementById('sub-btn');
+      if (!btn) return;
+      btn.disabled = on;
+      btn.innerHTML = on ? `<span class="spinner"></span>` : (authTab === 'login' ? authT('loginBtn') : authT('createBtn'));
+    }
+
+    function handleAuthLogin() {
+      clearAuthMsg();
+      const email = document.getElementById('em')?.value.trim();
+      const pw = document.getElementById('pw')?.value;
+      if (!email || !pw) { showAuthMsg(authT('errEmpty'), 'error'); return; }
+      if (!validateEmail(email)) { showAuthMsg(authT('errEmail'), 'error'); return; }
+      setLoadingState(true);
+      setTimeout(() => {
+        const user = authUsers.find(u => u.email === email.toLowerCase() && u.password === btoa(pw));
+        if (!user) { showAuthMsg(authT('errNotFound'), 'error'); setLoadingState(false); return; }
+        showAuthMsg(authT('successLogin'), 'success');
+        setLoadingState(false);
+        setTimeout(() => {
+          currentUser = user;
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          closeModal('authModal');
+          updateAuthUI();
+          toast('Welcome back, ' + user.fullName + '!', 'success');
+        }, 1200);
+      }, 900);
+    }
+
+    function handleAuthRegister() {
+      clearAuthMsg();
+      const fn = document.getElementById('fn')?.value.trim();
+      const email = document.getElementById('em')?.value.trim();
+      const pw = document.getElementById('pw-field')?.value;
+      const pw2 = document.getElementById('pw2')?.value;
+      if (!fn || !email || !pw || !pw2) { showAuthMsg(authT('errEmpty'), 'error'); return; }
+      if (!validateEmail(email)) { showAuthMsg(authT('errEmail'), 'error'); return; }
+      if (pw.length < 6) { showAuthMsg(authT('errPassLen'), 'error'); return; }
+      if (pw !== pw2) { showAuthMsg(authT('errPassMatch'), 'error'); return; }
+      if (authUsers.find(u => u.email === email.toLowerCase())) { showAuthMsg(authT('errExists'), 'error'); return; }
+      setLoadingState(true);
+      setTimeout(() => {
+        const user = { id: Date.now().toString(36), fullName: fn, email: email.toLowerCase(), password: btoa(pw), createdAt: Date.now(), plan: 'trial', trialEnd: Date.now() + 7 * 24 * 60 * 60 * 1000 };
+        authUsers.push(user);
+        localStorage.setItem('px_users', JSON.stringify(authUsers));
+        showAuthMsg(authT('successRegister'), 'success');
+        setLoadingState(false);
+        setTimeout(() => {
+          currentUser = user;
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          closeModal('authModal');
+          updateAuthUI();
+          toast('Welcome to PROJEX AI!', 'success');
+        }, 1400);
+      }, 1000);
+    }
+
+    function handleAuthForgot() {
+      clearAuthMsg();
+      const email = document.getElementById('em')?.value.trim();
+      if (!email || !validateEmail(email)) {
+        showAuthMsg(authT('enterEmail'), 'error');
+        return;
+      }
+      showAuthMsg(authT('resetSent'), 'success');
+    }
+
+    // Initialize auth modal when opened
+    const originalOpenAuthModal = openAuthModal;
+    openAuthModal = function () {
+      originalOpenAuthModal();
+      renderAuthForm();
+      setAuthLang('en');
+    };
 
     async function hashPassword(password) {
       const encoder = new TextEncoder();
